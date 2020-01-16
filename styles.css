@@ -1,0 +1,19 @@
+.center {
+    margin: auto;
+    text-align: center;
+}
+
+body {
+    background: linear-gradient(to bottom, #b3cbd4 0%, #799ecc 100%) fixed;
+}
+
+h1 {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 600;
+    font-size: 400%;
+}
+
+p {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 400;
+}
