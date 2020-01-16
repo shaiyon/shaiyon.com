@@ -15,17 +15,15 @@
     <body>
         <main class="container">
             <section class="content">
-                <h1>shaiyon</h1>
+                <h1>Shaiyon Hariri</h1>
                 <p id="desc">
                     U
                     C
-
                     S
                     a
                     n
                     t
                     a
-
                     B
                     a
                     r
@@ -33,7 +31,6 @@
                     a
                     r
                     a
-
                     S
                     t
                     u
@@ -49,9 +46,20 @@
         <footer>
             <a class="li" href="https://www.linkedin.com/in/shaiyon/" title="Shaiyon Hariri on LinkedIn">
                 <i class="fab fa-linkedin-in">
-                    ::before
+                    LinkedIn
                 </i>
             </a>
         </footer>
     </body>
+    <script>
+        var showText = function (target, message, index, interval) {
+            if (index < message.length) {
+                $(target).append(message[index++]);
+                setTimeout(function () { showText(target, message, index, interval); }, interval);
+            }
+        }
+        $(function () {
+            showText("#desc", "UC Santa Barbara Student", 0, 100);
+        });
+    </script>
 </html> 

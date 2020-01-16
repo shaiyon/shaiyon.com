@@ -26,6 +26,14 @@ a {
 	text-decoration: none;
 }
 
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
 hr {
 	height: 1px;
 	float: left;
@@ -93,7 +101,7 @@ main.container section.content p {
 	line-height: 0;
 	letter-spacing: 0.135rem;
 	margin: -0.35rem 0 0 0;
-	padding: 0 0 0 15rem;
+	padding: 0 0 0 40rem;
 	font-family: monospace;
 	font-style: normal;
 	font-weight: 400;
