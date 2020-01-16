@@ -17,33 +17,18 @@
             <section class="content">
                 <h1>Shaiyon Hariri</h1>
                 <p id="desc">
-                    U
-                    C
-                    S
-                    a
-                    n
-                    t
-                    a
-                    B
-                    a
-                    r
-                    b
-                    a
-                    r
-                    a
-                    S
-                    t
-                    u
-                    d
-                    e
-                    n
-                    t
+                    UC Santa Barbara Student
                 </p>
                 <a href="/Jump_Quest.html" title="Jump Quest">Projects</a>
                 <a href="mailto:shaiyon@ucsb.edu" title="Email Shaiyon Hariri">Contact</a>
             </section>
         </main>
         <footer>
+            <a class="gh" href="https://github.com/shaiyon" title="Shaiyon Hariri on GitHub">
+                <i class="fab fa-github-gh">
+                    GitHub
+                </i>
+            </a>
             <a class="li" href="https://www.linkedin.com/in/shaiyon/" title="Shaiyon Hariri on LinkedIn">
                 <i class="fab fa-linkedin-in">
                     LinkedIn
@@ -53,13 +38,13 @@
     </body>
     <script>
         var showText = function (target, message, index, interval) {
-            if (index < message.length) {
-                $(target).append(message[index++]);
-                setTimeout(function () { showText(target, message, index, interval); }, interval);
-            }
+	        if (index < message.length) {
+		        $(target).append(message[index++]);
+		        setTimeout(function () { showText(target, message, index, interval); }, interval);
+	        }
         }
         $(function () {
-            showText("#desc", "UC Santa Barbara Student", 0, 100);
+	        showText("#desc", "UC Santa Barbara Student", 0, 100);
         });
     </script>
 </html> 
