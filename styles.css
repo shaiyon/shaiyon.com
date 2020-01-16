@@ -1,24 +1,182 @@
+/***** Reset Minified *****/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+
 @font-face {
     font-family: HelveticaBold;
     src: url("path/HelveticaBold.otf") format("opentype");
 }
 
-.center {
-    margin: auto;
-    text-align: center;
-}
-
-body {
-    background: linear-gradient(to bottom, #b3cbd4 0%, #799ecc 100%) fixed;
-}
-
-h1 {
-    font-family: HelveticaBold, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-    font-weight: 600;
-    font-size: 400%;
-}
-
-p {
-    font-family: HelveticaBold, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+/***** General Styles *****/
+html, body {
+    font-size: 16px;
+	line-height: 1;
+	font-style: normal;
     font-weight: 400;
+    height: 90%;
+    background: linear-gradient(to bottom, #b3cbd4 0%, #799ecc 100%) fixed;
+	padding: 0;
+	margin: 0;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+a {
+	text-decoration: none;
+}
+
+hr {
+	height: 1px;
+	float: left;
+	width: 100%;
+	background: #e1e1e1;
+	display: block;
+	margin: 1rem 0 3.5rem;
+	border: none;
+}
+
+/***** Clear Fix *****/
+.cf:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.cf {
+	display: inline-block;
+}
+* html .cf {
+	height: 1%;
+}
+.cf {
+	display: block;
+}
+
+/***** FOUT Fix *****/
+.wf-loading {
+	visibility: hidden;
+}
+.wf-active {
+	visibility: visible;
+}
+
+/***** Styles *****/
+main.container {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main.container section.content h1 {
+	color: #21211f;
+	font-size: 7.35rem;
+	padding: 0;
+	letter-spacing: -0.1rem;
+	font-family: "HelveticaBold", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+	font-style: normal;
+	font-weight: 900;
+}
+
+main.container section.content p {
+	color: #21211f;
+	font-size: 0.9rem;
+	line-height: 0;
+	letter-spacing: 0.135rem;
+	margin: -0.35rem 0 0 0;
+	padding: 0 0 0 15rem;
+	font-family: monospace;
+	font-style: normal;
+	font-weight: 400;
+}
+
+main.container section.content a {
+	text-align: center;
+	margin: 0 auto;
+	display: inline-block;
+	width: auto;
+	font-family: "HelveticaBold", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+	font-style: normal;
+	font-weight: 300;
+	background: #4477b2;
+	border-radius: 50px;
+	padding: 0.75rem 1.5rem;
+	font-size: 0.9rem;
+	letter-spacing: 0.25rem;
+	text-transform: uppercase;
+	color: #ffffff;
+	transition: all 0.5s ease;
+}
+
+main.container section.content a:hover {
+	background: #21211f;
+	transition: all 0.5s ease;
+}
+
+/***** Footer *****/
+footer {
+	position: absolute;
+	bottom: 35px;
+	text-align: center;
+	display: block;
+	float: left;
+	width: 100%;
+}
+
+footer a {
+	padding: 0 0.5rem;
+	color: #21211f;
+	font-size: 20px;
+	transition: all 0.5s ease;
+}
+
+footer a.li:hover {
+	color: #ffffff;
+	transition: all 0.5s ease;
+}
+
+/***** Responsiveness *****/
+@media all and (max-width: 740px) {
+	html, body {
+		font-size: 10px;
+	}
+	main.container section.content a {
+		margin: 40px auto;
+		display: block;
+		padding: 1.35rem 1.5rem;
+		font-size: 1.4rem;
+	}
+}
+@media all and (max-width: 600px) {
+	html, body {
+		font-size: 9px;
+	}
+	main.container section.content a {
+		padding: 1.45rem 1.5rem;
+		font-size: 1.5rem;
+	}
+	footer a {
+		font-size: 16px;
+	}
+}
+@media all and (max-width: 480px) {
+	html, body {
+		font-size: 8px;
+	}
+	main.container section.content a {
+		padding: 1.55rem 1.5rem;
+		font-size: 1.6rem;
+	}
+	footer a {
+		font-size: 13px;
+	}
 }
