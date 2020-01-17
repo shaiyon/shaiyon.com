@@ -74,7 +74,7 @@ main.container {
 
 main.container section.content h1 {
 	color: #21211f;
-	font-size: 8rem;
+	font-size: 9rem;
 	padding: 0;
 	letter-spacing: -0.1rem;
 	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
@@ -84,14 +84,13 @@ main.container section.content h1 {
 
 main.container section.content p {
 	color: #21211f;
-	font-size: 0.8rem;
+	font-size: 1.05rem;
     line-height: 0.5rem;	
     letter-spacing: 0.135rem;
 	margin: -0.35rem 0 0 1rem;
-	padding: 1 0 0 22rem;
 	font-family: monospace;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 500;
 }
 
 main.container section.content a {
