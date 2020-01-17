@@ -88,7 +88,7 @@ main.container section.content p {
     line-height: 0.5rem;	
     letter-spacing: 0.135rem;
 	margin: -0.35rem 0 0 1rem;
-	font-family: monospace;
+	font-family: monospace, "Lucida Console", Courier;
 	font-style: normal;
 	font-weight: 500;
 }
@@ -100,7 +100,7 @@ main.container section.content a {
 	margin: 0.3rem;
 	display: inline-block;
 	width: auto;
-	font-family: "HelveticaBold", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
 	font-style: normal;
 	font-weight: 300;
 	background: #21211f;
@@ -152,6 +152,9 @@ footer a:hover {
 		padding: 1.35rem 1.5rem;
 		font-size: 1.4rem;
     }
+    main.container section.content p {
+        font-weight: 800;
+    }
     footer a {
         font-size: 2.2rem;
     }
@@ -164,7 +167,10 @@ footer a:hover {
 	main.container section.content a {
 		padding: 1.45rem 1.5rem;
 		font-size: 1.5rem;
-	}
+    }
+    main.container section.content p {
+        font-weight: 800;
+    }
 	footer a {
 		font-size: 2.5rem;
 	}
@@ -177,7 +183,10 @@ footer a:hover {
 	main.container section.content a {
 		padding: 1.55rem 1.5rem;
 		font-size: 1.6rem;
-	}
+    }
+    main.container section.content p {
+        font-weight: 800;
+    }
 	footer a {
 		font-size: 2.5rem;
 	}
