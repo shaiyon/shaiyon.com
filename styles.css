@@ -74,7 +74,7 @@ main.container {
 
 main.container section.content h1 {
 	color: #21211f;
-	font-size: 7.35rem;
+	font-size: 8rem;
 	padding: 0;
 	letter-spacing: -0.1rem;
 	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
@@ -84,10 +84,10 @@ main.container section.content h1 {
 
 main.container section.content p {
 	color: #21211f;
-	font-size: 1.1rem;
-	line-height: 0;
-	letter-spacing: 0.135rem;
-	margin: -0.35rem 0 0 0;
+	font-size: 0.8rem;
+    line-height: 0.5rem;	
+    letter-spacing: 0.135rem;
+	margin: -0.35rem 0 0 1rem;
 	padding: 1 0 0 22rem;
 	font-family: monospace;
 	font-style: normal;
@@ -95,8 +95,10 @@ main.container section.content p {
 }
 
 main.container section.content a {
+    position: relative;
+    top: 0.6rem;
 	text-align: center;
-	margin: 0 auto;
+	margin: 0.3rem;
 	display: inline-block;
 	width: auto;
 	font-family: "HelveticaBold", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
@@ -130,7 +132,7 @@ footer {
 footer a {
 	padding: 0 0.5rem;
 	color: #21211f;
-	font-size: 30px;
+	font-size: 1.8rem;
 	transition: all 0.5s ease;
 }
 
@@ -150,7 +152,10 @@ footer a:hover {
 		display: block;
 		padding: 1.35rem 1.5rem;
 		font-size: 1.4rem;
-	}
+    }
+    footer a {
+        font-size: 2.2rem;
+    }
 }
 @media all and (max-width: 600px) {
     #content-desktop {display: none;}
@@ -162,7 +167,7 @@ footer a:hover {
 		font-size: 1.5rem;
 	}
 	footer a {
-		font-size: 16px;
+		font-size: 2.5rem;
 	}
 }
 @media all and (max-width: 480px) {
@@ -175,6 +180,6 @@ footer a:hover {
 		font-size: 1.6rem;
 	}
 	footer a {
-		font-size: 13px;
+		font-size: 2.5rem;
 	}
 }
