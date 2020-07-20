@@ -8,6 +8,7 @@ body {
   margin: 0;
   background: black;
   overflow: hidden;
+  z-index:0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -19,28 +20,9 @@ h1, h2, h3, h4, h5, h6 {
   z-index:5;
 }
 
-h1 {
-  text-align:center;
-  color:white;
-  font-size: 3.5em;
-  font-weight: 100;
-  line-height: 1em;
-  margin: 0 0 0.5em 0;
-  padding: 0;
-}
-
-  h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-h2 {
-  font-size: 1.75em;
-  font-weight: 100;
-}
-
-h3 {
-  font-size: 1.35em;
+#main {
+  position:absolute;
+  z-index:5;
 }
 
 .inner {
@@ -52,7 +34,6 @@ p {
   font-family: "Raleway", Arial, Helvetica, sans-serif;
   position:absolute;
   z-index:5;
-
 }
 
 #header .logo {
@@ -64,7 +45,6 @@ p {
   line-height: inherit;
   margin: 0;
   padding: 0;
-  position: absolute;
   top: 0;
   font-size: 3em;
   position:absolute;
