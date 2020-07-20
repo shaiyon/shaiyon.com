@@ -1,3 +1,15 @@
+@charset "UTF-8";
+@import "https://fonts.googleapis.com/css?family=Raleway:100,300,600";
+
+
+body, input, select, textarea {
+  color: #9a9a9a;
+  font-family: "Raleway", Arial, Helvetica, sans-serif;
+  font-size: 13pt;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
 body {
   width: 100vw;
   height: 100vh;
@@ -5,3 +17,45 @@ body {
   background: black;
   overflow: hidden;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #5385c1;
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0 0 1em 0;
+}
+
+  h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+h2 {
+  font-size: 1.75em;
+  font-weight: 100;
+}
+
+h3 {
+  font-size: 1.35em;
+}
+
+.inner {
+  max-width: 75em;
+  margin: 0 auto;
+}
+
+  @media screen and (max-width: 1280px) {
+
+    .inner {
+      max-width: 90%;
+    }
+
+  }
+
+  @media screen and (max-width: 480px) {
+
+    .inner {
+      max-width: 85%;
+    }
+
+  }
