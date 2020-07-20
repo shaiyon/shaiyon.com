@@ -31,14 +31,14 @@
                         Math.random() * 600 - 300
                     );
                     star.velocity = 0;
-                    star.acceleration = 0.005;
+                    star.acceleration = 0.0005;
                     starGeo.vertices.push(star);
                 }   
 
-                let sprite = new THREE.TextureLoader().load( 'star.png' );
+                let sprite = new THREE.TextureLoader().load( 'https://toppng.com/uploads/preview/white-circle-png-new-moon-phase-drawi-11563654400bdrw3yigxk.png' );
                 let starMaterial = new THREE.PointsMaterial({
                     color: 0xaaaaaa,
-                    size: 0.7,
+                    size: 0.5,
                     map: sprite
                 });
 
