@@ -116,6 +116,14 @@ p {
   margin:1.5rem;
 }
 
+footer {
+  position:absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-80%, -50%);
+  z-index:5;
+}
+
 #footer .copyright {
   font-size: 0.8em;
   margin: 0 0 2em 0;
@@ -125,6 +133,7 @@ p {
   #footer .copyright a {
     color: #fff;
     text-decoration: none;
+    font-size:0.8rem;
   }
 
     #footer .copyright a:hover {
