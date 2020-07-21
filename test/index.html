@@ -97,7 +97,7 @@
                 
                 //setup renderer
                 renderer = new THREE.WebGLRenderer();
-                renderer.setSize(window.innerWidth, window.innerHeight*2);
+                renderer.setSize(window.innerWidth, window.innerHeight);
                 document.body.appendChild(renderer.domElement);
 
                 starGeo = new THREE.Geometry();
@@ -124,12 +124,11 @@
                 
                 animate();
 
-                function updateCamera(ev) {
-                    let div1 = document.getElementById("div1");
-                    camera.position.x = 10 - window.scrollY / 500.0;
-                }
+                //function updateCamera(ev) {
+                  //  camera.position.y = 10 - window.scrollY / 500.0;
+                //}
 
-                window.addEventListener("scroll", updateCamera);
+                //window.addEventListener("scroll", updateCamera);
  
             }
 
