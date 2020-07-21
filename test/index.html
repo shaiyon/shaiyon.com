@@ -8,7 +8,7 @@
     <header id="header">
         <div>
             <a class="logo" href="index.html">
-                <img src="logod.jpg" alt="" width=120, height=120>
+                <img src="logod.jpg" alt="">
             </a>
         </div>
         <div class="nav">
@@ -20,7 +20,7 @@
     </header>
     <footer id="footer">
         <div class="copyright">
-            <img src="logod.jpg" alt="" width=120, height=120>
+            <img src="logod.jpg" alt="">
             <p>
                 Copyright © 2020
                 ROKIO, Inc. San Francisco, CA. All Rights Reserved.
@@ -97,7 +97,7 @@
                 
                 //setup renderer
                 renderer = new THREE.WebGLRenderer();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setSize(window.innerWidth, window.innerHeight*2);
                 document.body.appendChild(renderer.domElement);
 
                 starGeo = new THREE.Geometry();
