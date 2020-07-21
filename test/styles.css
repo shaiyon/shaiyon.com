@@ -46,12 +46,12 @@ header .logo {
   margin-top:4rem;
 }
 
-.nav {
+.nav a {
   color:orange;
   font-size:1.5rem;
   float: right;
   margin-right:4rem;
-  word-spacing:1rem;
+  word-spacing:0.8rem;
 }
 
  body {
