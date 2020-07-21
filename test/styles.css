@@ -16,10 +16,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
 }
-	body {
-		line-height: 1;
-}
-	ol, ul {
+
+  ol, ul {
 		list-style: none;
 }
 
@@ -36,10 +34,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 		border-collapse: collapse;
 		border-spacing: 0;
 }
-
-	body {
-		-webkit-text-size-adjust: none;
-	}
 
   header {
     margin:1rem;
@@ -72,8 +66,29 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   height: 100vh;
   margin: 0;
   background: black;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   z-index:0;
+}
+
+#viewport {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.page-wrapper {
+  padding: 0px;
+  margin: 12px 48px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(100% - 2*48px);
+  word-wrap: break-word;
 }
 
 #main {
