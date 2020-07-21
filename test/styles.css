@@ -120,25 +120,18 @@ footer {
   z-index:5;
 }
 
+footer a {
+  float:right;
+	color: #fff;
+	font-size: 0.8rem;
+	transition: all 0.5s ease;
+}
+
+
 #footer .copyright {
   font-size: 0.8em;
   margin: 0 0 2em 0;
   padding: 0;
-}
-
-  #footer .copyright a {
-    color: #fff;
-    text-decoration: none;
-    font-size:0.8rem;
-  }
-
-    #footer .copyright a:hover {
-      color: #fff;
-      text-decoration: underline;
-    }
-
-#footer ul.icons li .icon {
-  font-size: 0.58em;
 }
 
 
