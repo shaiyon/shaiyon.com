@@ -66,29 +66,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   height: 100vh;
   margin: 0;
   background: black;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow: hidden;
   z-index:0;
-}
-
-#viewport {
-  position: fixed;
-  margin: 0;
-  padding: 0;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.page-wrapper {
-  padding: 0px;
-  margin: 12px 48px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: calc(100% - 2*48px);
-  word-wrap: break-word;
 }
 
 #main {
