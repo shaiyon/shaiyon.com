@@ -54,12 +54,6 @@ header .logo {
   word-spacing:0.8rem;
 }
 
-.nav a:hover {
-  color: #fff;
-	transition: all 0.4s ease;
-}
-
-
  body {
   font-family: "Raleway", Arial, Helvetica, sans-serif;
   width: 100vw;
@@ -72,7 +66,7 @@ header .logo {
 
 #main {
   position:absolute;
-  top: 44%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index:5;
@@ -137,5 +131,54 @@ footer p {
   margin 0 0 0 0;
   font-size: 
 }
+
+	.flex {
+    position:absolute;
+    margin:auto;
+    top:50%;
+		display: -ms-flexbox;
+		-ms-flex-wrap: wrap;
+		-ms-flex-pack: justify;
+		display: -moz-flex;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: flex;
+		-moz-flex-wrap: wrap;
+		-webkit-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		-moz-justify-content: space-between;
+		-webkit-justify-content: space-between;
+		-ms-justify-content: space-between;
+		justify-content: space-between;\
+    max-width;
+	}
+
+
+		.flex.flex-3 article {
+			position: relative;
+			width: 30%;
+		}
+
+			.flex.flex-3 article:before {
+				content: '';
+				position: absolute;
+				height: 100%;
+				right: -2em;
+				top: 0;
+				border-right: 1px solid #dbdbdb;
+				pointer-events: none;
+			}
+
+			.flex.flex-3 article:last-child:before {
+				border: none;
+			}
+
+h3 {
+		color: #5385c1;
+		font-weight: 300;
+		line-height: 0;
+		margin-top:-2rem
+	}
 
 
