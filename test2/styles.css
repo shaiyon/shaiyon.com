@@ -105,32 +105,6 @@ p {
   margin:1.5rem;
 }
 
-footer {
-  position:absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-80%, -50%);
-  z-index:5;
-}
-
-footer a {
-  float:right;
-	color: #fff;
-	font-size: 0.8rem;
-	transition: all 0.5s ease;
-}
-
-
-footer .copyright {
-  font-size: 1rem;
-  margin-bottom: 0;
-  padding: 0;
-}
-
-footer p {
-  margin 0 0 0 0;
-  font-size: 
-}
 
 	.flex {
     position:absolute;
@@ -150,9 +124,8 @@ footer p {
 		-moz-justify-content: space-between;
 		-webkit-justify-content: space-between;
 		-ms-justify-content: space-between;
-		justify-content: space-between;\
-    max-width;
-	}
+        justify-content: space-between;
+}
 
 
 		.flex.flex-3 article {
