@@ -150,7 +150,7 @@ footer p {
 		-moz-justify-content: space-between;
 		-webkit-justify-content: space-between;
 		-ms-justify-content: space-between;
-		justify-content: space-between;
+		justify-content: space-between;\
 	}
 
 
