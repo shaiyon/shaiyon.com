@@ -15,8 +15,7 @@
             renderer.setSize(width, height);
             document.body.appendChild(renderer.domElement);
 
-            // syntax -> setClearColor(color (hex), alpha)
-            renderer.setClearColorHex(0xEEEEEE, 1.0);
+            renderer.setClearColor(new THREE.Color(0xEEEEEE));
             renderer.clear();
 
             var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
@@ -79,7 +78,7 @@
                 pointGeo.vertices.push(new THREE.Vector3(x, y, z));
                 pointGeo.colors.push(new THREE.Color().setRGB(
                 hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255 
-                ));
+                ));            
             }
 
             var finalPoints = new THREE.ParticleSystem(pointGeo, mat);
