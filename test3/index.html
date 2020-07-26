@@ -16,9 +16,10 @@
             document.body.appendChild(renderer.domElement);
 
             // syntax -> setClearColor(color (hex), alpha)
-            renderer.setClearColorHex(0x000000, 0);
-        
-            var camera = new THREE.PerspectiveCamera(45, width/height, 1, 10000);
+            renderer.setClearColorHex(0xEEEEEE, 1.0);
+            renderer.clear();
+
+            var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
             camera.position.z = 200;
             camera.position.x = -100;
             camera.position.y = 100;
