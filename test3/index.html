@@ -63,7 +63,11 @@
                 zMin: zExent[0]
             }
 
-            var mat = new THREE.ParticleBasicMaterial({
+            var xScale = d3.scale.linear().domain(xExent).range([-50,50]);
+            var yScale = d3.scale.linear().domain(yExent).range([-50,50]);                  
+            var zScale = d3.scale.linear().domain(zExent).range([-50,50]);
+
+            var mat = new THREE.PointsMaterial({
                 vertexColors: true,
                 size: 10
             });
@@ -75,10 +79,8 @@
                 var y = yScale(points[i].y);
                 var z = zScale(points[i].z);
 
-                pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-                pointGeo.colors.push(new THREE.Color().setRGB(
-                hexToRgb(colour(i)).r / 255, hexToRgb(colour(i)).g / 255, hexToRgb(colour(i)).b / 255 
-                ));            
+                pointGeo.vertices.push(new THREE.Vertex(new THREE.Vector3(x, y, z)));
+                pointGeo.colors.push(new THREE.Color().setHSV((x+50)/100, (z+50)/100, (y+50)/100));
             }
 
             var finalPoints = new THREE.ParticleSystem(pointGeo, mat);
