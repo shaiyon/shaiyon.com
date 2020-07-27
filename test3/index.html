@@ -1,159 +1,191 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="three.min.js"></script>
-        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>    
-    </head>
+<head>
+    <script src="three.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>    
+</head>
+<body>
+    <script>
+        var renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(1000,1000);
+        document.body.appendChild(renderer.domElement);
+        renderer.setClearColor(new THREE.Color(0xffffff));
+        renderer.clear();
 
-    <body>
-        <script>
+        var scatterPlot = new THREE.Object3D();
+        var mat = new THREE.PointsMaterial(
+        {vertexColors: true, size: 1.5});
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
+        camera.position.z = 300;
 
-            var renderer = new THREE.WebGLRenderer({antialias: true});
-            var width = window.innerWidth;
-            var height = window.innerHeight;
+        var renderer = new THREE.WebGLRenderer({antialias: true});
+        var w = document.body.clientWidth;
+        var h = document.body.clientHeight;
+        renderer.setSize(w, h);
+        document.body.appendChild(renderer.domElement);
 
-            renderer.setSize(width, height);
-            document.body.appendChild(renderer.domElement);
+        // background color
+        renderer.setClearColor(new THREE.Color(0xEEEEEE));
 
-            renderer.setClearColor(new THREE.Color(0xEEEEEE));
-            renderer.clear();
-
-            var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-            camera.position.z = 200;
-            camera.position.x = -100;
-            camera.position.y = 100;
-
-            var scene = new THREE.Scene();
-
-            var scatterPlot = new THREE.Object3D();
-            scene.add(scatterPlot);
-
-            scatterPlot.rotation.y = 0;        
+        var camera = new THREE.PerspectiveCamera( 45, w/h, 1, 10000 );
+        camera.position.z = 200;
+        camera.position.x = -100;
+        camera.position.y = 100;
         
-            function v(x, y, z) {
-                return new THREE.Vector3(x, y, z);
-            }
+        var scene = new THREE.Scene();
 
-            var points = [];
+        var scatterPlot = new THREE.Object3D();
+        scene.add(scatterPlot);
 
-            var format = d3.format("+.3f");
-
-            d3.csv("labels.csv", function (d) {
-                var labels = []
-                labels = d.map(function(d) { return d.label; });
-
-            var data = d3.csv("demo.csv", function (d) {
-                d.forEach(function (d,i) {
-                    points[i] = {
-                        x: +d.x,
-                        y: +d.y,
-                        z: +d.z
-                    };
-                })
-
-            var xExent = d3.extent(points, function (d) {return d.x; }),
-                yExent = d3.extent(points, function (d) {return d.y; }),
-                zExent = d3.extent(points, function (d) {return d.z; });
-
-            var vpts = {
-                xMax: xExent[1],
-                xCen: (xExent[1] + xExent[0]) / 2,
-                xMin: xExent[0],
-                yMax: yExent[1],
-                yCen: (yExent[1] + yExent[0]) / 2,
-                yMin: yExent[0],
-                zMax: zExent[1],
-                zCen: (zExent[1] + zExent[0]) / 2,
-                zMin: zExent[0]
-            }
-
-            var xScale = d3.scale.linear().domain(xExent).range([-50,50]);
-            var yScale = d3.scale.linear().domain(yExent).range([-50,50]);                  
-            var zScale = d3.scale.linear().domain(zExent).range([-50,50]);
-
-            var mat = new THREE.PointsMaterial({
-                vertexColors: true,
-                size: 10
-            });
-
-            var colorList = ['red', 'purple', 'pink', 'green', 'orange', 
-            'yellow', 'blue', 'grey', 'brown', 'black'];
-
-            var pointCount = 2000;
-            var pointGeo = new THREE.Geometry();
-            for (var i = 0; i < pointCount; i ++) {
-                var x = xScale(points[i].x);
-                var y = yScale(points[i].y);
-                var z = zScale(points[i].z);
-
-                pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-                pointGeo.colors.push(new THREE.Color().set(colorList[labels[i]]));
-            }
-
-            var finalPoints = new THREE.Points(pointGeo, mat);
-            scatterPlot.add(finalPoints);
-
-            renderer.render(scene, camera);
-            var paused = false;
-            var last = new Date().getTime();
-            var down = false;
-            var sx = 0,
-                sy = 0;
-                
-            window.onmousedown = function(ev) {
-                down = true;
-                sx = ev.clientX;
-                sy = ev.clientY;
-            };
-            window.onmouseup = function() {
-                down = false;
-            };
-            window.onmousemove = function(ev) {
-                if (down) {
-                    var dx = ev.clientX - sx;
-                    var dy = ev.clientY - sy;
-                    scatterPlot.rotation.y += dx * 0.01;
-                    camera.position.y += dy;
-                    sx += dx;
-                    sy += dy;
-                }
-            }
-            var animating = false;
-            window.ondblclick = function() {
-                animating = !animating;
-            };
-
-            function animate(t) {
-                if (!paused) {
-                    last = t;
-                    if (animating) {
-                        var v = pointGeo.vertices;
-                        for (var i = 0; i < v.length; i++) {
-                            var u = v[i];
-                            console.log(u)
-                            u.angle += u.speed * 0.01;
-                            u.x = Math.cos(u.angle) * u.radius;
-                            u.z = Math.sin(u.angle) * u.radius;
-                        }
-                        pointGeo.__dirtyVertices = true;
-                    }
-                    renderer.clear();
-                    camera.lookAt(scene.position);
-                    renderer.render(scene, camera);
-                }
-                window.requestAnimationFrame(animate, renderer.domElement);
-            };
-            animate(new Date().getTime());
-            onmessage = function(ev) {
-                paused = (ev.data == 'pause');
-            };
-            //data
+        scatterPlot.rotation.y = 0.5;
+        
+        function v(x,y,z){ return new THREE.Vector3(x,y,z); }
+        
+        // Load in csv data
+        var coordinates = [], labels = [];
+        var data = d3.csv("demo.csv", function (d) {
+            d.forEach(function (d,i) {
+                coordianates[i] = {
+                    x: +d.one,
+                    y: +d.two,
+                    z: +d.three
+                };
             })
-            //labels
-            });  
+        
+        // Limits of graph
+        var xExent = d3.extent(unfiltered, function (d) {return d.x; }),
+            yExent = d3.extent(unfiltered, function (d) {return d.y; }),
+            zExent = d3.extent(unfiltered, function (d) {return d.z; });
+        var vpts = {
+            xMax: xExent[1],
+            xCen: (xExent[1] + xExent[0]) / 2,
+            xMin: xExent[0],
+            yMax: yExent[1],
+            yCen: (yExent[1] + yExent[0]) / 2,
+            yMin: yExent[0],
+            zMax: zExent[1],
+            zCen: (zExent[1] + zExent[0]) / 2,
+            zMin: zExent[0]
+        }
+        var xScale = d3.scale.linear()
+                    .domain(xExent)
+                    .range([-50,50]);
+        var yScale = d3.scale.linear()
+                    .domain(yExent)
+                    .range([-50,50]);                  
+        var zScale = d3.scale.linear()
+                    .domain(zExent)
+                    .range([-50,50]);
+        
+        // Lines in plot
+        var lineGeo = new THREE.Geometry();
+        lineGeo.vertices.push(
+            v(xScale(vpts.xMin), yScale(vpts.yCen), zScale(vpts.zCen)), v(xScale(vpts.xMax), yScale(vpts.yCen), zScale(vpts.zCen)),
+            v(xScale(vpts.xCen), yScale(vpts.yMin), zScale(vpts.zCen)), v(xScale(vpts.xCen), yScale(vpts.yMax), zScale(vpts.zCen)),
+            v(xScale(vpts.xCen), yScale(vpts.yCen), zScale(vpts.zMax)), v(xScale(vpts.xCen), yScale(vpts.yCen), zScale(vpts.zMin)),
 
+            v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMin)),
+            v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMax)),
 
-        </script>
-    </body>
+            v(xScale(vpts.xMin), yScale(vpts.yCen), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yCen), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yCen), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yCen), zScale(vpts.zMin)),
+            v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zCen)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zCen)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zCen)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zCen)),
 
+            v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMax)), v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMax)),
+
+            v(xScale(vpts.xCen), yScale(vpts.yMin), zScale(vpts.zMax)), v(xScale(vpts.xCen), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xCen), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xCen), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zCen)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zCen)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zCen)), v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zCen)),
+
+            v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMax)),
+
+            v(xScale(vpts.xMin), yScale(vpts.yCen), zScale(vpts.zMin)), v(xScale(vpts.xMin), yScale(vpts.yCen), zScale(vpts.zMax)),
+            v(xScale(vpts.xMax), yScale(vpts.yCen), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yCen), zScale(vpts.zMax)),
+            v(xScale(vpts.xCen), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xCen), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xCen), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xCen), yScale(vpts.yMin), zScale(vpts.zMax))
+        );
+        var lineMat = new THREE.LineBasicMaterial({color: 0x808080, linewidth: 1});
+        var line = new THREE.Line(lineGeo, lineMat);
+        line.type = THREE.Lines;
+        scatterPlot.add(line);
+
+        // Add csv data to scatterplot
+        var pointCount = coordinates.length;
+        var pointGeo = new THREE.Geometry();
+        for (var i = 0; i < pointCount; i ++) {
+            var x = xScale(coordinates[i].x);
+            var y = yScale(coordinates[i].y);
+            var z = zScale(coordinates[i].z);
+
+            pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+            pointGeo.colors.push(new THREE.Color("blue"));
+        }
+
+        var points = new THREE.Points(pointGeo, mat);
+        scatterPlot.add(points);
+        scene.add(scatterPlot);
+
+        renderer.render(scene, camera);
+        var paused = false;
+        var last = new Date().getTime();
+        var down = false;
+        var sx = 0, sy = 0;
+
+        window.onmousedown = function (ev) {
+            down = true; sx = ev.clientX; sy = ev.clientY;
+        };
+        window.onmouseup = function() { 
+            down = false; 
+        };
+        window.onmousemove = function(ev) {
+            if (down) {
+            var dx = ev.clientX - sx;
+            var dy = ev.clientY - sy;
+            scatterPlot.rotation.y += dx*0.01;
+            camera.position.y += dy;
+            sx += dx;
+            sy += dy;
+            }
+        }
+        var animating = false;
+        window.ondblclick = function() { animating = !animating; };
+        function animate(t) {
+            if (!paused) {
+            last = t;
+            if (animating) {
+                var v = pointGeo.vertices;
+                for (var i=0; i<v.length; i++) {
+                var u = v[i];
+                u.angle += u.speed * 0.01;
+                u.position.x = Math.cos(u.angle)*u.radius;
+                u.position.z = Math.sin(u.angle)*u.radius;
+                }
+                pointGeo.__dirtyVertices = true;
+            }
+            renderer.clear();
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+            }
+            window.requestAnimationFrame(animate, renderer.domElement);
+        }
+        animate(new Date().getTime());
+        onmessage = function(ev) {
+            paused = (ev.data == 'pause');
+        };
+
+        // load data
+        })
+    </script>
+</body>    
 </html>
