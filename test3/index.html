@@ -42,7 +42,7 @@
         
         function v(x,y,z){ return new THREE.Vector3(x,y,z); }
         
-        // Load in csv data
+        // Load in scatter plot point data
         var coordinates = [], labels = [];
         var data = d3.csv("demo.csv", function (d) {
             d.forEach(function (d,i) {
@@ -52,7 +52,12 @@
                     z: +d.three
                 };
             })
-        
+        // Load in labels 
+        var data2 = d3.csv("labels.csv", function (d) {
+            csv.map(function(d) {
+                labels.push(d.label);
+            })
+
         // Limits of graph
         var xExent = d3.extent(coordinates, function (d) {return d.x; }),
             yExent = d3.extent(coordinates, function (d) {return d.y; }),
@@ -121,6 +126,7 @@
         scatterPlot.add(line);
 
         // Add csv data to scatterplot
+        var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"]
         var pointCount = coordinates.length;
         var pointGeo = new THREE.Geometry();
         for (var i = 0; i < pointCount; i ++) {
@@ -129,7 +135,7 @@
             var z = zScale(coordinates[i].z);
 
             pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-            pointGeo.colors.push(new THREE.Color("blue"));
+            pointGeo.colors.push(new THREE.Color(colorList[labels[i]]));
         }
 
         var points = new THREE.Points(pointGeo, mat);
@@ -184,8 +190,12 @@
             paused = (ev.data == 'pause');
         };
 
-        // load data
+        // csv load points
         })
+        // csv load labels
+        })
+
+
     </script>
 </body>    
 </html>
