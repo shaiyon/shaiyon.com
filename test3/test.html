@@ -6,17 +6,23 @@
 </head>
 <body>
     <script>
+        var renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(1000,1000);
+        document.body.appendChild(renderer.domElement);
+        renderer.clear();
+
+        var scatterPlot = new THREE.Object3D();
+        var mat = new THREE.PointsMaterial(
+        {vertexColors: true, size: 1.5});
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
+        camera.position.z = 300;
 
         var renderer = new THREE.WebGLRenderer({antialias: true});
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
         renderer.setSize(w, h);
         document.body.appendChild(renderer.domElement);
-
-        var scatterPlot = new THREE.Object3D();
-        var mat = new THREE.PointsMaterial({vertexColors: true, size: 1.5});
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
 
         // background color
         renderer.setClearColor(new THREE.Color(0xEEEEEE));
