@@ -41,8 +41,6 @@
             d3.csv("labels.csv", function (d) {
                 var labels = []
                 labels = d.map(function(d) { return d.label; });
-                console.log(labels)
-            });  
 
             var data = d3.csv("demo.csv", function (d) {
                 d.forEach(function (d,i) {
@@ -88,7 +86,7 @@
                 var y = yScale(points[i].y);
                 var z = zScale(points[i].z);
 
-                pointGeo.vertices.push(new THREE.Vertex(new THREE.Vector3(x, y, z)));
+                pointGeo.vertices.push(new THREE.Vector3(x, y, z));
                 pointGeo.colors.push(new THREE.Color().set(colorList[labels[i]]));
             }
 
@@ -149,8 +147,11 @@
             onmessage = function(ev) {
                 paused = (ev.data == 'pause');
             };
-
+            //data
             })
+            //labels
+            });  
+
 
         </script>
     </body>
