@@ -9,6 +9,7 @@
         var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(1000,1000);
         document.body.appendChild(renderer.domElement);
+        renderer.setClearColor(new THREE.Color(0xffffff));
         renderer.clear();
 
         var scatterPlot = new THREE.Object3D();
@@ -54,10 +55,10 @@
             v(50, -50, 50), v(50, 50, 50),
             v(-50, -50, 50), v(-50, 50, 50),
 
-            //v(50, 50, -50), v(50, 50, 50),
-            //v(50, -50, -50), v(50, -50, 50),
-            //v(-50, 50, -50), v(-50, 50, 50),
-            //v(-50, -50, -50), v(-50, -50, 50),
+            v(50, 50, -50), v(50, 50, 50),
+            v(50, -50, -50), v(50, -50, 50),
+            v(-50, 50, -50), v(-50, 50, 50),
+            v(-50, -50, -50), v(-50, -50, 50),
 
         );
             var lineMat = new THREE.LineBasicMaterial({color: 0x808080, linewidth: 1});
