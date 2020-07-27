@@ -6,23 +6,17 @@
 </head>
 <body>
     <script>
-        var renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setSize(1000,1000);
-        document.body.appendChild(renderer.domElement);
-        renderer.clear();
-
-        var scatterPlot = new THREE.Object3D();
-        var mat = new THREE.PointsMaterial(
-        {vertexColors: true, size: 1.5});
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-        camera.position.z = 300;
 
         var renderer = new THREE.WebGLRenderer({antialias: true});
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
         renderer.setSize(w, h);
         document.body.appendChild(renderer.domElement);
+
+        var scatterPlot = new THREE.Object3D();
+        var mat = new THREE.PointsMaterial({vertexColors: true, size: 1.5});
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
 
         // background color
         renderer.setClearColor(new THREE.Color(0xEEEEEE));
@@ -54,10 +48,10 @@
             v(50, -50, 50), v(50, 50, 50),
             v(-50, -50, 50), v(-50, 50, 50),
 
-            v(50, 50, -50), v(50, 50, 50),
-            v(50, -50, -50), v(50, -50, 50),
-            v(-50, 50, -50), v(-50, 50, 50),
-            v(-50, -50, -50), v(-50, -50, 50),
+            //v(50, 50, -50), v(50, 50, 50),
+            //v(50, -50, -50), v(50, -50, 50),
+            //v(-50, 50, -50), v(-50, 50, 50),
+            //v(-50, -50, -50), v(-50, -50, 50),
 
         );
             var lineMat = new THREE.LineBasicMaterial({color: 0x808080, linewidth: 1});
@@ -69,13 +63,13 @@
         var pointCount = 10000;
         var pointGeo = new THREE.Geometry();
         for (var i=0; i<pointCount; i++) {
-        var x = Math.random() * 100 - 50;
-        var y = x*0.8+Math.random() * 20 - 10;
-        var z = x*0.7+Math.random() * 30 - 15;
-        pointGeo.vertices.push(new THREE.Vector3(x,y,z));
-        pointGeo.colors.push(new THREE.Color().setColorName("Magenta"));
+            var x = Math.random() * 100 - 50;
+            var y = x*0.8+Math.random() * 20 - 10;
+            var z = x*0.7+Math.random() * 30 - 15;
+            pointGeo.vertices.push(new THREE.Vector3(x,y,z));
+            pointGeo.colors.push(new THREE.Color(0xFF00FF));
         }
-        var points = new THREE.ParticleSystem(pointGeo, mat);
+        var points = new THREE.Points(pointGeo, mat);
         scatterPlot.add(points);
         scene.add(scatterPlot);
 
@@ -85,10 +79,12 @@
         var last = new Date().getTime();
         var down = false;
         var sx = 0, sy = 0;
-        window.onmousedown = function (ev){
+        window.onmousedown = function (ev) {
             down = true; sx = ev.clientX; sy = ev.clientY;
         };
-        window.onmouseup = function(){ down = false; };
+        window.onmouseup = function() { 
+            down = false; 
+        };
         window.onmousemove = function(ev) {
             if (down) {
             var dx = ev.clientX - sx;
