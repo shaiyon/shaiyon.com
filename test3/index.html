@@ -46,7 +46,7 @@
         var coordinates = [], labels = [];
         var data = d3.csv("demo.csv", function (d) {
             d.forEach(function (d,i) {
-                coordianates[i] = {
+                coordinates[i] = {
                     x: +d.one,
                     y: +d.two,
                     z: +d.three
@@ -54,9 +54,9 @@
             })
         
         // Limits of graph
-        var xExent = d3.extent(unfiltered, function (d) {return d.x; }),
-            yExent = d3.extent(unfiltered, function (d) {return d.y; }),
-            zExent = d3.extent(unfiltered, function (d) {return d.z; });
+        var xExent = d3.extent(coordinates, function (d) {return d.x; }),
+            yExent = d3.extent(coordinates, function (d) {return d.y; }),
+            zExent = d3.extent(coordinates, function (d) {return d.z; });
         var vpts = {
             xMax: xExent[1],
             xCen: (xExent[1] + xExent[0]) / 2,
