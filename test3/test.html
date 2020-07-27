@@ -7,7 +7,7 @@
 <body>
     <script>
         var renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setSize(1000,1000);
+        renderer.setSize(500,500);
         document.body.appendChild(renderer.domElement);
         renderer.setClearColor(new THREE.Color(0xffffff));
         renderer.clear();
@@ -30,11 +30,10 @@
 
         var camera = new THREE.PerspectiveCamera( 45, w/h, 1, 10000 );
         camera.position.z = 200;
-        camera.position.x = 0;
-        camera.position.y = 75;
-
+        camera.position.x = -100;
+        camera.position.y = 100;
+        
         var scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.0035 );
 
         var scatterPlot = new THREE.Object3D();
         scene.add(scatterPlot);
@@ -61,10 +60,11 @@
             v(-50, -50, -50), v(-50, -50, 50),
 
         );
-            var lineMat = new THREE.LineBasicMaterial({color: 0x808080, linewidth: 1});
-            var line = new THREE.Line(lineGeo, lineMat);
-            line.type = THREE.Lines;
-            scatterPlot.add(line);
+
+        var lineMat = new THREE.LineBasicMaterial({color: 0x808080, linewidth: 1});
+        var line = new THREE.Line(lineGeo, lineMat);
+        line.type = THREE.Lines;
+        scatterPlot.add(line);
 
 
         var pointCount = 10000;
@@ -80,12 +80,16 @@
         scatterPlot.add(points);
         scene.add(scatterPlot);
 
-        scene.fog = new THREE.FogExp2(0xFFFFFF, 0.0035);
         renderer.render(scene, camera);
         var paused = false;
         var last = new Date().getTime();
         var down = false;
         var sx = 0, sy = 0;
+
+    
+        mouse.x = +(event.targetTouches[0].pageX / window.innerWidth) * 2 +-1;
+        mouse.y = -(event.targetTouches[0].pageY / window.innerHeight) * 2 + 1;
+
         window.onmousedown = function (ev) {
             down = true; sx = ev.clientX; sy = ev.clientY;
         };
