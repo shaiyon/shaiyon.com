@@ -14,7 +14,7 @@
 
         var scatterPlot = new THREE.Object3D();
         var mat = new THREE.PointsMaterial(
-        {vertexColors: true, size: 1.5});
+        {vertexColors: true, size: 3});
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
         camera.position.z = 300;
@@ -44,7 +44,7 @@
         
         // Load in scatter plot point data
         var coordinates = [], labels = [];
-        var data = d3.csv("demo.csv", function (d) {
+        var pointData = d3.csv("demo.csv", function (d) {
             d.forEach(function (d,i) {
                 coordinates[i] = {
                     x: +d.one,
@@ -53,10 +53,9 @@
                 };
             })
         // Load in labels 
-        var data2 = d3.csv("labels.csv", function (d) {
-            csv.map(function(d) {
-                labels.push(d.label);
-            })
+        var labelData = d3.csv("labels.csv", function (d) {
+            labels = d.map(function(data) {
+                return data.label; });
 
         // Limits of graph
         var xExent = d3.extent(coordinates, function (d) {return d.x; }),
