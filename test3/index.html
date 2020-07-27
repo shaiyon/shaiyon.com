@@ -90,7 +90,7 @@
                 pointGeo.colors.push(new THREE.Color().set(colorList[labels[i]]));
             }
 
-            var finalPoints = new THREE.ParticleSystem(pointGeo, mat);
+            var finalPoints = new THREE.Points(pointGeo, mat);
             scatterPlot.add(finalPoints);
 
             renderer.render(scene, camera);
