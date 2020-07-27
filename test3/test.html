@@ -73,7 +73,7 @@
         var y = x*0.8+Math.random() * 20 - 10;
         var z = x*0.7+Math.random() * 30 - 15;
         pointGeo.vertices.push(new THREE.Vector3(x,y,z));
-        pointGeo.colors.push(new THREE.Color().setColorName("Magenta");
+        pointGeo.colors.push(new THREE.Color().setColorName("Magenta"));
         }
         var points = new THREE.ParticleSystem(pointGeo, mat);
         scatterPlot.add(points);
