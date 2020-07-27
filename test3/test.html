@@ -25,8 +25,8 @@
         renderer.setSize(w, h);
         document.body.appendChild(renderer.domElement);
 
-                // background color
-        renderer.setClearColorHex(0xEEEEEE, 1.0);
+        // background color
+        renderer.setClearColor(new THREE.Color(0xEEEEEE));
 
         var camera = new THREE.PerspectiveCamera( 45, w/h, 1, 10000 );
         camera.position.z = 200;
