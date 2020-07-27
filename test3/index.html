@@ -2,7 +2,7 @@
 <html>
     <head>
         <script src="three.min.js"></script>
-        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>    
+        <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>    
     </head>
 
     <body>
@@ -35,8 +35,16 @@
             }
 
             var points = [];
+            var labels = [];
 
             var format = d3.format("+.3f");
+
+            d3.csv("labels.csv", function (d) {
+                csv.map(function (d) {
+                    labels.push(d.label);
+                })
+                console.log("labels",labels);    
+            });  
 
             var data = d3.csv("demo.csv", function (d) {
                 d.forEach(function (d,i) {
@@ -72,6 +80,9 @@
                 size: 10
             });
 
+            var colorList = ['red', 'purple', 'pink', 'green', 'orange', 
+            'yellow', 'blue', 'grey', 'brown', 'black'];
+
             var pointCount = 2000;
             var pointGeo = new THREE.Geometry();
             for (var i = 0; i < pointCount; i ++) {
@@ -80,7 +91,7 @@
                 var z = zScale(points[i].z);
 
                 pointGeo.vertices.push(new THREE.Vertex(new THREE.Vector3(x, y, z)));
-                pointGeo.colors.push(new THREE.Color().setHSV((x+50)/100, (z+50)/100, (y+50)/100));
+                pointGeo.colors.push(new THREE.Color().set(colorList[labels[i]]));
             }
 
             var finalPoints = new THREE.ParticleSystem(pointGeo, mat);
