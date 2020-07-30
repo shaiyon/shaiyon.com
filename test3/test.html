@@ -116,7 +116,7 @@
             var material = new THREE.MeshBasicMaterial({ color : colorList[labels[i]] });
             var sphere = new THREE.Mesh( geometry, material );
             sphere.geometry.mergeVertices();
-            mesh.position.set(x, y, z);
+            sphere.position.set(x, y, z);
 
             scatterPlot.add(sphere);
         }
