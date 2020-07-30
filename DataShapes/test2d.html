@@ -63,23 +63,6 @@
             renderer.setSize(width, height);
             document.body.appendChild(renderer.domElement);
 
-            let zoom = d3.zoom()
-                .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
-                .on('zoom', () => {
-                    let d3_transform = d3.event.transform;
-                    zoomHandler(d3_transform);
-                });
-
-            view = d3.select(renderer.domElement);
-            function setUpZoom() {
-                view.call(zoom);
-                let initial_scale = getScaleFromZ(far);
-                var initial_transform = d3.zoomIdentity.translate(viz_width / 2, height / 2).scale(initial_scale);
-                zoom.transform(view, initial_transform);
-                camera.position.set(0, 0, far);
-            }
-            setUpZoom();
-
             circle_sprite = new THREE.TextureLoader().load(
                 "https://fastforwardlabs.github.io/visualization_assets/circle-sprite.png"
             )
@@ -96,6 +79,24 @@
                         frequency: +d.frequency
                     };
                 })
+
+            let zoom = d3.zoom()
+                .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
+                .on('zoom', () => {
+                    let d3_transform = d3.event.transform;
+                    zoomHandler(d3_transform);
+            });
+
+            view = d3.select(renderer.domElement);
+            function setUpZoom() {
+                view.call(zoom);
+                let initial_scale = getScaleFromZ(far);
+                var initial_transform = d3.zoomIdentity.translate(viz_width / 2, height / 2).scale(initial_scale);
+                zoom.transform(view, initial_transform);
+                camera.position.set(0, 0, far);
+            }
+            setUpZoom();
+
 
             let generated_points = data_points;
 
