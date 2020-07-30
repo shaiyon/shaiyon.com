@@ -9,17 +9,11 @@
         var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(1000,1000);
         document.body.appendChild(renderer.domElement);
-        renderer.setClearColor(new THREE.Color(0xffffff));
         renderer.clear();
 
         var scatterPlot = new THREE.Object3D();
-        var mat = new THREE.PointsMaterial(
-        {vertexColors: true, size: 1.5});
         var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-        camera.position.z = 300;
 
-        var renderer = new THREE.WebGLRenderer({antialias: true});
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
         renderer.setSize(w, h);
@@ -39,45 +33,94 @@
         scene.add(scatterPlot);
 
         scatterPlot.rotation.y = 0.5;
+        
         function v(x,y,z){ return new THREE.Vector3(x,y,z); }
         
+        // Load in scatter plot point data
+        var coordinates = [], labels = [];
+        var pointData = d3.csv("demo.csv", function (d) {
+            d.forEach(function (d,i) {
+                coordinates[i] = {
+                    x: +d.one,
+                    y: +d.two,
+                    z: +d.three
+                };
+            })
+        // Load in labels 
+        var labelData = d3.csv("labels.csv", function (d) {
+            labels = d.map(function(data) {
+                return data.label; });
+
+        // Limits of graph
+        var xExent = d3.extent(coordinates, function (d) {return d.x; }),
+            yExent = d3.extent(coordinates, function (d) {return d.y; }),
+            zExent = d3.extent(coordinates, function (d) {return d.z; });
+        var vpts = {
+            xMax: xExent[1],
+            xCen: (xExent[1] + xExent[0]) / 2,
+            xMin: xExent[0],
+            yMax: yExent[1],
+            yCen: (yExent[1] + yExent[0]) / 2,
+            yMin: yExent[0],
+            zMax: zExent[1],
+            zCen: (zExent[1] + zExent[0]) / 2,
+            zMin: zExent[0]
+        }
+        var xScale = d3.scale.linear()
+                    .domain(xExent)
+                    .range([-50,50]);
+        var yScale = d3.scale.linear()
+                    .domain(yExent)
+                    .range([-50,50]);                  
+        var zScale = d3.scale.linear()
+                    .domain(zExent)
+                    .range([-50,50]);
+        
+        // Lines in plot
         var lineGeo = new THREE.Geometry();
         lineGeo.vertices.push(
 
-            v(-50, 50, -50), v(50, 50, -50),
-            v(-50, -50, -50), v(50, -50, -50),
-            v(-50, 50, 50), v(50, 50, 50),
-            v(-50, -50, 50), v(50, -50, 50),
+            v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMin)),
+            v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMax)),
 
-            v(50, -50, -50), v(50, 50, -50),
-            v(-50, -50, -50), v(-50, 50, -50),
-            v(50, -50, 50), v(50, 50, 50),
-            v(-50, -50, 50), v(-50, 50, 50),
 
-            v(50, 50, -50), v(50, 50, 50),
-            v(50, -50, -50), v(50, -50, 50),
-            v(-50, 50, -50), v(-50, 50, 50),
-            v(-50, -50, -50), v(-50, -50, 50),
+            v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMin)),
+            v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMax)), v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMax)),
+
+
+            v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMax)),
+            v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMax)),
 
         );
-
         var lineMat = new THREE.LineBasicMaterial({color: 0x808080, linewidth: 1});
         var line = new THREE.Line(lineGeo, lineMat);
         line.type = THREE.Lines;
         scatterPlot.add(line);
 
+        // Add csv data to scatterplot
+        var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
+        var pointCount = coordinates.length;
 
-        var pointCount = 10000;
-        var pointGeo = new THREE.Geometry();
-        for (var i=0; i<pointCount; i++) {
-            var x = Math.random() * 100 - 50;
-            var y = x*0.8+Math.random() * 20 - 10;
-            var z = x*0.7+Math.random() * 30 - 15;
-            pointGeo.vertices.push(new THREE.Vector3(x,y,z));
-            pointGeo.colors.push(new THREE.Color(0xFF00FF));
+        for (var i = 0; i < pointCount; i ++) {
+            var x = xScale(coordinates[i].x);
+            var y = yScale(coordinates[i].y);
+            var z = zScale(coordinates[i].z);
+
+            var geometry = new THREE.SphereGeometry((Math.random() * (5.0 - 1.0) + 1.0), 32, 32 );
+            var material = new THREE.MeshBasicMaterial({ color : colorList[labels[i]] });
+            var sphere = new THREE.Mesh( geometry, material );
+            sphere.geometry.mergeVertices();
+            mesh.position.set(x, y, z);
+
+            scatterPlot.add(sphere);
         }
-        var points = new THREE.Points(pointGeo, mat);
-        scatterPlot.add(points);
+
         scene.add(scatterPlot);
 
         renderer.render(scene, camera);
@@ -127,6 +170,13 @@
         onmessage = function(ev) {
             paused = (ev.data == 'pause');
         };
+
+        // csv load points
+        })
+        // csv load labels
+        })
+
+
     </script>
 </body>    
 </html>

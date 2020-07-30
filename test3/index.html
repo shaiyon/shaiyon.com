@@ -9,15 +9,12 @@
         var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(1000,1000);
         document.body.appendChild(renderer.domElement);
-        renderer.setClearColor(new THREE.Color(0xffffff));
         renderer.clear();
 
         var scatterPlot = new THREE.Object3D();
         var mat = new THREE.PointsMaterial(
         {vertexColors: true, size: 3});
         var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-        camera.position.z = 300;
 
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
@@ -84,6 +81,7 @@
         // Lines in plot
         var lineGeo = new THREE.Geometry();
         lineGeo.vertices.push(
+
             v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMin)),
             v(xScale(vpts.xMin), yScale(vpts.yMin), zScale(vpts.zMin)), v(xScale(vpts.xMax), yScale(vpts.yMin), zScale(vpts.zMin)),
             v(xScale(vpts.xMin), yScale(vpts.yMax), zScale(vpts.zMax)), v(xScale(vpts.xMax), yScale(vpts.yMax), zScale(vpts.zMax)),
@@ -108,7 +106,7 @@
         scatterPlot.add(line);
 
         // Add csv data to scatterplot
-        var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"]
+        var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
         var pointCount = coordinates.length;
         var pointGeo = new THREE.Geometry();
         for (var i = 0; i < pointCount; i ++) {
