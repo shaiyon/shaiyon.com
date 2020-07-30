@@ -4,7 +4,7 @@
 <head>
     <!-- Dependencies : three.js, loadash.js, d3.js, d3-zoom -->
     <script src="three.min.js"></script>
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
     <script src="https://d3js.org/d3-color.v1.min.js"></script>
     <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
@@ -85,7 +85,7 @@
             )
 
             let data_points = [];
-            d3.csv("mnist2D.csv", function (d) {
+            var data_sheet = d3.csv("mnist2D.csv", function (d) {
                 d.forEach(function (d,i) {
                     data_points[i] = {
                         x: +d.x,
@@ -124,9 +124,6 @@
             let scene = new THREE.Scene();
             scene.add(points);
             scene.background = new THREE.Color(0xefefef);
-
-            //load in data
-            })
 
 
             // Three.js render loop
@@ -277,6 +274,8 @@
                 updateTooltip();
             }
 
+            //load in data
+            })
 
     </script>
 </body>
