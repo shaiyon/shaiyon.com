@@ -107,7 +107,7 @@
         var mat = new THREE.PointsMaterial({vertexColors: true, size: 3});
         var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
         var pointCount = coordinates.length;
-        var pointGeo = new THREE.BufferGeometry();
+        var pointGeo = new THREE.Geometry();
         for (var i = 0; i < pointCount; i ++) {
             var x = xScale(coordinates[i].x);
             var y = yScale(coordinates[i].y);
