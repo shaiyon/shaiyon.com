@@ -12,8 +12,6 @@
         renderer.clear();
 
         var scatterPlot = new THREE.Object3D();
-        var mat = new THREE.PointsMaterial(
-        {vertexColors: true, size: 3});
         var scene = new THREE.Scene();
 
         var w = document.body.clientWidth;
@@ -106,9 +104,10 @@
         scatterPlot.add(line);
 
         // Add csv data to scatterplot
+        var mat = new THREE.PointsMaterial({vertexColors: true, size: 3});
         var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
         var pointCount = coordinates.length;
-        var pointGeo = new THREE.Geometry();
+        var pointGeo = new THREE.BufferGeometry();
         for (var i = 0; i < pointCount; i ++) {
             var x = xScale(coordinates[i].x);
             var y = yScale(coordinates[i].y);
