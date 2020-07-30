@@ -106,21 +106,20 @@
         // Add csv data to scatterplot
         var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
         var pointCount = coordinates.length;
-
+        var pointGeo = new THREE.SphereGeometry();
         for (var i = 0; i < pointCount; i ++) {
             var x = xScale(coordinates[i].x);
             var y = yScale(coordinates[i].y);
             var z = zScale(coordinates[i].z);
 
-            var geometry = new THREE.SphereGeometry((Math.random() * (5.0 - 1.0) + 1.0), 32, 32 );
-            var material = new THREE.MeshBasicMaterial({ color : colorList[labels[i]] });
-            var sphere = new THREE.Mesh( geometry, material );
-            sphere.geometry.mergeVertices();
-            sphere.position.set(x, y, z);
-
-            scatterPlot.add(sphere);
+            var mat = new THREE.PointsMaterial({vertexColors: true, size: 5});
+            
+            pointGeo.vertices.push(new THREE.Vector3(x, y, z));
+            pointGeo.colors.push(new THREE.Color(colorList[labels[i]]));
         }
 
+        var points = new THREE.Points(pointGeo, mat);
+        scatterPlot.add(points);
         scene.add(scatterPlot);
 
         renderer.render(scene, camera);
