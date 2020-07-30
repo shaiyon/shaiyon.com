@@ -18,8 +18,6 @@
 
 <body>
     <script>
-            let point_num = 500;
-
             let width = window.innerWidth;
             let viz_width = width;
             let height = window.innerHeight;
@@ -46,8 +44,19 @@
                 camera.updateProjectionMatrix();
             })
 
-            let color_array = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
-
+            let color_array = [
+                "#1f78b4",
+                "#b2df8a",
+                "#33a02c",
+                "#fb9a99",
+                "#e31a1c",
+                "#fdbf6f",
+                "#ff7f00",
+                "#6a3d9a",
+                "#cab2d6",
+                "#ffff99",
+                "#d3d3d3"
+            ]
 
             // Add canvas
             let renderer = new THREE.WebGLRenderer();
@@ -75,25 +84,18 @@
                 "https://fastforwardlabs.github.io/visualization_assets/circle-sprite.png"
             )
 
-            let radius = 2000;
-
-            // Random point in circle code from https://stackoverflow.com/questions/32642399/simplest-way-to-plot-points-randomly-inside-a-circle
-            function randomPosition(radius) {
-                var pt_angle = Math.random() * 2 * Math.PI;
-                var pt_radius_sq = Math.random() * radius * radius;
-                var pt_x = Math.sqrt(pt_radius_sq) * Math.cos(pt_angle);
-                var pt_y = Math.sqrt(pt_radius_sq) * Math.sin(pt_angle);
-                return [pt_x, pt_y];
-            }
-
             let data_points = [];
-            for (let i = 0; i < point_num; i++) {
-                let position = randomPosition(radius);
-                let name = 'Knowledge Element ' + i;
-                let group = Math.floor(Math.random() * 6);
-                let point = { position, name, group };
-                data_points.push(point);
-            }
+            d3.csv("mnist2D.csv", function (d) {
+                d.forEach(function (d,i) {
+                    data_points[i] = {
+                        x: +d.x,
+                        y: +d.y,
+                        name: 'Knowledge Element ' + i,
+                        group: +d.label,
+                        radius: +d.radius,
+                        frequency: +d.frequency
+                    };
+                })
 
             let generated_points = data_points;
 
@@ -102,7 +104,7 @@
             let colors = [];
             for (let datum of generated_points) {
                 // Set vector coordinates from data
-                let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
+                let vertex = new THREE.Vector3(datum.x, datum.y, 0);
                 pointsGeometry.vertices.push(vertex);
                 let color = new THREE.Color(color_array[datum.group]);
                 colors.push(color);
@@ -110,7 +112,7 @@
             pointsGeometry.colors = colors;
 
             let pointsMaterial = new THREE.PointsMaterial({
-                size: 150,
+                size: 26,
                 sizeAttenuation: true,
                 vertexColors: THREE.VertexColors,
                 map: circle_sprite,
@@ -161,7 +163,7 @@
             // Hover and tooltip interaction
 
             raycaster = new THREE.Raycaster();
-            raycaster.params.Points.threshold = 10;
+            raycaster.params.Points.threshold = 30;
 
             view.on("mousemove", () => {
                 let [mouseX, mouseY] = d3.mouse(view.node());
@@ -203,15 +205,15 @@
                 let geometry = new THREE.Geometry();
                 geometry.vertices.push(
                     new THREE.Vector3(
-                        datum.position[0],
-                        datum.position[1],
+                        datum.x,
+                        datum.y,
                         0
                     )
                 );
                 geometry.colors = [new THREE.Color(color_array[datum.group])];
                 let material = new THREE.PointsMaterial({
                     size: 26,
-                    sizeAttenuation: false,
+                    sizeAttenuation: true,
                     vertexColors: THREE.VertexColors,
                     map: circle_sprite,
                     transparent: true
@@ -248,7 +250,10 @@
                 $tooltip.style.top = tooltip_state.top + 'px';
                 $point_tip.innerText = tooltip_state.name;
                 $point_tip.style.background = color_array[tooltip_state.group];
-                $group_tip.innerText = `DataShape ${tooltip_state.group}\n\nFrequency: 512\n\nMetadata : a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
+                $group_tip.innerText = `DataShape ${tooltip_state.group}
+                    \n\nRadius: ${tooltip_state.radius}
+                    \n\nFrequency: ${tooltip_state.frequency}
+                    \n\nMetadata : a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
             }
             function showTooltip(mouse_position, datum) {
                 let tooltip_width = 120;
@@ -259,12 +264,17 @@
                 tooltip_state.top = mouse_position[1] + y_offset;
                 tooltip_state.name = datum.name;
                 tooltip_state.group = datum.group;
+                tooltip_state.radius = datum.radius;
+                tooltip_state.frequency = datum.frequency;
                 updateTooltip();
             }
             function hideTooltip() {
                 tooltip_state.display = "none";
                 updateTooltip();
             }
+
+            //load in data
+        })
 
     </script>
 </body>
