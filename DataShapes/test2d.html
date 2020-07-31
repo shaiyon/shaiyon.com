@@ -12,7 +12,7 @@
         d3.csv("mnist2D.csv", function (data) {
             return {
                 x: +data.x*100,
-                y: +data.y*50,
+                y: +data.y*60,
                 name: data.name,
                 label: +data.label,
                 radius: +data.radius,
@@ -101,8 +101,8 @@
 
         let geometry = new THREE.BufferGeometry();
         geometry.setAttribute('position', new THREE.BufferAttribute(coordinates, 3));
-        geometry.setAttribute('customColor', new THREE.BufferAttribute( colors, 3) );
-		geometry.setAttribute('size', new THREE.BufferAttribute( sizes, 1 ) );
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+		geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1 ));
 
 
         let pointsMaterial = new THREE.PointsMaterial({
@@ -248,7 +248,7 @@
             $group_tip.innerText = `DataShape ${tooltip_state.label}
                 \nRadius: ${tooltip_state.radius}
                 \nFrequency: ${tooltip_state.frequency}
-                \nMetadata : a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
+                \nMetadata: a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
         }
         function showTooltip(mouse_position, datum) {
             let tooltip_width = 120;
