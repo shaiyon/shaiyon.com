@@ -10,11 +10,11 @@
     <script>
         d3.csv("mnist2D.csv", function (data) {
             return {
-                x: +d.x,
-                y: +d.y,
-                name: d.name,
-                label: +d.label,
-                radius: +d.frequency
+                x: +data.x,
+                y: +data.y,
+                name: data.name,
+                label: +data.label,
+                radius: +data.frequency
             };
         }).then(function(data_points) {
 
