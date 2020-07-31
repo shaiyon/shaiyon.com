@@ -6,7 +6,7 @@
     <script src="three.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
-    <link rel="stylesheet" href="/title.css" type="text/css">
+    <link rel="stylesheet" href="title.css" type="text/css">
 
 <body>
     <div id="info">2D Knowledge Map</div>
@@ -91,8 +91,6 @@
         }
         setUpZoom();
 
-        points = new THREE.Object3D();
-
         // Create circle geometries
         for (var i=0; i<data_points.length; i++) {
             // Circle
@@ -174,7 +172,7 @@
         function checkIntersects(mouse_position) {
             let mouse_vector = mouseToThree(...mouse_position);
             raycaster.setFromCamera(mouse_vector, camera);
-            let intersects = raycaster.intersectObject(scene.children);
+            let intersects = raycaster.intersectObject(scene.children, true);
             if (intersects.length > 0) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 let intersect = sorted_intersects[0];
