@@ -172,12 +172,14 @@
         function checkIntersects(mouse_position) {
             let mouse_vector = mouseToThree(...mouse_position);
             raycaster.setFromCamera(mouse_vector, camera);
-            let intersects = raycaster.intersectObjects(scene.children, true);
-            if (intersects.length > 0) {
+            let intersects = raycaster.intersectObjects(scene.children);
+            if (sorted_intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 let intersect = sorted_intersects[0];
+                console.log(sorted_intersects);
                 let index = intersect.index;
                 let datum = data_points[index];
+                console.log(datum);
                 highlightPoint(datum);
                 showTooltip(mouse_position, datum);
             } else {
@@ -196,7 +198,7 @@
             removeHighlights();
           
             let geo = new THREE.CircleBufferGeometry(datum.radius*1.5, 40);
-            var mat = new THREE.MeshBasicMaterial( {color: color_array[datum.label] } );
+            var mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             const mesh = new THREE.Mesh(geo, mat);
             // Outline
             const geo2 = geo.clone();
