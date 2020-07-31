@@ -172,7 +172,7 @@
         function checkIntersects(mouse_position) {
             let mouse_vector = mouseToThree(...mouse_position);
             raycaster.setFromCamera(mouse_vector, camera);
-            let intersects = raycaster.intersectObjects(scene.children);
+            let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 console.log(intersects);
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
@@ -230,7 +230,7 @@
         // Initial tooltip state
         let tooltip_state = { display: "none" }
 
-        let tooltip_template = document.createRange().createContextualFragment(`<div id="tooltip" style="display: none; position: absolute; pointer-events: none; font-size: 13px; width: 120px; text-align: center; line-height: 1; padding: 6px; background: white; font-family: sans-serif;">
+        let tooltip_template = document.createRange().createContextualFragment(`<div id="tooltip" style="display: none; position: absolute; pointer-events: none; font-family: "Raleway", Arial, Helvetica, sans-serif; font-size: 13px; width: 120px; text-align: center; line-height: 1; padding: 6px; background: white; font-family: sans-serif;">
         <div id="point_tip" style="padding: 4px; margin-bottom: 4px;"></div>
         <div id="group_tip" style="padding: 4px;"></div>
         </div>`);
