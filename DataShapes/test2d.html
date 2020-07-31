@@ -87,7 +87,7 @@
         setUpZoom();
 
         var coordinates = new Float32Array(data_points.length*3);
-        var colors = new Float32Array(data_points.length);
+        var colors = new Float32Array(data_points.length*3);
         var sizes = new Float32Array(data_points.length);
 
         for (var i=0; i<data_points.length; i++) {
@@ -95,13 +95,13 @@
             let vertex = new THREE.Vector3(data_points[i].x, data_points[i].y, 0);
             let color = new THREE.Color(color_array[data_points[i].label]);
             vertex.toArray(coordinates, i*3);
-            color.toArray(colors);
-            sizes[i] = data_points[i].radius;
+            color.toArray(colors, i*3);
+            sizes[i] = data_points[i].radius*100;
         }
 
         let geometry = new THREE.BufferGeometry();
         geometry.setAttribute('position', new THREE.BufferAttribute(coordinates, 3));
-        geometry.setAttribute('customColor', new THREE.BufferAttribute( colors, 1) );
+        geometry.setAttribute('customColor', new THREE.BufferAttribute( colors, 3) );
 		geometry.setAttribute('size', new THREE.BufferAttribute( sizes, 1 ) );
 
 
