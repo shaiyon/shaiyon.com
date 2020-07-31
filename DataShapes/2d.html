@@ -89,37 +89,31 @@
         }
         setUpZoom();
 
-        var coordinates = new Float32Array(data_points.length*3);
-        var colors = new Float32Array(data_points.length*3);
-        var sizes = new Float32Array(data_points.length);
-
+        // Create circle geometries
         for (var i=0; i<data_points.length; i++) {
-            // Set vector coordinates from data
-            let vertex = new THREE.Vector3(data_points[i].x, data_points[i].y, 0);
-            let color = new THREE.Color(color_array[data_points[i].label]);
-            vertex.toArray(coordinates, i*3);
-            color.toArray(colors, i*3);
-            sizes[i] = data_points[i].radius*100;
+            // Circle
+            const geo = new THREE.CircleBufferGeometry(data_points[i].radius, 32);
+            const mat = new THREE.MeshBasicMaterial( {color: color_array[data_points[i].label] } );
+            const mesh = new THREE.Mesh(geo, mat);
+            // Outline
+            const geo2 = geo.clone();
+            // strip the center point from CircleBufferGeometry:
+            geo2.attributes.position.array = geo.attributes.position.array.slice(3);
+            geo2.attributes.position.count--;
+            geo2.attributes.normal.array = geo.attributes.position.array.slice(3);
+            geo2.attributes.normal.count--;
+            geo2.deleteAttribute("uv"); // lines don't need UVs
+            geo2.index = null; // don't need indexing for this kind of line
+            const mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
+            const line = new THREE.LineLoop(geo2, mat2);
+            // data point
+            const group = new THREE.Group();
+            group.add(mesh);
+            group.add(line);
+            group.position.set(data_points[i].x, data_points[i].y, 0);
+            scene.add(group);
         }
 
-        let geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(coordinates, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-		geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1 ));
-
-
-        let pointsMaterial = new THREE.PointsMaterial({
-            size: 100,
-            sizeAttenuation: true,
-            vertexColors: THREE.VertexColors,
-            map: circle_sprite,
-            transparent: true
-        });
-
-        let points = new THREE.Points(geometry, pointsMaterial);
-
-        let scene = new THREE.Scene();
-        scene.add(points);
         scene.background = new THREE.Color(0xefefef);
 
 
@@ -200,25 +194,27 @@
 
         function highlightPoint(datum) {
             removeHighlights();
-            let geometry = new THREE.Geometry();
-            geometry.vertices.push(
-                new THREE.Vector3(
-                    datum.x,
-                    datum.y,
-                    0
-                )
-            );
-            geometry.colors = [new THREE.Color(color_array[datum.label])];
-            let material = new THREE.PointsMaterial({
-                size: datum.radius*120,
-                sizeAttenuation: true,
-                vertexColors: THREE.VertexColors,
-                map: circle_sprite,
-                transparent: true
-            });
-
-            let point = new THREE.Points(geometry, material);
-            hoverContainer.add(point);
+          
+            let geo = new THREE.CircleBufferGeometry(datum.radius*1.5, 40);
+            var mat = new THREE.MeshBasicMaterial( {color: color_array[datum.label] } );
+            const mesh = new THREE.Mesh(geo, mat);
+            // Outline
+            const geo2 = geo.clone();
+            // strip the center point from CircleBufferGeometry:
+            geo2.attributes.position.array = geo.attributes.position.array.slice(3);
+            geo2.attributes.position.count--;
+            geo2.attributes.normal.array = geo.attributes.position.array.slice(3);
+            geo2.attributes.normal.count--;
+            geo2.deleteAttribute("uv"); // lines don't need UVs
+            geo2.index = null; // don't need indexing for this kind of line
+            const mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
+            const line = new THREE.LineLoop(geo2, mat2);
+            // data point
+            const group = new THREE.Group();
+            group.add(mesh);
+            group.add(line);
+            group.position.set(datum.x, datum.y, 0);
+            hoverContainer.add(group);
         }
 
         function removeHighlights() {
