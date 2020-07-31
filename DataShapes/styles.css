@@ -1,12 +1,14 @@
+@import "https://fonts.googleapis.com/css?family=Raleway:100,300,600";
+
 
 #info {
     color: #000000 ;
-    font-family:Monospace;
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
     font-size:1.2vw;
     text-align:center;
-    font-weight: bold;
     position: absolute;
-    top: 3%; 
+    top: 1.2%; 
+	width: 100%;
     padding: 5px;
     z-index: 100;
 }

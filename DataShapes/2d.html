@@ -18,7 +18,7 @@
                 y: +data.y*50,
                 name: data.name,
                 label: +data.label,
-                radius: +data.radius*15,
+                radius: +data.radius*5,
                 frequency: +data.frequency
             };
         }).then(function(data_points) {
@@ -115,14 +115,11 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(data_points[i].x, data_points[i].y, 0);
-            points.add(group);
+            group.position.set(data_points[i].x, data_points[i].y, data_points[i].frequency);
+            scene.add(group);
         }
 
-
-        scene.add(points);
         scene.background = new THREE.Color(0xefefef);
-
 
         // Three.js render loop
         function animate() {
@@ -179,7 +176,7 @@
         function checkIntersects(mouse_position) {
             let mouse_vector = mouseToThree(...mouse_position);
             raycaster.setFromCamera(mouse_vector, camera);
-            let intersects = raycaster.intersectObject(points);
+            let intersects = raycaster.intersectObject(scene.children);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 let intersect = sorted_intersects[0];
