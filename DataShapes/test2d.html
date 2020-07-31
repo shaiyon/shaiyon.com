@@ -105,14 +105,11 @@
 		geometry.setAttribute('size', new THREE.BufferAttribute( sizes, 1 ) );
 
 
-        let pointsMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                color: { value: new THREE.Color( 0xffffff ) },
-                pointTexture: { value: circle_sprite }
-            },
-
-            blending: THREE.AdditiveBlending,
-            depthTest: false,
+        let pointsMaterial = new THREE.PointsMaterial({
+            size: 100,
+            sizeAttenuation: true,
+            vertexColors: THREE.VertexColors,
+            map: circle_sprite,
             transparent: true
         });
 
@@ -210,7 +207,7 @@
             );
             geometry.colors = [new THREE.Color(color_array[datum.label])];
             let material = new THREE.PointsMaterial({
-                size: datum.size*130,
+                size: datum.radius*120,
                 sizeAttenuation: true,
                 vertexColors: THREE.VertexColors,
                 map: circle_sprite,
