@@ -26,6 +26,7 @@
         let width = window.innerWidth;
         let viz_width = width;
         let height = window.innerHeight;
+        
 
         let fov = 40;
         let near = 10;
@@ -38,6 +39,8 @@
             near,
             far
         );
+
+        let scene = new THREE.Scene();
 
         window.addEventListener('resize', () => {
             width = window.innerWidth;
