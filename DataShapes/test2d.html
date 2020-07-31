@@ -97,10 +97,9 @@
             // Set vector coordinates from data
             let vertex = new THREE.Vector3(data_points[i].x, data_points[i].y, 0);
             let color = new THREE.Color(color_array[data_points[i].label]);
-            let size = data_points[i].radius*100;
             vertex.toArray(coordinates, i*3);
             color.toArray(colors, i*3);
-            size.toArray(sizes, i);
+            sizes[i] = data_points[i].radius*100;
         }
 
         let geometry = new THREE.BufferGeometry();
@@ -110,6 +109,7 @@
 
 
         let pointsMaterial = new THREE.PointsMaterial({
+            size: 100,
             sizeAttenuation: true,
             vertexColors: THREE.VertexColors,
             map: circle_sprite,
