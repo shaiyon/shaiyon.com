@@ -8,7 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
 <body>
     <script>
-        d3.csv("mnist2D.csv", function (data_points) {
+        d3.csv("mnist2D.csv", function (data) {
+            return {
+                x: +d.x,
+                y: +d.y,
+                name: d.name,
+                label: +d.label,
+                radius: +d.frequency
+            };
+        }).then(function(data_points) {
 
         let width = window.innerWidth;
         let viz_width = width;
@@ -252,6 +260,5 @@
         }
 
         })
-
     </script>
 </body>
