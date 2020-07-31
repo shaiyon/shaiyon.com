@@ -1,12 +1,10 @@
-body {
-    color: #ffffff;
+
+#info {
+    color: #000000 ;
     font-family:Monospace;
     font-size:1.2vw;
     text-align:center;
     font-weight: bold;
-}
-#info {
-    color: #fff ;
     position: absolute;
     top: 3%; 
     width: 100%;
