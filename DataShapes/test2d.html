@@ -4,33 +4,11 @@
 <head>
     <!-- Dependencies : three.js, loadash.js, d3.js, d3-zoom -->
     <script src="three.min.js"></script>
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
-    <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
-    <script src="https://d3js.org/d3-ease.v1.min.js"></script>
-    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-    <script src="https://d3js.org/d3-selection.v1.min.js"></script>
-    <script src="https://d3js.org/d3-timer.v1.min.js"></script>
-    <script src="https://d3js.org/d3-transition.v1.min.js"></script>
-    <script src="https://d3js.org/d3-drag.v1.min.js"></script>
-    <script src="https://d3js.org/d3-zoom.v1.min.js"></script></head>
-
 <body>
     <script>
-        let data_points = [];
-        d3.csv("mnist2D.csv", function (d) {
-            d.forEach(function (d,i) {
-                data_points[i] = {
-                    x: +d.x,
-                    y: +d.y,
-                    name: 'Knowledge Element ' + i,
-                    group: +d.label,
-                    radius: +d.radius,
-                    frequency: +d.frequency
-                };
-            })
-            
+        d3.csv("mnist2D.csv", function (data_points) {
 
         let width = window.innerWidth;
         let viz_width = width;
@@ -98,17 +76,14 @@
         }
         setUpZoom();
 
-
-        let generated_points = data_points;
-
         let pointsGeometry = new THREE.Geometry();
 
         let colors = [];
-        for (let datum of generated_points) {
+        for (let datum of data_points) {
             // Set vector coordinates from data
             let vertex = new THREE.Vector3(datum.x, datum.y, 0);
             pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(color_array[datum.group]);
+            let color = new THREE.Color(color_array[datum.label]);
             colors.push(color);
         }
         pointsGeometry.colors = colors;
@@ -188,7 +163,7 @@
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 let intersect = sorted_intersects[0];
                 let index = intersect.index;
-                let datum = generated_points[index];
+                let datum = data_points[index];
                 highlightPoint(datum);
                 showTooltip(mouse_position, datum);
             } else {
@@ -213,7 +188,7 @@
                     0
                 )
             );
-            geometry.colors = [new THREE.Color(color_array[datum.group])];
+            geometry.colors = [new THREE.Color(color_array[datum.label])];
             let material = new THREE.PointsMaterial({
                 size: 26,
                 sizeAttenuation: true,
@@ -252,8 +227,8 @@
             $tooltip.style.left = tooltip_state.left + 'px';
             $tooltip.style.top = tooltip_state.top + 'px';
             $point_tip.innerText = tooltip_state.name;
-            $point_tip.style.background = color_array[tooltip_state.group];
-            $group_tip.innerText = `DataShape ${tooltip_state.group}
+            $point_tip.style.background = color_array[tooltip_state.label];
+            $group_tip.innerText = `DataShape ${tooltip_state.label}
                 \n\nRadius: ${tooltip_state.radius}
                 \n\nFrequency: ${tooltip_state.frequency}
                 \n\nMetadata : a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
@@ -266,7 +241,7 @@
             tooltip_state.left = mouse_position[0] + x_offset;
             tooltip_state.top = mouse_position[1] + y_offset;
             tooltip_state.name = datum.name;
-            tooltip_state.group = datum.group;
+            tooltip_state.label = datum.label;
             tooltip_state.radius = datum.radius;
             tooltip_state.frequency = datum.frequency;
             updateTooltip();
@@ -276,7 +251,6 @@
             updateTooltip();
         }
 
-         //load in data
         })
 
     </script>
