@@ -6,7 +6,10 @@
     <script src="three.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
+    <link rel="stylesheet" href="/styles.css" type="text/css" media="screen">
+
 <body>
+    <div id="info">2D Knowledge Map</div>
     <script>
         // Load in data (asynchronously)
         d3.csv("mnist2D.csv", function (data) {
@@ -94,9 +97,10 @@
             // Set vector coordinates from data
             let vertex = new THREE.Vector3(data_points[i].x, data_points[i].y, 0);
             let color = new THREE.Color(color_array[data_points[i].label]);
+            let size = data_points[i].radius*100;
             vertex.toArray(coordinates, i*3);
             color.toArray(colors, i*3);
-            sizes[i] = data_points[i].radius*100;
+            size.toArray(sizes, i);
         }
 
         let geometry = new THREE.BufferGeometry();
@@ -106,7 +110,6 @@
 
 
         let pointsMaterial = new THREE.PointsMaterial({
-            size: 100,
             sizeAttenuation: true,
             vertexColors: THREE.VertexColors,
             map: circle_sprite,
@@ -247,8 +250,7 @@
             $point_tip.style.background = color_array[tooltip_state.label];
             $group_tip.innerText = `DataShape ${tooltip_state.label}
                 \nRadius: ${tooltip_state.radius}
-                \nFrequency: ${tooltip_state.frequency}
-                \nMetadata: a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
+                \nFrequency: ${tooltip_state.frequency}`;
         }
         function showTooltip(mouse_position, datum) {
             let tooltip_width = 120;
