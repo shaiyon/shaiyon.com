@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
 <body>
     <script>
-        // Load in data
+        // Load in data (asynchronously)
         d3.csv("mnist2D.csv", function (data) {
             return {
                 x: +data.x*50,
@@ -100,7 +100,7 @@
         }
 
         let geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 2));
+        geometry.setAttribute('position', new THREE.BufferAttribute(coordinates, 2));
         geometry.setAttribute('customColor', new THREE.BufferAttribute( colors, 3 ) );
 		geometry.setAttribute('size', new THREE.BufferAttribute( sizes, 1 ) );
 
