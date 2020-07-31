@@ -5,7 +5,7 @@
     <!-- Dependencies : three.js, lodash.js, d3.js -->
     <script src="three.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.19/lodash.min.js"></script>
     <link rel="stylesheet" href="title.css" type="text/css">
 
 <body>
@@ -173,11 +173,11 @@
             let mouse_vector = mouseToThree(...mouse_position);
             raycaster.setFromCamera(mouse_vector, camera);
             let intersects = raycaster.intersectObjects(scene.children, true);
-            if (intersects[0]) {
+            if (sorted_intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 let intersect = sorted_intersects[0];
                 console.log(sorted_intersects);
-                let index = intersect.index;
+                let index = intersect.faceIndex;
                 let datum = data_points[index];
                 console.log(datum);
                 highlightPoint(datum);
