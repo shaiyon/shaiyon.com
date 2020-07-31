@@ -173,7 +173,7 @@
             let mouse_vector = mouseToThree(...mouse_position);
             raycaster.setFromCamera(mouse_vector, camera);
             let intersects = raycaster.intersectObjects(scene.children, true);
-            if (sorted_intersects[0]) {
+            if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 let intersect = sorted_intersects[0];
                 console.log(sorted_intersects);
