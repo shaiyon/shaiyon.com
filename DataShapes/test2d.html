@@ -11,7 +11,7 @@
         // Load in data (asynchronously)
         d3.csv("mnist2D.csv", function (data) {
             return {
-                x: +data.x*50,
+                x: +data.x*100,
                 y: +data.y*50,
                 name: data.name,
                 label: +data.label,
