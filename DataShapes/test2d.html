@@ -5,13 +5,14 @@
     <!-- Dependencies : three.js, lodash.js, d3.js -->
     <script src="three.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
 <body>
     <script>
         // Load in data
         d3.csv("mnist2D.csv", function (data) {
             return {
-                x: +data.x*15,
-                y: +data.y*15,
+                x: +data.x*50,
+                y: +data.y*50,
                 name: data.name,
                 label: +data.label,
                 radius: +data.radius,
@@ -98,7 +99,7 @@
         pointsGeometry.colors = colors;
 
         let pointsMaterial = new THREE.PointsMaterial({
-            size: 26,
+            size: 100,
             sizeAttenuation: true,
             vertexColors: THREE.VertexColors,
             map: circle_sprite,
@@ -150,7 +151,7 @@
         // Hover and tooltip interaction
 
         raycaster = new THREE.Raycaster();
-        raycaster.params.Points.threshold = 30;
+        raycaster.params.Points.threshold = 100;
 
         view.on("mousemove", () => {
             let [mouseX, mouseY] = d3.mouse(view.node());
@@ -199,7 +200,7 @@
             );
             geometry.colors = [new THREE.Color(color_array[datum.label])];
             let material = new THREE.PointsMaterial({
-                size: 26,
+                size: 150,
                 sizeAttenuation: true,
                 vertexColors: THREE.VertexColors,
                 map: circle_sprite,
