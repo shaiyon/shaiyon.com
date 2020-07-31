@@ -86,27 +86,33 @@
         }
         setUpZoom();
 
-        let pointsGeometry = new THREE.Geometry();
+        var coordinates = new Float32Array(data_points.length*3);
+        var colors = new Float32Array(data_points.length);
+        var sizes = new Float32Array(data_points.length);
 
-        let colors = [];
-        for (let datum of data_points) {
+        for (var i=0; i<data_points.length; i++) {
             // Set vector coordinates from data
-            let vertex = new THREE.Vector3(datum.x, datum.y, 0);
-            pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(color_array[datum.label]);
-            colors.push(color);
+            let vertex = new THREE.Vector3(data_points[i].x, data_points[i].y, 0);
+            let color = new THREE.Color(color_array[data_points[i].label]);
+            vertex.toArray(coordinates, i*3);
+            color.toArray(colors);
+            sizes[i] = data_points[i].radius;
         }
-        pointsGeometry.colors = colors;
+
+        let geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 2));
+        geometry.setAttribute('customColor', new THREE.BufferAttribute( colors, 3 ) );
+		geometry.setAttribute('size', new THREE.BufferAttribute( sizes, 1 ) );
+
 
         let pointsMaterial = new THREE.PointsMaterial({
-            size: 100,
             sizeAttenuation: true,
             vertexColors: THREE.VertexColors,
             map: circle_sprite,
             transparent: true
         });
 
-        let points = new THREE.Points(pointsGeometry, pointsMaterial);
+        let points = new THREE.Points(geometry, pointsMaterial);
 
         let scene = new THREE.Scene();
         scene.add(points);
@@ -151,7 +157,7 @@
         // Hover and tooltip interaction
 
         raycaster = new THREE.Raycaster();
-        raycaster.params.Points.threshold = 100;
+        raycaster.params.Points.threshold = 50;
 
         view.on("mousemove", () => {
             let [mouseX, mouseY] = d3.mouse(view.node());
