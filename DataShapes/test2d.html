@@ -2,19 +2,20 @@
 <html>
 
 <head>
-    <!-- Dependencies : three.js, loadash.js, d3.js, d3-zoom -->
+    <!-- Dependencies : three.js, lodash.js, d3.js -->
     <script src="three.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
 <body>
     <script>
+        // Load in data
         d3.csv("mnist2D.csv", function (data) {
             return {
-                x: +data.x,
-                y: +data.y,
+                x: +data.x*15,
+                y: +data.y*15,
                 name: data.name,
                 label: +data.label,
-                radius: +data.frequency
+                radius: +data.radius,
+                frequency: +data.frequency
             };
         }).then(function(data_points) {
 
@@ -237,9 +238,9 @@
             $point_tip.innerText = tooltip_state.name;
             $point_tip.style.background = color_array[tooltip_state.label];
             $group_tip.innerText = `DataShape ${tooltip_state.label}
-                \n\nRadius: ${tooltip_state.radius}
-                \n\nFrequency: ${tooltip_state.frequency}
-                \n\nMetadata : a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
+                \nRadius: ${tooltip_state.radius}
+                \nFrequency: ${tooltip_state.frequency}
+                \nMetadata : a8b265ee3d96e5d3\n9f2753a222ad480c6\n2d7dc4764a533485\n6a2685475efd6dc`;
         }
         function showTooltip(mouse_position, datum) {
             let tooltip_width = 120;
