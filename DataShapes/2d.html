@@ -98,6 +98,7 @@
             let geo = new THREE.CircleBufferGeometry(data_points[i].radius, 32);
             let mat = new THREE.MeshBasicMaterial( {color: color_array[data_points[i].label] } );
             let mesh = new THREE.Mesh(geo, mat);
+            mesh.userData.id = i;
             // Outline
             let geo2 = geo.clone();
             // strip the center point from CircleBufferGeometry:
@@ -172,7 +173,7 @@
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 console.log(sorted_intersects);
                 let intersect = sorted_intersects[0];
-                let index = intersect.faceIndex;
+                let index = intersect.object.userData.id;
                 let datum = data_points[index];
                 highlightPoint(datum);
                 showTooltip(mouse, datum);
