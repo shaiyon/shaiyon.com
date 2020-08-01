@@ -163,10 +163,10 @@
             mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
             raycaster.setFromCamera(mouse, camera);
-            checkIntersects([mouse.x, mouse.y]);
+            checkIntersects();
         }
 
-        function checkIntersects(mouse_position) {
+        function checkIntersects(mouse) {
             let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
@@ -176,7 +176,7 @@
                 let datum = data_points[index];
                 console.log(datum);
                 highlightPoint(datum);
-                showTooltip(mouse_position, datum);
+                showTooltip(mouse, datum);
             } else {
                 removeHighlights();
                 hideTooltip();
@@ -246,13 +246,13 @@
                 \nFrequency: ${tooltip_state.frequency}
                 \nMetadata: 16f2f5de1f53dcf0\na8e0a74c532a32\na65e61686fa5d9\n692a9317e8971bb3515e`;
         }
-        function showTooltip(mouse_position, datum) {
+        function showTooltip(mouse, datum) {
             let tooltip_width = 120;
             let x_offset = -tooltip_width / 2;
             let y_offset = 30;
             tooltip_state.display = "block";
-            tooltip_state.left = mouse_position[0] + x_offset;
-            tooltip_state.top = mouse_position[1] + y_offset;
+            tooltip_state.left = mouse.x + x_offset;
+            tooltip_state.top = mouse.y + y_offset;
             tooltip_state.name = datum.name;
             tooltip_state.label = datum.label;
             tooltip_state.radius = datum.radius;
