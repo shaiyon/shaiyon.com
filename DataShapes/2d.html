@@ -156,27 +156,23 @@
 
         // Hover and tooltip interaction
 
-        var mouse = new THREE.Vector2();
+        var mouseRay = new THREE.Vector2();
         var raycaster = new THREE.Raycaster();
 
         function onMouseMove(event) {
-            //d3 mouse
-            let [mouseX, mouseY] = d3.mouse(view.node());
-            let mouse_position = [mouseX, mouseY];
-            //three mouse
-            mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-            mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
+            mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+            mouseRay.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+            let mouse = [event.clientX, event.clientY];
+            raycaster.setFromCamera(mouseRay, camera);
             let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
-                console.log(sorted_intersects);
                 let intersect = sorted_intersects[0];
                 let index = intersect.faceIndex;
                 let datum = data_points[index];
                 console.log(datum);
                 highlightPoint(datum);
-                showTooltip(mouse_position, datum);
+                showTooltip(mouse, datum);
             } else {
                 removeHighlights();
                 hideTooltip();
@@ -252,8 +248,8 @@
             let x_offset = -tooltip_width / 2;
             let y_offset = 30;
             tooltip_state.display = "block";
-            tooltip_state.left = datum.x + x_offset;
-            tooltip_state.top = datum.y + y_offset;
+            tooltip_state.left = mouse[0] + x_offset;
+            tooltip_state.top = mouse[1] + y_offset;
             tooltip_state.name = datum.name;
             tooltip_state.label = datum.label;
             tooltip_state.radius = datum.radius;
