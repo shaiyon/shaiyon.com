@@ -169,7 +169,6 @@
             let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
-                console.log(sorted_intersects);
                 let intersect = sorted_intersects[0];
                 let index = intersect.object.userData.id;
                 let datum = data_points[index];
