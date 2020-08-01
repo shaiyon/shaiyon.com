@@ -162,9 +162,8 @@
         function onMouseMove(event) {
             mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-            console.log(mouse);
             raycaster.setFromCamera(mouse, camera);
-            let intersects = raycaster.intersectObjects(scene.children);
+            let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
                 let intersect = sorted_intersects[0];
