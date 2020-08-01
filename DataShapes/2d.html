@@ -160,6 +160,10 @@
         var raycaster = new THREE.Raycaster();
 
         function onMouseMove(event) {
+            //d3 mouse
+            let [mouseX, mouseY] = d3.mouse(view.node());
+            let mouse_position = [mouseX, mouseY];
+            //three mouse
             mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
             raycaster.setFromCamera(mouse, camera);
@@ -172,7 +176,7 @@
                 let datum = data_points[index];
                 console.log(datum);
                 highlightPoint(datum);
-                showTooltip(mouse, datum);
+                showTooltip(mouse_position, datum);
             } else {
                 removeHighlights();
                 hideTooltip();
