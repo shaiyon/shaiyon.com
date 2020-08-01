@@ -1,5 +1,9 @@
 @import "https://fonts.googleapis.com/css?family=Raleway:100,300,600";
 
+body {
+    margin: 0 0 0 0 ;
+}
+
 #info {
     color: #000000 ;
     font-family: "Raleway", Arial, Helvetica, sans-serif;

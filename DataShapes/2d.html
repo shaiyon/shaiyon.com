@@ -116,7 +116,7 @@
             scene.add(group);
         }
 
-        scene.background = new THREE.Color(0xefefef);
+        scene.background = new THREE.Color(0xffffff);
 
         // Three.js render loop
         function animate() {
@@ -155,24 +155,17 @@
 
         // Hover and tooltip interaction
 
-        raycaster = new THREE.Raycaster();
-        raycaster.params.Mesh.threshold = 20;
+        var mouse = new THREE.Vector2();
+        var raycaster = new THREE.Raycaster();
 
-        view.on("mousemove", () => {
-            let [mouseX, mouseY] = d3.mouse(view.node());
-            let mouse_position = [mouseX, mouseY];
-            checkIntersects(mouse_position);
-        });
-        function mouseToThree(mouseX, mouseY) {
-            return new THREE.Vector3(
-                mouseX / viz_width * 2 - 1,
-                -(mouseY / height) * 2 + 1,
-                1
-            );
+        function onMouseMove(event) {
+            mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+            mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            checkIntersects([mouse.x, mouse.y]);
         }
+
         function checkIntersects(mouse_position) {
-            let mouse_vector = mouseToThree(...mouse_position);
-            raycaster.setFromCamera(mouse_vector, camera);
             let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
@@ -249,7 +242,8 @@
             $point_tip.style.background = color_array[tooltip_state.label];
             $group_tip.innerText = `DataShape ${tooltip_state.label}
                 \nRadius: ${tooltip_state.radius}
-                \nFrequency: ${tooltip_state.frequency}`;
+                \nFrequency: ${tooltip_state.frequency}
+                \nMetadata: 16f2f5de1f53dcf0\na8e0a74c532a32\na65e61686fa5d9\n692a9317e8971bb3515e`;
         }
         function showTooltip(mouse_position, datum) {
             let tooltip_width = 120;
