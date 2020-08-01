@@ -162,11 +162,8 @@
         function onMouseMove(event) {
             mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+            console.log(mouse);
             raycaster.setFromCamera(mouse, camera);
-            checkIntersects(mouse);
-        }
-
-        function checkIntersects(mouse) {
             let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
@@ -182,6 +179,7 @@
                 hideTooltip();
             }
         }
+
         function sortIntersectsByDistanceToRay(intersects) {
             return _.sortBy(intersects, "distanceToRay");
         }
@@ -244,7 +242,7 @@
             $group_tip.innerText = `DataShape ${tooltip_state.label}
                 \nRadius: ${tooltip_state.radius}
                 \nFrequency: ${tooltip_state.frequency}
-                \nMetadata: 16f2f5de1f53dcf0\na8e0a74c532a32\na65e61686fa5d9\n692a9317e8971bb3515e`;
+                \nMetadata: 16f2f5de1f53dcf0a\n8e0a74c532a32a\n65e61686fa5d96\n92a9317e8971bb35`;
         }
         function showTooltip(mouse, datum) {
             let tooltip_width = 120;
