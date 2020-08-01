@@ -51,6 +51,7 @@
             camera.updateProjectionMatrix();
         })
         window.addEventListener('mousemove', onMouseMove, false);
+        window.addEventListener('mouseleave', onMouseLeave, false);
 
         let color_array = [
             "#1f78b4",
@@ -156,11 +157,8 @@
         }
 
         // Hover and tooltip interaction
-
         var mouseRay = new THREE.Vector3();
         var raycaster = new THREE.Raycaster();
-        raycaster.params.Mesh.threshold = 10;
-
 
         function onMouseMove(event) {
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
@@ -190,10 +188,8 @@
         hoverContainer = new THREE.Object3D();
         scene.add(hoverContainer);
 
-        function highlightPoint(datum) {
-            removeHighlights();
-          
-            let geo = new THREE.CircleBufferGeometry(datum.radius*1.5, 40);
+        function highlightPoint(datum) {          
+            let geo = new THREE.CircleBufferGeometry(datum.radius*2, 40);
             var mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             const mesh = new THREE.Mesh(geo, mat);
             // Outline
@@ -219,9 +215,9 @@
             hoverContainer.remove(...hoverContainer.children);
         }
 
-        view.on("mouseleave", () => {
+        function onMouseLeave() {
             removeHighlights()
-        });
+        }
 
         // Initial tooltip state
         let tooltip_state = { display: "none" }
