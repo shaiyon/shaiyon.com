@@ -156,13 +156,15 @@
 
         // Hover and tooltip interaction
 
-        var mouseRay = new THREE.Vector2();
+        var mouseRay = new THREE.Vector3();
         var raycaster = new THREE.Raycaster();
 
         function onMouseMove(event) {
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouseRay.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+            mouseRay.z = 1;
             let mouse = [event.clientX, event.clientY];
+            console.log(mouse);
             raycaster.setFromCamera(mouseRay, camera);
             let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
@@ -170,7 +172,6 @@
                 let intersect = sorted_intersects[0];
                 let index = intersect.faceIndex;
                 let datum = data_points[index];
-                console.log(datum);
                 highlightPoint(datum);
                 showTooltip(mouse, datum);
             } else {
