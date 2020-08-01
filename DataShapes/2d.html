@@ -166,8 +166,8 @@
             let intersects = raycaster.intersectObjects(scene.children, true);
             if (intersects[0]) {
                 let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
+                console.log(sorted_intersects);
                 let intersect = sorted_intersects[0];
-                console.log(intersect);
                 let index = intersect.faceIndex;
                 let datum = data_points[index];
                 console.log(datum);
@@ -248,8 +248,8 @@
             let x_offset = -tooltip_width / 2;
             let y_offset = 30;
             tooltip_state.display = "block";
-            tooltip_state.left = mouse.x + x_offset;
-            tooltip_state.top = mouse.y + y_offset;
+            tooltip_state.left = datum.x + x_offset;
+            tooltip_state.top = datum.y + y_offset;
             tooltip_state.name = datum.name;
             tooltip_state.label = datum.label;
             tooltip_state.radius = datum.radius;
