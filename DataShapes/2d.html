@@ -190,10 +190,10 @@
 
         function highlightPoint(datum) {          
             let geo = new THREE.CircleBufferGeometry(datum.radius*2, 40);
-            var mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
-            const mesh = new THREE.Mesh(geo, mat);
+            let mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
+            let mesh = new THREE.Mesh(geo, mat);
             // Outline
-            const geo2 = geo.clone();
+            let geo2 = geo.clone();
             // strip the center point from CircleBufferGeometry:
             geo2.attributes.position.array = geo.attributes.position.array.slice(3);
             geo2.attributes.position.count--;
@@ -201,10 +201,10 @@
             geo2.attributes.normal.count--;
             geo2.deleteAttribute("uv"); // lines don't need UVs
             geo2.index = null; // don't need indexing for this kind of line
-            const mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
-            const line = new THREE.LineLoop(geo2, mat2);
+            let mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
+            let line = new THREE.LineLoop(geo2, mat2);
             // data point
-            const group = new THREE.Group();
+            let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
             group.position.set(datum.x, datum.y, 10000);
@@ -222,7 +222,7 @@
         // Initial tooltip state
         let tooltip_state = { display: "none" }
 
-        let tooltip_template = document.createRange().createContextualFragment(`<div id="tooltip" style="display: none; position: absolute; pointer-events: none; font-family: Raleway, Arial, Helvetica, sans-serif; font-size: 13px; width: 120px; text-align: center; line-height: 1; padding: 6px; background: white;">
+        let tooltip_template = document.createRange().createContextualFragment(`<div id="tooltip" style="border: 1px solid #000000; display: none; position: absolute; pointer-events: none; font-family: Raleway, Arial, Helvetica, sans-serif; font-size: 13px; width: 120px; text-align: center; line-height: 1; padding: 6px; background: white;">
         <div id="point_tip" style="padding: 4px; margin-bottom: 4px;"></div>
         <div id="group_tip" style="padding: 4px;"></div>
         </div>`);
