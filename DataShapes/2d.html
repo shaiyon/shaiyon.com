@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <!-- Dependencies : three.js, lodash.js, d3.js -->
     <script src="three.min.js"></script>
@@ -72,10 +71,6 @@
         renderer.setSize(width, height);
         document.body.appendChild(renderer.domElement);
 
-        circle_sprite = new THREE.TextureLoader().load(
-            "https://fastforwardlabs.github.io/visualization_assets/circle-sprite.png"
-        )
-
         let zoom = d3.zoom()
             .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
             .on('zoom', () => {
@@ -96,7 +91,8 @@
         // Create circle geometries
         for (var i=0; i<data_points.length; i++) {
             // Circle
-            let geo = new THREE.CircleBufferGeometry(data_points[i].radius, 32);
+            let geo = new THREE.CylinderBufferGeometry(data_points[i].radius, data_points[i].radius, 
+            data_points[i].frequency/2, 20, 20);
             let mat = new THREE.MeshBasicMaterial( {color: color_array[data_points[i].label] } );
             let mesh = new THREE.Mesh(geo, mat);
             mesh.userData.id = i;
@@ -115,7 +111,7 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(data_points[i].x, data_points[i].y, data_points[i].frequency*2);
+            group.position.set(data_points[i].x, data_points[i].y, 0);
             scene.add(group);
         }
 
@@ -187,7 +183,8 @@
         hoverContainer = new THREE.Object3D();
         scene.add(hoverContainer);
 
-        function highlightPoint(datum) {          
+        function highlightPoint(datum) {      
+            /*    
             let geo = new THREE.CircleBufferGeometry(datum.radius*2, 40);
             let mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             let mesh = new THREE.Mesh(geo, mat);
@@ -208,6 +205,7 @@
             group.add(line);
             group.position.set(datum.x, datum.y, 10000);
             hoverContainer.add(group);
+            */
         }
 
         function removeHighlights() {
