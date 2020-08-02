@@ -28,7 +28,7 @@
 
         let fov = 40;
         let near = 10;
-        let far = 14000;
+        let far = 7000;
 
         // Set up camera and scene
         let camera = new THREE.PerspectiveCamera(
@@ -91,7 +91,7 @@
         // Create circle geometries
         for (var i=0; i<data_points.length; i++) {
             // Circle
-            let geo = new THREE.CylinderBufferGeometry(data_points[i].radius, data_points[i].radius, 
+            let geo = new THREE.CylinderBufferGeometry(data_points[i].radius*15, data_points[i].radius*15, 
             data_points[i].frequency*100, 25, 25);
             geo.translate( 0, 12.5, 0 );
             geo.rotateX( Math.PI / 2 );
