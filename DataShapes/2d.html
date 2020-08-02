@@ -60,7 +60,7 @@
             "#e31a1c",
             "#fdbf6f",
             "#ff7f00",
-            "#6a3d9a",
+            "#b0e0e6",
             "#cab2d6",
             "#ffff99",
             "#d3d3d3"
@@ -92,7 +92,7 @@
         for (var i=0; i<data_points.length; i++) {
             // Circle
             let geo = new THREE.CylinderBufferGeometry(data_points[i].radius, data_points[i].radius, 
-            data_points[i].frequency*3, 15, 15);
+            data_points[i].frequency*10, 25, 25);
             geo.translate( 0, 12.5, 0 );
             geo.rotateX( Math.PI / 2 );
             let mat = new THREE.MeshBasicMaterial( {color: color_array[data_points[i].label] } );
