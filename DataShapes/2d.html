@@ -18,7 +18,7 @@
                 name: data.name,
                 label: +data.label,
                 radius: +data.radius*30,
-                frequency: +data.frequency*100
+                frequency: Math.round(+data.frequency*400)
             };
         }).then(function(data_points) {
 
@@ -101,9 +101,9 @@
             // Outline
             let geo2 = geo.clone();
             // strip the center point from CircleBufferGeometry:
-            geo2.attributes.position.array = geo.attributes.position.array.slice(3);
+            geo2.attributes.position.array = geo.attributes.position.array.slice(4);
             geo2.attributes.position.count--;
-            geo2.attributes.normal.array = geo.attributes.position.array.slice(3);
+            geo2.attributes.normal.array = geo.attributes.position.array.slice(4);
             geo2.attributes.normal.count--;
             
             geo2.deleteAttribute("uv"); // lines don't need UVs
