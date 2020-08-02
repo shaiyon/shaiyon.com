@@ -92,7 +92,7 @@
         for (var i=0; i<data_points.length; i++) {
             // Circle
             let geo = new THREE.CylinderBufferGeometry(data_points[i].radius, data_points[i].radius, 
-            data_points[i].frequency*3, 20, 20);
+            data_points[i].frequency*3, 15, 15);
             geo.translate( 0, 12.5, 0 );
             geo.rotateX( Math.PI / 2 );
             let mat = new THREE.MeshBasicMaterial( {color: color_array[data_points[i].label] } );
@@ -107,7 +107,7 @@
             geo2.attributes.normal.count--;
             geo2.deleteAttribute("uv"); // lines don't need UVs
             geo2.index = null; // don't need indexing for this kind of line
-            let mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
+            let mat2 = new THREE.LineBasicMaterial({ color: 0x505050 });
             let line = new THREE.LineLoop(geo2, mat2);
             // data point
             let group = new THREE.Group();
