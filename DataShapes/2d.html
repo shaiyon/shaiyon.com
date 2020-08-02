@@ -17,8 +17,8 @@
                 y: +data.y*50,
                 name: data.name,
                 label: +data.label,
-                radius: +data.radius*10,
-                frequency: +data.frequency
+                radius: +data.radius*20,
+                frequency: +data.frequency*1000
             };
         }).then(function(data_points) {
 
@@ -91,8 +91,8 @@
         // Create circle geometries
         for (var i=0; i<data_points.length; i++) {
             // Circle
-            let geo = new THREE.CylinderBufferGeometry(data_points[i].radius*15, data_points[i].radius*15, 
-            data_points[i].frequency*100, 25, 25);
+            let geo = new THREE.CylinderBufferGeometry(data_points[i].radius, data_points[i].radius, 
+            data_points[i].frequency, 25, 25);
             geo.translate( 0, 12.5, 0 );
             geo.rotateX( Math.PI / 2 );
             let mat = new THREE.MeshBasicMaterial( {color: color_array[data_points[i].label] } );
