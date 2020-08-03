@@ -17,7 +17,7 @@
                 y: +data.y*50,
                 name: data.name,
                 label: +data.label,
-                radius: +data.radius*30,
+                radius: +Math.round(data.radius*30),
                 frequency: Math.round(+data.frequency*400)
             };
         }).then(function(data_points) {
@@ -115,7 +115,7 @@
             scene.add(group);
         }
 
-        scene.background = new THREE.Color(0xffffff);
+        scene.background = new THREE.Color(0x000000);
 
         // Three.js render loop
         function animate() {
