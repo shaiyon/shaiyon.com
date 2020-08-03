@@ -18,7 +18,7 @@
                 name: data.name,
                 label: +data.label,
                 radius: +Math.round(data.radius*30),
-                frequency: Math.round(+data.frequency*400)
+                frequency: +Math.round(data.frequency*200)
             };
         }).then(function(data_points) {
 
@@ -89,7 +89,7 @@
         }
         setUpZoom();
 
-        // Create circle geometries
+        // Create data points
         for (var i=0; i<data_points.length; i++) {
             // Circle
             let geo = new THREE.CircleBufferGeometry(data_points[i].radius, 30);
@@ -108,7 +108,7 @@
             geo2.index = null; // don't need indexing for this kind of line
             let mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
             let line = new THREE.LineLoop(geo2, mat2);
-            // data point
+            // Circle + outline, add to scene
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
@@ -148,7 +148,6 @@
             let camera_z_position = scale_height / (2 * Math.tan(half_fov_radians));
             return camera_z_position;
         }
-
         function toRadians(angle) {
             return angle * (Math.PI / 180);
         }
@@ -157,14 +156,13 @@
         var mouseRay = new THREE.Vector3();
         var raycaster = new THREE.Raycaster();
 
-        // mouseMove optimization
+        // mouseMove optimization (checks every 100ms)
         var mouseMoveTimer = null;
-
         function onMouseMove(event) {
             if (mouseMoveTimer) {
                 window.clearTimeout(mouseMoveTimer);
             }
-            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 100);
+            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 25);
         }
         function delayedMouseMove(event) {
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
@@ -192,11 +190,10 @@
             return _.sortBy(intersects, "distanceToRay");
         }
 
+        // Mouse hover interaction
         hoverContainer = new THREE.Object3D();
         scene.add(hoverContainer);
-
         function highlightPoint(datum) {      
-            /*    
             let geo = new THREE.CircleBufferGeometry(datum.radius*2, 40);
             let mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             let mesh = new THREE.Mesh(geo, mat);
@@ -215,9 +212,8 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(datum.x, datum.y, 10000);
+            group.position.set(datum.x, datum.y, datum.frequency*2);
             hoverContainer.add(group);
-            */
         }
 
         function removeHighlights() {
