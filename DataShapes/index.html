@@ -193,8 +193,9 @@
         // Mouse hover interaction
         hoverContainer = new THREE.Object3D();
         scene.add(hoverContainer);
-        function highlightPoint(datum) {      
-            let geo = new THREE.CircleBufferGeometry(datum.radius*2, 40);
+        function highlightPoint(datum) {
+            removeHighlights()      
+            let geo = new THREE.CircleBufferGeometry(datum.radius*1.2, 40);
             let mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             let mesh = new THREE.Mesh(geo, mat);
             // Outline
@@ -212,7 +213,7 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(datum.x, datum.y, datum.frequency*2);
+            group.position.set(datum.x, datum.y, datum.frequency);
             hoverContainer.add(group);
         }
 
