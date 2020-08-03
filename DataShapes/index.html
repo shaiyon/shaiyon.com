@@ -40,6 +40,7 @@
 
         let scene = new THREE.Scene();
 
+        // Event Listeners
         window.addEventListener('resize', () => {
             width = window.innerWidth;
             viz_width = width;
@@ -156,7 +157,16 @@
         var mouseRay = new THREE.Vector3();
         var raycaster = new THREE.Raycaster();
 
+        // mouseMove optimization
+        var mouseMoveTimer = null;
+
         function onMouseMove(event) {
+            if (mouseMoveTimer) {
+                window.clearTimeout(mouseMoveTimer);
+            }
+            mouseMoveTimer = window.setTimeout(delayedMouseMove, 100);
+        }
+        function delayedMouseMove(event) {
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouseRay.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
             mouseRay.z = 1;
@@ -168,8 +178,10 @@
                 let intersect = sorted_intersects[0];
                 let index = intersect.object.userData.id;
                 let datum = data_points[index];
-                highlightPoint(datum);
-                showTooltip(mouse, datum);
+                if (datum) {
+                    highlightPoint(datum);
+                    showTooltip(mouse, datum)
+                }
             } else {
                 removeHighlights();
                 hideTooltip();
