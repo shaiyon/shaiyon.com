@@ -164,7 +164,7 @@
             if (mouseMoveTimer) {
                 window.clearTimeout(mouseMoveTimer);
             }
-            mouseMoveTimer = window.setTimeout(delayedMouseMove, 100);
+            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 100);
         }
         function delayedMouseMove(event) {
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
