@@ -198,9 +198,9 @@
             removeHighlights()
             // Make tiny points less tiny
             if (datum.radius < 20) {
-                let geo = new THREE.CircleBufferGeometry(datum.radius*3, 40);
+                var geo = new THREE.CircleBufferGeometry(datum.radius*3, 40);
             } else {
-                let geo = new THREE.CircleBufferGeometry(datum.radius*1.25, 40);
+                var geo = new THREE.CircleBufferGeometry(datum.radius*1.25, 40);
             }
             let mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             let mesh = new THREE.Mesh(geo, mat);
