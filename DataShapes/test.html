@@ -17,9 +17,9 @@
                 label: +data.category,
                 name: data.description,
                 frequency: data.systemMatchCounter,
-                radius: +Math.round(data.influenceDistance),
-                x: +data.x*40,
-                y: +data.y*25
+                radius: +Math.round(data.influenceDistance/2),
+                x: +data.x*45,
+                y: +data.y*35
             };
         }).then(function(data_points) {
 
@@ -56,9 +56,7 @@
 
         let color_array = [
             "#1f78b4",
-            "#b2df8a",
             "#33a02c",
-            "#fb9a99",
             "#e31a1c",
             "#fdbf6f",
             "#ff7f00",
