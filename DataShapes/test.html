@@ -12,14 +12,14 @@
     <div id="info">2D Knowledge Map</div>
     <script>
         // Load in data (asynchronously)
-        d3.csv("mnist2D.csv", function (data) {
+        d3.csv("demo.csv", function (data) {
             return {
                 x: +data.x*60,
                 y: +data.y*50,
-                name: data.name,
-                label: +data.label,
-                radius: +Math.round(data.radius*30),
-                frequency: +Math.round(data.frequency*200)
+                name: data.description,
+                label: +data.category,
+                radius: +Math.round(data.influenceDistance),
+                frequency: data.systemMatchCounter
             };
         }).then(function(data_points) {
 
