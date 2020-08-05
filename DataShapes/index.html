@@ -4,8 +4,6 @@
 <html>
 <head>
     <script src="three.min.js"></script>
-    <!-- MeshLine for hover line functionality  -->
-    <script src="THREE.MeshLine.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.19/lodash.min.js"></script>
     <link rel="stylesheet" href="title.css" type="text/css">
@@ -75,13 +73,13 @@
         renderer.setSize(width, height);
         document.body.appendChild(renderer.domElement);
 
+        // Zoom
         let zoom = d3.zoom()
             .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
             .on('zoom', () => {
                 let d3_transform = d3.event.transform;
                 zoomHandler(d3_transform);
         });
-
         view = d3.select(renderer.domElement);
         function setUpZoom() {
             view.call(zoom);
@@ -92,7 +90,7 @@
         }
         setUpZoom();
 
-        // Create data points
+        // Create data points (optimized buffer geometries)
         for (var i=0; i<data_points.length; i++) {
             // Circle
             let geo = new THREE.CircleBufferGeometry(data_points[i].radius, 30);
@@ -109,7 +107,7 @@
             
             geo2.deleteAttribute("uv"); // lines don't need UVs
             geo2.index = null; // don't need indexing for this kind of line
-            let mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
+            let mat2 = new THREE.LineBasicMaterial({ color: 0x323232 });
             let line = new THREE.LineLoop(geo2, mat2);
             // Circle + outline, add to scene
             let group = new THREE.Group();
@@ -155,17 +153,17 @@
             return angle * (Math.PI / 180);
         }
 
-        // Hover and tooltip interaction
+        // Hover interaction
         var mouseRay = new THREE.Vector3();
         var raycaster = new THREE.Raycaster();
 
-        // mouseMove optimization (checks every 50ms)
+        // mouseMove optimization (checks every x-ms)
         var mouseMoveTimer = null;
         function onMouseMove(event) {
             if (mouseMoveTimer) {
                 window.clearTimeout(mouseMoveTimer);
             }
-            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 50);
+            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 60);
         }
         function delayedMouseMove(event) {
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
@@ -197,8 +195,13 @@
         hoverContainer = new THREE.Object3D();
         scene.add(hoverContainer);
         function highlightPoint(datum) {
-            removeHighlights()      
-            let geo = new THREE.CircleBufferGeometry(datum.radius*1.25, 40);
+            removeHighlights()
+            // Make tiny points less tiny
+            if (datum.radius < 20) {
+                let geo = new THREE.CircleBufferGeometry(datum.radius*3, 40);
+            } else {
+                let geo = new THREE.CircleBufferGeometry(datum.radius*1.25, 40);
+            }
             let mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             let mesh = new THREE.Mesh(geo, mat);
             // Outline
@@ -210,7 +213,7 @@
             geo2.attributes.normal.count--;
             geo2.deleteAttribute("uv"); // lines don't need UVs
             geo2.index = null; // don't need indexing for this kind of line
-            let mat2 = new THREE.LineBasicMaterial({ color: 0x000000 });
+            let mat2 = new THREE.LineBasicMaterial({ color: 0x323232 });
             let line = new THREE.LineLoop(geo2, mat2);
             // data point
             let group = new THREE.Group();
@@ -219,11 +222,9 @@
             group.position.set(datum.x, datum.y, datum.frequency+1);
             hoverContainer.add(group);
         }
-
         function removeHighlights() {
             hoverContainer.remove(...hoverContainer.children);
         }
-
         function onMouseLeave() {
             removeHighlights()
         }
@@ -231,7 +232,6 @@
 
         // Initial tooltip state
         let tooltip_state = { display: "none" }
-
         let tooltip_template = document.createRange().createContextualFragment(`<div id="tooltip" style="border: 1px solid #000000; display: none; position: absolute; pointer-events: none; font-family: Raleway, Arial, Helvetica, sans-serif; font-size: 13px; width: 120px; text-align: center; line-height: 1; padding: 6px; background: white;">
         <div id="point_tip" style="padding: 4px; margin-bottom: 4px;"></div>
         <div id="group_tip" style="padding: 4px;"></div>
@@ -270,7 +270,6 @@
             tooltip_state.display = "none";
             updateTooltip();
         }
-
         // End d3.csv
         })
     </script>
