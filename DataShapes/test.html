@@ -14,12 +14,12 @@
         // Load in data (asynchronously)
         d3.csv("demo.csv", function (data) {
             return {
-                x: +data.x*60,
-                y: +data.y*50,
-                name: data.description,
                 label: +data.category,
+                name: data.description,
+                frequency: data.systemMatchCounter,
                 radius: +Math.round(data.influenceDistance),
-                frequency: data.systemMatchCounter
+                x: +data.x*60,
+                y: +data.y*50
             };
         }).then(function(data_points) {
 
