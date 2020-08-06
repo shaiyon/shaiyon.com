@@ -15,11 +15,11 @@
         d3.csv("demo.csv", function (data) {
             return {
                 label: +data.category,
-                name: data.description,
                 frequency: data.systemMatchCounter,
-                radius: +Math.round(data.influenceDistance/2),
-                x: +data.x*200,
-                y: +data.y*100
+                radius: +Math.round(data.influenceDistance/1.5),
+                x: +data.x*100,
+                y: +data.y*75,
+                name
             };
         }).then(function(data_points) {
 
