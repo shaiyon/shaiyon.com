@@ -18,9 +18,9 @@
                 description: data.description,
                 frequency: data.systemMatchCounter,
                 radius: +Math.round(data.influenceDistance/1.5),
-                x: +data.x*220 - 1000,
-                y: +data.y*100 - 300,
-                name: data.name
+                name: data.name,
+                x: +data.x*220 - 3000,
+                y: +data.y*100 - 1000
             };
         }).then(function(data_points) {
 
