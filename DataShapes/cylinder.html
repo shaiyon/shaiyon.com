@@ -19,8 +19,8 @@
                 frequency: data.systemMatchCounter,
                 radius: +Math.round(data.influenceDistance),
                 name: data.name,
-                x: +data.x*220 - 1000,
-                y: +data.y*100 - 300
+                x: +data.x*420,
+                y: +data.y*250
             };
         }).then(function(data_points) {
 
@@ -253,7 +253,7 @@
             $point_tip.innerText = tooltip_state.name;
             $point_tip.style.background = color_array[tooltip_state.label];
             $group_tip.innerText = `DataShape ${tooltip_state.description}
-                \nRadius: ${tooltip_state.radius}
+                \nInfluence Distance: ${tooltip_state.radius}
                 \nFrequency: ${tooltip_state.frequency}
                 \nMetadata: 16f2f5de1f53dcf0a\n8e0a74c532a32a\n65e61686fa5d96\n92a9317e8971bb35`;
         }
