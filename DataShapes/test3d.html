@@ -5,6 +5,7 @@
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
 </head>
 <body>
+    <div id="info">3D Knowledge Map</div>
     <script>
         // Load in data (asynchronously)
         d3.csv("demo3.csv", function (data) {
@@ -20,7 +21,6 @@
             };
         }).then(function(data_points) {
 
-
         var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(1000,1000);
         document.body.appendChild(renderer.domElement);
@@ -35,7 +35,7 @@
         document.body.appendChild(renderer.domElement);
 
         // background color
-        renderer.setClearColor(new THREE.Color(0xEEEEEE));
+        renderer.setClearColor(new THREE.Color(0xffffff));
 
         var camera = new THREE.PerspectiveCamera( 45, w/h, 1, 10000 );
         camera.position.z = 200;
@@ -109,12 +109,12 @@
         // Add csv data to scatterplot
         var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
         var pointGeo = new THREE.CircleGeometry();
-        for (var i = 0; i < data_points.length; i++) {
+        for (var i=0; i < data_points.length; i++) {
             var x = xScale(data_points[i].x);
             var y = yScale(data_points[i].y);
             var z = zScale(data_points[i].z);
 
-            var mat = new THREE.PointsMaterial({vertexColors: true, size: 20});
+            var mat = new THREE.PointsMaterial({ size: 20 });
             
             pointGeo.vertices.push(new THREE.Vector3(x, y, z));
             pointGeo.colors.push(new THREE.Color(colorList[data_points[i].label]));
