@@ -25,6 +25,13 @@
         }).then(function(data_points) {
 
         var renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(1000,1000);
+        document.body.appendChild(renderer.domElement);
+        renderer.clear();
+
+        var scatterPlot = new THREE.Object3D();
+        var scene = new THREE.Scene();
+
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
         renderer.setSize(w, h);
@@ -42,7 +49,7 @@
         var scatterPlot = new THREE.Object3D();
         scene.add(scatterPlot);
 
-        scatterPlot.rotation.y = 0;
+        scatterPlot.rotation.y = 0.5;
         
         function v(x,y,z){ return new THREE.Vector3(x,y,z); }
 
