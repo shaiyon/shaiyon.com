@@ -15,7 +15,7 @@
             return {
                 label: +data.category,
                 description: data.description,
-                frequency: data.systemMatchCounter,
+                frequency: +data.systemMatchCounter,
                 radius: +Math.round(data.influenceDistance),
                 name: data.name,
                 x: +data.x,
@@ -24,14 +24,10 @@
             };
         }).then(function(data_points) {
 
-        var renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setSize(1000,1000);
-        document.body.appendChild(renderer.domElement);
-        renderer.clear();
-
         var scatterPlot = new THREE.Object3D();
         var scene = new THREE.Scene();
 
+        var renderer = new THREE.WebGLRenderer({antialias: true});
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
         renderer.setSize(w, h);
@@ -118,7 +114,7 @@
         ];
         
         // Add csv data to scatterplot
-        var pointGeo = new THREE.CircleGeometry();
+        var pointGeo = new THREE.Geometry();
         for (var i=0; i < data_points.length; i++) {
             var x = xScale(data_points[i].x);
             var y = yScale(data_points[i].y);
