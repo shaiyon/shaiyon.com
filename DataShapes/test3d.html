@@ -24,9 +24,6 @@
             };
         }).then(function(data_points) {
 
-        var scatterPlot = new THREE.Object3D();
-        var scene = new THREE.Scene();
-
         var renderer = new THREE.WebGLRenderer({antialias: true});
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
@@ -40,13 +37,12 @@
         camera.position.z = 200;
         camera.position.x = -100;
         camera.position.y = 100;
-        
-        var scene = new THREE.Scene();
 
+        var scene = new THREE.Scene();
         var scatterPlot = new THREE.Object3D();
         scene.add(scatterPlot);
 
-        scatterPlot.rotation.y = 0.5;
+        scatterPlot.rotation.y = 0;
         
         function v(x,y,z){ return new THREE.Vector3(x,y,z); }
 
