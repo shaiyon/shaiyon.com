@@ -1,8 +1,11 @@
 <!DOCTYPE html>
+<!-- Author : Shaiyon Hariri  -->
+<!-- https://shaiyon.com  -->
 <html>
 <head>
     <script src="three.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="title3.css" type="text/css">
 </head>
 <body>
     <div id="info">3D Knowledge Map</div>
@@ -120,13 +123,12 @@
             var x = xScale(data_points[i].x);
             var y = yScale(data_points[i].y);
             var z = zScale(data_points[i].z);
-
-            var mat = new THREE.PointsMaterial({ size: 20 });
             
             pointGeo.vertices.push(new THREE.Vector3(x, y, z));
             pointGeo.colors.push(new THREE.Color(colorList[data_points[i].label]));
         }
 
+        var mat = new THREE.PointsMaterial({ vertexColors: true, size: 15 });
         var points = new THREE.Points(pointGeo, mat);
         scatterPlot.add(points);
         scene.add(scatterPlot);
