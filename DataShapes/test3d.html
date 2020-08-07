@@ -6,6 +6,20 @@
 </head>
 <body>
     <script>
+        d3.csv("demo3.csv", function (data) {
+            return {
+                label: +data.category,
+                description: data.description,
+                frequency: data.systemMatchCounter,
+                radius: +Math.round(data.influenceDistance),
+                name: data.name,
+                x: +data.x,
+                y: +data.y,
+                z: +data.z
+            };
+        }).then(function(data_points) {
+
+
         var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(1000,1000);
         document.body.appendChild(renderer.domElement);
@@ -35,22 +49,9 @@
         scatterPlot.rotation.y = 0.5;
         
         function v(x,y,z){ return new THREE.Vector3(x,y,z); }
-        
-        // Load in scatter plot point data
-        var coordinates = [], labels = [];
-        var pointData = d3.csv("demo.csv", function (d) {
-            d.forEach(function (d,i) {
-                coordinates[i] = {
-                    x: +d.one,
-                    y: +d.two,
-                    z: +d.three
-                };
-            })
-        // Load in labels 
-        var labelData = d3.csv("labels.csv", function (d) {
-            labels = d.map(function(data) {
-                return data.label; });
 
+        var coordinates = (({ x, y, z }) => ({ x, y, z }))(data_points);
+        
         // Limits of graph
         var xExent = d3.extent(coordinates, function (d) {return d.x; }),
             yExent = d3.extent(coordinates, function (d) {return d.y; }),
@@ -170,12 +171,8 @@
             paused = (ev.data == 'pause');
         };
 
-        // csv load points
+        // end d3 csv
         })
-        // csv load labels
-        })
-
-
     </script>
 </body>    
 </html>
