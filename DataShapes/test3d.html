@@ -3,7 +3,6 @@
 <head>
     <script src="three.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-    <script src="https://d3js.org/d3-scale.v3.min.js"></script>
 </head>
 <body>
     <script>
@@ -69,13 +68,13 @@
             zCen: (zExent[1] + zExent[0]) / 2,
             zMin: zExent[0]
         }
-        var xScale = d3.scale.linear()
+        var xScale = d3.scaleLinear()
                     .domain(xExent)
                     .range([-50,50]);
-        var yScale = d3.scale.linear()
+        var yScale = d3.scaleLinear()
                     .domain(yExent)
                     .range([-50,50]);                  
-        var zScale = d3.scale.linear()
+        var zScale = d3.scaleLinear()
                     .domain(zExent)
                     .range([-50,50]);
         
