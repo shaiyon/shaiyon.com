@@ -51,12 +51,13 @@
         
         function v(x,y,z){ return new THREE.Vector3(x,y,z); }
 
-        var coordinates = (({ x, y, z }) => ({ x, y, z }))(data_points);
+        // Extract coordinates from data points
+        // var coordinates = (({ x, y, z }) => ({ x, y, z }))(data_points);
         
         // Limits of graph
-        var xExent = d3.extent(coordinates, function (d) {return d.x; }),
-            yExent = d3.extent(coordinates, function (d) {return d.y; }),
-            zExent = d3.extent(coordinates, function (d) {return d.z; });
+        var xExent = d3.extent(data_points, function (d) {return d.x; }),
+            yExent = d3.extent(data_points, function (d) {return d.y; }),
+            zExent = d3.extent(data_points, function (d) {return d.z; });
         var vpts = {
             xMax: xExent[1],
             xCen: (xExent[1] + xExent[0]) / 2,
@@ -107,17 +108,16 @@
 
         // Add csv data to scatterplot
         var colorList = ["red", "blue", "green", "yellow", "pink", "purple", "grey", "brown", "orange", "aqua"];
-        var pointCount = coordinates.length;
         var pointGeo = new THREE.CircleGeometry();
-        for (var i = 0; i < pointCount; i ++) {
-            var x = xScale(coordinates[i].x);
-            var y = yScale(coordinates[i].y);
-            var z = zScale(coordinates[i].z);
+        for (var i = 0; i < data_points.length; i++) {
+            var x = xScale(data_points[i].x);
+            var y = yScale(data_points[i].y);
+            var z = zScale(data_points[i].z);
 
-            var mat = new THREE.PointsMaterial({vertexColors: true, size: 5});
+            var mat = new THREE.PointsMaterial({vertexColors: true, size: 20});
             
             pointGeo.vertices.push(new THREE.Vector3(x, y, z));
-            pointGeo.colors.push(new THREE.Color(colorList[labels[i]]));
+            pointGeo.colors.push(new THREE.Color(colorList[data_points[i].label]));
         }
 
         var points = new THREE.Points(pointGeo, mat);
