@@ -214,7 +214,7 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(datum.x, datum.y, datum.frequency);
+            group.position.set(datum.x, datum.y, datum.frequency+0.001);
             hoverContainer.add(group);
         }
         function removeHighlights() {
