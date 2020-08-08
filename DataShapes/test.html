@@ -196,11 +196,7 @@
         function highlightPoint(datum) {
             removeHighlights()
             // Make tiny points less tiny
-            if (datum.radius < 20) {
-                var geo = new THREE.CircleBufferGeometry(datum.radius*2, 40);
-            } else {
-                var geo = new THREE.CircleBufferGeometry(datum.radius*1.2, 40);
-            }
+            let geo = new THREE.CircleBufferGeometry(datum.radius*1.2, 40);
             let mat = new THREE.MeshBasicMaterial( { color: color_array[datum.label] } );
             let mesh = new THREE.Mesh(geo, mat);
             // Outline
@@ -218,7 +214,7 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(datum.x, datum.y, datum.frequency+1);
+            group.position.set(datum.x, datum.y, datum.frequency);
             hoverContainer.add(group);
         }
         function removeHighlights() {
