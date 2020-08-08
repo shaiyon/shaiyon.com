@@ -17,10 +17,10 @@
                 label: +data.category,
                 description: data.description,
                 frequency: data.systemMatchCounter,
-                radius: +Math.round(data.influenceDistance),
+                radius: +Math.round(data.influenceDistance/1.25),
                 name: data.name,
-                x: +data.x*500,
-                y: +data.y*300
+                x: +data.x*500 - 1000,
+                y: +data.y*300 - 500
             };
         }).then(function(data_points) {
 
@@ -214,7 +214,7 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(datum.x, datum.y, datum.frequency + 1);
+            group.position.set(datum.x, datum.y, datum.frequency);
             hoverContainer.add(group);
         }
         function removeHighlights() {
