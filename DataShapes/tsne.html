@@ -17,10 +17,10 @@
                 label: +data.category,
                 description: data.description,
                 frequency: data.systemMatchCounter,
-                radius: +Math.round(data.influenceDistance),
+                radius: +Math.round(data.influenceDistance/1.25),
                 name: data.name,
                 x: +data.x*140,
-                y: +data.y*20
+                y: +data.y*28
             };
         }).then(function(data_points) {
 
