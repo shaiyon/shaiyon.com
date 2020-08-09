@@ -20,7 +20,7 @@
                 radius: +Math.round(data.influenceDistance),
                 name: data.name,
                 x: +data.x*250 - 8000,
-                y: +data.y*150 - 2500
+                y: +data.y*130 - 2500
             };
         }).then(function(data_points) {
 
@@ -214,7 +214,7 @@
             let group = new THREE.Group();
             group.add(mesh);
             group.add(line);
-            group.position.set(datum.x, datum.y, datum.frequency);
+            group.position.set(datum.x, datum.y, datum.frequency+0.01);
             hoverContainer.add(group);
         }
         function removeHighlights() {
