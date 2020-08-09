@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="title.css" type="text/css">
 
 <body>
-    <div id="info">2D Knowledge Map</div>
+    <div id="info">2D Knowledge Map [LargeVis]</div>
     <script>
         // Load in data (asynchronously)
         d3.csv("demoLV.csv", function (data) {
@@ -17,10 +17,10 @@
                 label: +data.category,
                 description: data.description,
                 frequency: data.systemMatchCounter,
-                radius: +Math.round(data.influenceDistance/1.25),
+                radius: +Math.round(data.influenceDistance),
                 name: data.name,
-                x: +data.x*250,
-                y: +data.y*150
+                x: +data.x*250 - 3000,
+                y: +data.y*150 - 1500
             };
         }).then(function(data_points) {
 
