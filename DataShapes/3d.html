@@ -4,8 +4,10 @@
 <html>
 <head>
     <script src="three.min.js"></script>
+    <!-- Camera Controls  -->
     <script src="orbitControls.js"></script>
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <!-- Tooltip functions -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.19/lodash.min.js"></script>
     <link rel="stylesheet" href="title3.css" type="text/css">
 </head>
@@ -27,34 +29,32 @@
         }).then(function(data_points) {
     
         // Scene
-        var scene = new THREE.Scene()
+        var scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff);
 
         // Camera
         var width = window.innerWidth;
         var height = window.innerHeight;
-        var camera = new THREE.PerspectiveCamera(30, width/height, 0.1, 1000 );
-        camera.position.z = 50;
+        var camera = new THREE.PerspectiveCamera(40, width/height, 0.1, 1000 );
+        camera.position.z = 35;
 
         // Renderer
-        var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+        var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(width, height);
-
 
         // Camera Controls
         var controls = new THREE.OrbitControls( camera, renderer.domElement );
         controls.autoRotate = true;
 
-
         document.body.appendChild(renderer.domElement);
 
         // Event Listeners
         window.addEventListener('resize', () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-
-        renderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
+            width = window.innerWidth;
+            height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
         })
         window.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('mouseleave', onMouseLeave, false);
@@ -64,16 +64,13 @@
         light.position.set(10, 10, 10);
         scene.add(light);
 
-        var light = new THREE.DirectionalLight(0x002288);
+        var light = new THREE.DirectionalLight(0xd3d3d3);
         light.position.set(-10, -10, -10);
         scene.add(light);
 
         var light = new THREE.AmbientLight(0x222222);
         scene.add(light);
         
-        var light = new THREE.PointLight( 0xffffff, 0.9 );
-        scene.add(light);
-
         let color_array = [
             "#1f78b4",
             "#33a02c",
@@ -86,22 +83,19 @@
             "#d3d3d3"
         ]
 
-        var plot = new THREE.Object3D();
+        var scatterPlot = new THREE.Object3D();
 
         // Add datapoints to plot
         for (var i=0; i<data_points.length; i++) {
-            var geometry = new THREE.SphereBufferGeometry( data_points[i].radius/300, 20, 20);
+            var geometry = new THREE.SphereBufferGeometry( data_points[i].radius/275, 20, 20);
             var material = new THREE.MeshLambertMaterial( {color: color_array[data_points[i].label] } );
             var sphere = new THREE.Mesh( geometry, material );
-
             sphere.userData.id = i;
-
             sphere.position.set(data_points[i].x, data_points[i].y, data_points[i].z);
-
-            plot.add(sphere);
+            scatterPlot.add(sphere);
         }
-        scene.add(plot);
 
+        scene.add(scatterPlot);
 
         var render = function() {
             requestAnimationFrame(render);
@@ -121,7 +115,7 @@
             if (mouseMoveTimer) {
                 window.clearTimeout(mouseMoveTimer);
             }
-            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 60);
+            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 100);
         }
         function delayedMouseMove(event) {
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
@@ -155,7 +149,7 @@
         function highlightPoint(datum) {
             removeHighlights()
             
-            var geometry = new THREE.SphereBufferGeometry( datum.radius/250, 20, 20);
+            var geometry = new THREE.SphereBufferGeometry( datum.radius/225, 20, 20);
             var material = new THREE.MeshLambertMaterial( {color: color_array[datum.label] } );
             var sphere = new THREE.Mesh( geometry, material );
             sphere.position.set(datum.x, datum.y, datum.z);
