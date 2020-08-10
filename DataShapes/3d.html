@@ -58,7 +58,8 @@
         })
         window.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('mouseleave', onMouseLeave, false);
-        window.addEventListener('click', doubletap, false);
+        window.addEventListener('click', click, false);
+        window.addEventListener('touchstart', touch, false);
 
         // Light
         var light = new THREE.DirectionalLight(0xffffff);
@@ -83,7 +84,6 @@
             var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:255*p,P=P?1+p:1-p;
             return"rgb"+(d?"a(":"(")+r(i(a[3]=="a"?a.slice(5):a.slice(4))*P+t)+","+r(i(b)*P+t)+","+r(i(c)*P+t)+(d?","+d:")");
         }
-        // Calculate proper shade
         var frequencies = data_points.map(value => value.frequency);
         // Sort ascending
         frequencies.sort(function(a, b){return a-b});
@@ -129,15 +129,25 @@
         }
         render();
         
-        // Double Tap Detection
-        var mylatesttap;
-        function doubletap() {
+        // Double Click Detection
+        var latestClick;
+        function click() {
             var now = new Date().getTime();
-            var timesince = now - mylatesttap;
+            var timesince = now - latestClick;
             if((timesince < 300) && (timesince > 0)) {
                 controls.autoRotate = !controls.autoRotate;
             } 
-            mylatesttap = new Date().getTime();
+            latestClick = new Date().getTime();
+        }
+        // Double Touch Detection
+        var latestTouch;
+        function touch() {
+            var now = new Date().getTime();
+            var timesince = now - latestTouch;
+            if((timesince < 300) && (timesince > 0)) {
+                controls.autoRotate = !controls.autoRotate;
+            } 
+            latestTouch = new Date().getTime();
         }
 
         // Hover interaction
