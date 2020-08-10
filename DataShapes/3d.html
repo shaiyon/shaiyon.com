@@ -58,6 +58,7 @@
         })
         window.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('mouseleave', onMouseLeave, false);
+        window.addEventListener('mousedown', doubletap, false);
 
         // Light
         var light = new THREE.DirectionalLight(0xffffff);
@@ -71,24 +72,48 @@
         var light = new THREE.AmbientLight(0x222222);
         scene.add(light);
         
+        // Knowledge Element Color
         let color_array = [
-            "#1f78b4",
-            "#33a02c",
-            "#e31a1c",
-            "#fdbf6f",
-            "#ff7f00",
-            "#b0e0e6",
-            "#cab2d6",
-            "#ffff99",
-            "#d3d3d3"
+            "rgb(255,0, 0)",
+            "rgb(0, 255, 0)",
+            "rgb(0, 0, 255)"
         ]
-
-        var scatterPlot = new THREE.Object3D();
-
+        // Lighten or darken colors
+        const RGB_Linear_Shade=(p,c)=>{
+            var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:255*p,P=P?1+p:1-p;
+            return"rgb"+(d?"a(":"(")+r(i(a[3]=="a"?a.slice(5):a.slice(4))*P+t)+","+r(i(b)*P+t)+","+r(i(c)*P+t)+(d?","+d:")");
+        }
+        // Calculate proper shade
+        var frequencies = data_points.map(value => value.frequency);
+        // Sort ascending
+        frequencies.sort(function(a, b){return a-b});
+        // Returns the percentile of the given value in a sorted numeric array.
+        function percentRank(array, n) {
+            var L = 0;
+            var S = 0;
+            var N = array.length
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] < n) {
+                    L += 1
+                } else if (array[i] === n) {
+                    S += 1
+                } else {
+                }
+            }
+            var pct = (L + (0.5 * S)) / N
+            return pct;
+        }
+        
         // Add datapoints to plot
+        var scatterPlot = new THREE.Object3D();
         for (var i=0; i<data_points.length; i++) {
             var geometry = new THREE.SphereBufferGeometry( data_points[i].radius/275, 20, 20);
-            var material = new THREE.MeshLambertMaterial( {color: color_array[data_points[i].label] } );
+            // Scale percentile from [0, 0.8] to prevent super dark colors
+            var percentile = percentRank(frequencies, data_points[i].frequency)*0.8;
+            console.log(percentile);
+            var thisColor = RGB_Linear_Shade(-percentile, color_array[data_points[i].label]);
+            
+            var material = new THREE.MeshLambertMaterial( {color: thisColor } );
             var sphere = new THREE.Mesh( geometry, material );
             sphere.userData.id = i;
             sphere.position.set(data_points[i].x, data_points[i].y, data_points[i].z);
@@ -104,6 +129,17 @@
         renderer.render(scene, camera);
         }
         render();
+        
+        // Double Tap Detection
+        var mylatesttap;
+        function doubletap() {
+            var now = new Date().getTime();
+            var timesince = now - mylatesttap;
+            if((timesince < 300) && (timesince > 0)) {
+                controls.autoRotate = !controls.autoRotate;
+            } 
+            mylatesttap = new Date().getTime();
+        }
 
         // Hover interaction
         var mouseRay = new THREE.Vector3();
@@ -143,6 +179,7 @@
             return _.sortBy(intersects, "distanceToRay");
         }
 
+
         // Mouse hover interaction
         hoverContainer = new THREE.Object3D();
         scene.add(hoverContainer);
@@ -160,7 +197,6 @@
             hoverContainer.remove(...hoverContainer.children);
         }
         function onMouseLeave() {
-            controls.autoRotate = true;
             removeHighlights()
         }
 
