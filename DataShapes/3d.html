@@ -59,15 +59,15 @@
         })
         window.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('mouseleave', onMouseLeave, false);
-        window.addEventListener('click', click, false);
-        window.addEventListener('touchstart', touch, false);
+        window.addEventListener('dblclick', () => { controls.autoRotate = !controls.autoRotate; });
+        window.addEventListener('touchend', touch, false);
 
         // Light
         var light = new THREE.DirectionalLight(0xffffff);
         light.position.set(10, 10, 10);
         scene.add(light);
 
-        var light = new THREE.DirectionalLight(0xd3d3d3);
+        var light = new THREE.DirectionalLight(0xffffff);
         light.position.set(-10, -10, -10);
         scene.add(light);
 
@@ -130,22 +130,12 @@
         }
         render();
         
-        // Double Click Detection
-        var latestClick;
-        function click() {
-            var now = new Date().getTime();
-            var timesince = now - latestClick;
-            if((timesince < 600) && (timesince > 0)) {
-                controls.autoRotate = !controls.autoRotate;
-            } 
-            latestClick = new Date().getTime();
-        }
         // Double Touch Detection
         var latestTouch;
         function touch() {
             var now = new Date().getTime();
             var timesince = now - latestTouch;
-            if((timesince > 300) && (timesince < 800)) {
+            if((timesince > 300) && (timesince < 1000)) {
                 controls.autoRotate = !controls.autoRotate;
             } 
             latestTouch = new Date().getTime();
