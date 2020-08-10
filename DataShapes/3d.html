@@ -134,7 +134,7 @@
         function click() {
             var now = new Date().getTime();
             var timesince = now - latestClick;
-            if((timesince < 300) && (timesince > 0)) {
+            if((timesince < 600) && (timesince > 0)) {
                 controls.autoRotate = !controls.autoRotate;
             } 
             latestClick = new Date().getTime();
@@ -144,7 +144,7 @@
         function touch() {
             var now = new Date().getTime();
             var timesince = now - latestTouch;
-            if((timesince < 300) && (timesince > 0)) {
+            if((timesince > 300) && (timesince < 800)) {
                 controls.autoRotate = !controls.autoRotate;
             } 
             latestTouch = new Date().getTime();
