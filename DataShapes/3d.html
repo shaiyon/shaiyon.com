@@ -58,7 +58,7 @@
         })
         window.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('mouseleave', onMouseLeave, false);
-        window.addEventListener('mousedown', doubletap, false);
+        window.addEventListener('click', doubletap, false);
 
         // Light
         var light = new THREE.DirectionalLight(0xffffff);
@@ -110,7 +110,6 @@
             var geometry = new THREE.SphereBufferGeometry( data_points[i].radius/275, 20, 20);
             // Scale percentile from [0, 0.8] to prevent super dark colors
             var percentile = percentRank(frequencies, data_points[i].frequency)*0.8;
-            console.log(percentile);
             var thisColor = RGB_Linear_Shade(-percentile, color_array[data_points[i].label]);
             
             var material = new THREE.MeshLambertMaterial( {color: thisColor } );
