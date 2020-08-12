@@ -6,23 +6,23 @@
     <script src="three.min.js"></script>
     <!-- Camera Controls  -->
     <script src="orbitControls.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="d3.v5.min.js"></script>
     <!-- Tooltip functions -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.19/lodash.min.js"></script>
-    <link rel="stylesheet" href="title3.css" type="text/css">
+    <script src="lodash.core.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
     <div id="info">3D Knowledge Map</div>
-    <div id="hideMe">Double click to stop/start rotation, color represents frequency</div>
+    <div id="hideMe">Double click to stop/start rotation</div>
     <script>
         // Load in data (asynchronously)
         d3.csv("demo3.csv", function (data) {
             return {
-                label: +data.category,
-                description: data.description,
-                frequency: +data.systemMatchCounter,
-                radius: +Math.round(data.influenceDistance),
                 name: data.name,
+                description: data.description,
+                label: +data.category,
+                radius: +Math.round(data.influenceDistance),
+                pct: +data.pct,
                 x: +data.x,
                 y: +data.y,
                 z: +data.z
@@ -75,43 +75,29 @@
         scene.add(light);
         
         // Knowledge Element Color
+        // MAXIMUM of 8 categories :(
         let color_array = [
-            "rgb(255,0, 0)",
-            "rgb(0, 255, 0)",
-            "rgb(0, 0, 255)"
+            "rgb(255,0,0)",
+            "rgb(0,255,0)",
+            "rgb(0,0,255)",
+            "rgb(255,255,0)",
+            "rgb(255,0,255)",
+            "rgb(0,255,255)",
+            "rgb(255,102,255)",
+            "rgb(192,192,192)",
         ]
         // Lighten or darken colors
         const RGB_Linear_Shade=(p,c)=>{
             var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:255*p,P=P?1+p:1-p;
             return"rgb"+(d?"a(":"(")+r(i(a[3]=="a"?a.slice(5):a.slice(4))*P+t)+","+r(i(b)*P+t)+","+r(i(c)*P+t)+(d?","+d:")");
         }
-        var frequencies = data_points.map(value => value.frequency);
-        // Sort ascending
-        frequencies.sort(function(a, b){return a-b});
-        // Returns the percentile of the given value in a sorted numeric array.
-        function percentRank(array, n) {
-            var L = 0;
-            var S = 0;
-            var N = array.length
-            for (var i = 0; i < array.length; i++) {
-                if (array[i] < n) {
-                    L += 1
-                } else if (array[i] === n) {
-                    S += 1
-                } else {
-                }
-            }
-            var pct = (L + (0.5 * S)) / N
-            return pct;
-        }
-        
+
         // Add datapoints to plot
         var scatterPlot = new THREE.Object3D();
         for (var i=0; i<data_points.length; i++) {
             var geometry = new THREE.SphereBufferGeometry( data_points[i].radius/275, 20, 20);
-            // Scale percentile from [0, 0.8] to prevent super dark colors
-            var percentile = percentRank(frequencies, data_points[i].frequency)*0.8;
-            var thisColor = RGB_Linear_Shade(-percentile, color_array[data_points[i].label]);
+            // Scale percentile from [0, 0.70] to prevent super dark colors
+            var thisColor = RGB_Linear_Shade(-data_points[i].pct*0.70, color_array[data_points[i].label]);
             
             var material = new THREE.MeshLambertMaterial( {color: thisColor } );
             var sphere = new THREE.Mesh( geometry, material );
@@ -135,7 +121,7 @@
         function touch() {
             var now = new Date().getTime();
             var timesince = now - latestTouch;
-            if((timesince > 300) && (timesince < 1000)) {
+            if((timesince > 100) && (timesince < 600)) {
                 controls.autoRotate = !controls.autoRotate;
             } 
             latestTouch = new Date().getTime();
@@ -145,7 +131,7 @@
         var mouseRay = new THREE.Vector3();
         var raycaster = new THREE.Raycaster();
 
-        // mouseMove optimization (checks every x-ms)
+        // mouseMove optimization (checks every 100-ms)
         var mouseMoveTimer = null;
         function onMouseMove(event) {
             if (mouseMoveTimer) {
@@ -174,7 +160,6 @@
                 hideTooltip();
             }
         }
-
         function sortIntersectsByDistanceToRay(intersects) {
             return _.sortBy(intersects, "distanceToRay");
         }
@@ -221,7 +206,7 @@
             $point_tip.style.background = color_array[tooltip_state.label];
             $group_tip.innerText = `DataShape ${tooltip_state.description}
                 \nInfluence Distance: ${tooltip_state.radius}
-                \nFrequency: ${tooltip_state.frequency}`;
+                \nFrequency: ${Math.round(tooltip_state.pct*100)}`;
         }
         function showTooltip(mouse, datum) {
             let tooltip_width = 120;
@@ -234,7 +219,7 @@
             tooltip_state.label = datum.label;
             tooltip_state.description = datum.description;
             tooltip_state.radius = datum.radius;
-            tooltip_state.frequency = datum.frequency;
+            tooltip_state.pct = datum.pct;
             updateTooltip();
         }
         function hideTooltip() {
@@ -244,7 +229,6 @@
             
         //End d3.csv
         })
-
     </script>
 </body>    
 </html>
