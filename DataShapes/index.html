@@ -3,16 +3,18 @@
 <!-- https://shaiyon.com  -->
 <html>
 <head>
-    <script src="three.min.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.19/lodash.min.js"></script>
-    <link rel="stylesheet" href="title.css" type="text/css">
+    <script src="js/three.min.js"></script>
+    <!-- Camera Controls  -->
+    <script src="js/d3.v5.min.js"></script>
+    <!-- Tooltip functions -->
+    <script src="js/lodash.core.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css">
 
 <body>
     <div id="info">2D Knowledge Map</div>
     <script>
         // Load in data (asynchronously)
-        d3.csv("mnist2D.csv", function (data) {
+        d3.csv("demo2.csv", function (data) {
             return {
                 x: +data.x*60,
                 y: +data.y*50,

@@ -4,7 +4,6 @@
 <html>
 <head>
     <script src="js/three.min.js"></script>
-    <!-- Camera Controls  -->
     <script src="js/OrbitControls.js"></script>
     <script src="js/d3.v5.min.js"></script>
     <!-- Tooltip functions -->
@@ -12,20 +11,19 @@
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-    <div id="info">3D Knowledge Map</div>
-    <div id="hideMe">Double click to stop/start rotation</div>
+    <div id="info">Skyscraper Knowledge Map</div>
+    <div id="hideMe">Left click to pan, right click to rotate</div>
     <script>
         // Load in data (asynchronously)
-        d3.csv("demo3.csv", function (data) {
+        d3.csv("demo2.csv", function (data) {
             return {
                 name: data.name,
                 description: data.description,
                 label: +data.category,
                 radius: +Math.round(data.influenceDistance),
                 pct: +data.pct,
-                x: +data.x,
-                y: +data.y,
-                z: +data.z
+                x: +data.x*3,
+                y: +data.y*1.5,
             };
         }).then(function(data_points) {
     
@@ -36,31 +34,40 @@
         // Camera
         var width = window.innerWidth;
         var height = window.innerHeight;
-        var camera = new THREE.PerspectiveCamera(40, width/height, 0.1, 1000 );
-        camera.position.z = 35;
+        var fov = 40;
+        var near = 1;
+        var far = 200;
+        var camera = new THREE.PerspectiveCamera(fov, width/height, near, far);
+        camera.position.set( 0, 55, 35 );
+        camera.up.set( 0, 0, 1 );
 
-        // Renderer
+        // Rendererr
         var renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setSize(width, height);
-
-        // Camera Controls
-        var controls = new THREE.OrbitControls( camera, renderer.domElement );
-        controls.autoRotate = true;
-
         document.body.appendChild(renderer.domElement);
+
+        var controls = new THREE.OrbitControls( camera, renderer.domElement );
+        controls.screenSpacePanning = false;
+        controls.maxDistance = 150;
+        controls.maxPolarAngle = Math.PI/2;
+        controls.mouseButtons = {
+            RIGHT: THREE.MOUSE.ROTATE,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            LEFT: THREE.MOUSE.PAN
+        }
+
+        controls.update();
 
         // Event Listeners
         window.addEventListener('resize', () => {
-            width = window.innerWidth;
-            height = window.innerHeight;
+            var width = window.innerWidth;
+            var height = window.innerHeight;
             renderer.setSize(width, height);
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
         })
         window.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('mouseleave', onMouseLeave, false);
-        window.addEventListener('dblclick', () => { controls.autoRotate = !controls.autoRotate; });
-        window.addEventListener('touchend', touch, false);
 
         // Light
         var light = new THREE.DirectionalLight(0xffffff);
@@ -92,40 +99,33 @@
             return"rgb"+(d?"a(":"(")+r(i(a[3]=="a"?a.slice(5):a.slice(4))*P+t)+","+r(i(b)*P+t)+","+r(i(c)*P+t)+(d?","+d:")");
         }
 
-        // Add datapoints to plot
-        var scatterPlot = new THREE.Object3D();
+        // Add datapoints to map
+        var knowledgeMap = new THREE.Object3D();
         for (var i=0; i<data_points.length; i++) {
-            var geometry = new THREE.SphereBufferGeometry(data_points[i].radius/275, 20, 20);
-            // Scale percentile from [0, 0.70] to prevent super dark colors
-            var thisColor = RGB_Linear_Shade(-data_points[i].pct*0.70, color_array[data_points[i].label]);
-            
-            var material = new THREE.MeshLambertMaterial({ color: thisColor });
-            var sphere = new THREE.Mesh( geometry, material );
-            sphere.userData.id = i;
-            sphere.position.set(data_points[i].x, data_points[i].y, data_points[i].z);
-            scatterPlot.add(sphere);
-        }
+            let geometry = new THREE.CylinderBufferGeometry(data_points[i].radius/225, data_points[i].radius/225, 
+                data_points[i].pct*10, 30, 30);            // Scale percentile from [0, 0.70] to prevent super dark colors
+            geometry.translate( 0, 12.5, 0 );
+            geometry.rotateX( Math.PI / 2 );
 
-        scene.add(scatterPlot);
+            var thisColor = RGB_Linear_Shade(-data_points[i].pct*0.70, color_array[data_points[i].label]);
+            var material = new THREE.MeshLambertMaterial( {color: thisColor } );
+            var cylinder = new THREE.Mesh( geometry, material );
+            
+            cylinder.userData.id = i;
+            cylinder.position.set(data_points[i].x, data_points[i].y, (data_points[i].pct*10)/2 - 12.5);
+            knowledgeMap.add(cylinder);
+        }
+        scene.add(knowledgeMap);
 
         var render = function() {
             requestAnimationFrame(render);
-        
-        controls.update();
-        renderer.render(scene, camera);
+            controls.update();
+            renderer.render(scene, camera);
         }
         render();
         
-        // Double Touch Detection
-        var latestTouch;
-        function touch() {
-            var now = new Date().getTime();
-            var timesince = now - latestTouch;
-            if((timesince > 100) && (timesince < 600)) {
-                controls.autoRotate = !controls.autoRotate;
-            } 
-            latestTouch = new Date().getTime();
-        }
+        var axesHelper = new THREE.AxesHelper( 100 );
+        scene.add( axesHelper );
 
         // Hover interaction
         var mouseRay = new THREE.Vector3();
@@ -137,9 +137,10 @@
             if (mouseMoveTimer) {
                 window.clearTimeout(mouseMoveTimer);
             }
-            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 100);
+            mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 200);
         }
         function delayedMouseMove(event) {
+            console.log(camera.position);
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouseRay.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
             mouseRay.z = 1;
@@ -170,13 +171,18 @@
         scene.add(hoverContainer);
         function highlightPoint(datum) {
             removeHighlights()
-            
-            var geometry = new THREE.SphereBufferGeometry( datum.radius/225, 20, 20);
+            let geometry = new THREE.CylinderBufferGeometry(datum.radius/175, datum.radius/175, 
+                datum.pct*10+0.01, 30, 30);            
+            geometry.translate( 0, 12.5, 0 );
+            geometry.rotateX( Math.PI / 2 );
             var material = new THREE.MeshLambertMaterial( {color: color_array[datum.label] } );
-            var sphere = new THREE.Mesh( geometry, material );
-            sphere.position.set(datum.x, datum.y, datum.z);
+           
+            var cylinder = new THREE.Mesh( geometry, material );
+            cylinder.userData.id = i;
+            cylinder.position.set(datum.x, datum.y, (datum.pct*10)/2 - 12.5);
+            knowledgeMap.add(cylinder);
 
-            hoverContainer.add(sphere);
+            hoverContainer.add(cylinder);
         }
         function removeHighlights() {
             hoverContainer.remove(...hoverContainer.children);
