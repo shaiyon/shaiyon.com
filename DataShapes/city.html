@@ -137,7 +137,6 @@
             mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 200);
         }
         function delayedMouseMove(event) {
-            console.log(camera.position)
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouseRay.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
             mouseRay.z = 1;
