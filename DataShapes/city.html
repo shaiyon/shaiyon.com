@@ -48,14 +48,16 @@
 
         var controls = new THREE.OrbitControls( camera, renderer.domElement );
         controls.screenSpacePanning = false;
+        // Max zoom out
         controls.maxDistance = 150;
+        // Max zoom in
+        controls.minDistance = 10;
         controls.maxPolarAngle = Math.PI/2;
         controls.mouseButtons = {
             RIGHT: THREE.MOUSE.ROTATE,
             MIDDLE: THREE.MOUSE.DOLLY,
             LEFT: THREE.MOUSE.PAN
         }
-
         controls.update();
 
         // Event Listeners
@@ -71,11 +73,15 @@
 
         // Light
         var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(10, 10, 10);
+        light.position.set(10, 10, 0);
         scene.add(light);
 
         var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(-10, -10, -10);
+        light.position.set(0, 0, 10);
+        scene.add(light);
+
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(-10, -10, 0);
         scene.add(light);
 
         var light = new THREE.AmbientLight(0x222222);
@@ -93,11 +99,6 @@
             "rgb(192,192,192)",
             "rgb(0,255,255)",
         ]
-        // Lighten or darken colors
-        const RGB_Linear_Shade=(p,c)=>{
-            var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:255*p,P=P?1+p:1-p;
-            return"rgb"+(d?"a(":"(")+r(i(a[3]=="a"?a.slice(5):a.slice(4))*P+t)+","+r(i(b)*P+t)+","+r(i(c)*P+t)+(d?","+d:")");
-        }
 
         // Add datapoints to map
         var knowledgeMap = new THREE.Object3D();
@@ -107,8 +108,7 @@
             geometry.translate( 0, 12.5, 0 );
             geometry.rotateX( Math.PI / 2 );
 
-            var thisColor = RGB_Linear_Shade(-data_points[i].pct*0.70, color_array[data_points[i].label]);
-            var material = new THREE.MeshLambertMaterial( {color: thisColor } );
+            var material = new THREE.MeshLambertMaterial( {color: color_array[data_points[i].label] } );
             var cylinder = new THREE.Mesh( geometry, material );
             
             cylinder.userData.id = i;
@@ -137,6 +137,7 @@
             mouseMoveTimer = window.setTimeout(delayedMouseMove(event), 200);
         }
         function delayedMouseMove(event) {
+            console.log(camera.position)
             mouseRay.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
             mouseRay.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
             mouseRay.z = 1;
@@ -161,6 +162,8 @@
             return _.sortBy(intersects, "distanceToRay");
         }
 
+        // var axesHelper = new THREE.AxesHelper(50);
+        // scene.add( axesHelper );    
 
         // Mouse hover interaction
         hoverContainer = new THREE.Object3D();
