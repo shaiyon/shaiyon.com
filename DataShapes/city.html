@@ -73,15 +73,11 @@
 
         // Light
         var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(10, 10, 0);
+        light.position.set(10, 10, 10);
         scene.add(light);
 
         var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(0, 0, 10);
-        scene.add(light);
-
-        var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(-10, -10, 0);
+        light.position.set(-10, -10, -10);
         scene.add(light);
 
         var light = new THREE.AmbientLight(0x222222);
@@ -92,7 +88,7 @@
         let color_array = [
             "rgb(255,0,0)",
             "rgb(0,255,0)",
-            "rgb(100,100,255)",
+            "rgb(0,0,255)",
             "rgb(255,255,0)",
             "rgb(255,0,255)",
             "rgb(255,102,255)",
