@@ -24,6 +24,10 @@
         <div class="slidecontainer">    
             <input type="range" min="5" max="200" value="100" class="slider" id="height_slider">
         </div>
+        <div id="slider_description">Spatial Distance</div>
+        <div class="slidecontainer">    
+            <input type="range" min="5" max="200" value="100" class="slider" id="distance_slider">
+        </div>
     </div>    
     <script>
         // Load in data (asynchronously)
@@ -47,8 +51,8 @@
         var width = window.innerWidth;
         var height = window.innerHeight;
         var fov = 40;
-        var near = 1;
-        var far = 200;
+        var near = 0.1;
+        var far = 400;
         var camera = new THREE.PerspectiveCamera(fov, width/height, near, far);
         camera.position.set(0, 55, 35 );
         camera.up.set( 0, 0, 1 );
@@ -61,9 +65,9 @@
         var controls = new THREE.OrbitControls( camera, renderer.domElement );
         controls.screenSpacePanning = false;
         // Max zoom out
-        controls.maxDistance = 150;
+        controls.maxDistance = 250;
         // Max zoom in
-        controls.minDistance = 10;
+        controls.minDistance = 2;
         controls.maxPolarAngle = Math.PI/2;
         controls.mouseButtons = {
             RIGHT: THREE.MOUSE.ROTATE,
@@ -183,7 +187,7 @@
             
             var cylinder = new THREE.Mesh( geometry, material );
             cylinder.userData.id = i;
-            cylinder.position.set(datum.x, datum.y, (datum.pct*INITIAL_HEIGHT*height_scale)/2 - 12.5);
+            cylinder.position.set(datum.x*distance_scale, datum.y*distance_scale, (datum.pct*INITIAL_HEIGHT*height_scale)/2 - 12.5);
             knowledgeMap.add(cylinder);
             hoverContainer.add(cylinder);
         }
@@ -209,7 +213,16 @@
             for (var i = 0; i < knowledgeMap.children.length; i++) {
                 height_scale = this.value/100;
                 knowledgeMap.children[i].scale.z = height_scale;
-                knowledgeMap.children[i].position.set(data_points[i].x, data_points[i].y, (data_points[i].pct*INITIAL_HEIGHT*height_scale)/2 - 12.5*height_scale)
+                knowledgeMap.children[i].position.z = (data_points[i].pct*INITIAL_HEIGHT*height_scale)/2 - 12.5*height_scale;
+            }
+        }
+        var distance_slider = document.getElementById("distance_slider");
+        var distance_scale = 1;
+        distance_slider.oninput = function() {
+            for (var i = 0; i < knowledgeMap.children.length; i++) {
+                distance_scale = this.value/100;
+                knowledgeMap.children[i].position.x = data_points[i].x*distance_scale;
+                knowledgeMap.children[i].position.y = data_points[i].y*distance_scale;
             }
         }
 

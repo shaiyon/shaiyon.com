@@ -21,6 +21,10 @@
         <div class="slidecontainer">    
             <input type="range" min="5" max="200" value="100" class="slider" id="radius_slider">
         </div>
+        <div id="slider_description">Spatial Distance</div>
+        <div class="slidecontainer">    
+            <input type="range" min="5" max="200" value="100" class="slider" id="distance_slider">
+        </div>
     </div>    
     <script>
         // Load in data (asynchronously)
@@ -184,7 +188,7 @@
             var geometry = new THREE.SphereBufferGeometry( (datum.influenceDistance*radius_scale)/225, 20, 20);
             var material = new THREE.MeshLambertMaterial( {color: color_array[datum.category] } );
             var sphere = new THREE.Mesh( geometry, material );
-            sphere.position.set(datum.x, datum.y, datum.z);
+            sphere.position.set(datum.x*distance_scale, datum.y*distance_scale, datum.z*distance_scale);
 
             hoverContainer.add(sphere);
         }
@@ -201,6 +205,15 @@
             for (var i = 0; i < knowledgeMap.children.length; i++) {
                 radius_scale = this.value/100;
                 knowledgeMap.children[i].scale.set(radius_scale, radius_scale, radius_scale);
+            }
+        }
+        var distance_slider = document.getElementById("distance_slider");
+        var distance_scale = 1;
+        distance_slider.oninput = function() {
+            for (var i = 0; i < knowledgeMap.children.length; i++) {
+                distance_scale = this.value/100;
+                knowledgeMap.children[i].position.set(data_points[i].x*distance_scale, 
+                data_points[i].y*distance_scale, data_points[i].z*distance_scale);
             }
         }
 
