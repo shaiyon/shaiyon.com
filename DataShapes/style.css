@@ -4,29 +4,24 @@ body {
     margin: 0 0 0 0 ;
 }
 
-#info {
+#text {
     color: #000000 ;
-    font-family: "Raleway", Arial, Helvetica, sans-serif;
-    font-size:3vw;
-    font-weight:100;
-    text-align:center;
     position: absolute;
-    top: 2%; 
-	width: 100%;
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight:100;
     z-index: 100;
+    width: 100%;
 }
 
-#hideMe {
-    color: #000000 ;
-    font-family: "Raleway", Arial, Helvetica, sans-serif;
+#title {
+    padding: 1.8vh 0 0 0;
+    font-size:3vw;
+}
+
+#instructions {
     font-size:2vw;
-    font-weight:100;
-    text-align:center;
-    position: absolute;
-    top: 5%;
-	width: 100%;
-    z-index: 100;
-    padding: 4vh 0 0 0;
+    padding: 0.8vh 0 0 0;
     -webkit-animation: cssAnimation 6s forwards; 
     animation: cssAnimation 6s forwards;
 }
@@ -40,3 +35,52 @@ body {
     90%  {opacity: 1;}
     100% {opacity: 0;}
 }
+
+#toolbar {
+    text-align:center;
+    position: absolute;
+    width: 16%;
+    height: 80%;
+    left: 3%;
+    top: 6%;
+    z-index: 100;
+
+}
+
+#slider_description {
+    padding: 2.25vh;
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
+    font-weight:100;
+    font-size:1.5vw;
+}
+
+.slider {
+    -webkit-appearance: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 0.5vw;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.6;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    z-index: 101;
+  }
+  
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1vw;
+    height: 1vw;
+    border-radius: 50%; 
+    background: #000000;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 1vw;
+    height: 1vw;
+    border-radius: 50%;
+    background: #000000;
+    cursor: pointer;
+} 

@@ -12,16 +12,24 @@
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-    <div id="info">3D Knowledge Map</div>
-    <div id="hideMe">Double click to stop/start rotation</div>
+    <div id="text">
+        <div id="title">3D Knowledge Map</div>
+        <div id="instructions">Double click to stop/start rotation</div>
+    </div>
+    <div id="toolbar">
+        <div id="slider_description">Radius</div>
+        <div class="slidecontainer">    
+            <input type="range" min="5" max="200" value="100" class="slider" id="radius_slider">
+        </div>
+    </div>    
     <script>
         // Load in data (asynchronously)
-        d3.csv("demo3.csv", function (data) {
+        d3.csv("KB3d.csv", function (data) {
             return {
-                name: data.name,
+                index: +data.index,
+                category: +data.category,
                 description: data.description,
-                label: +data.category,
-                radius: +Math.round(data.influenceDistance),
+                influenceDistance: +Math.round(data.influenceDistance),
                 pct: +data.pct,
                 x: +data.x,
                 y: +data.y,
@@ -46,6 +54,8 @@
         // Camera Controls
         var controls = new THREE.OrbitControls( camera, renderer.domElement );
         controls.autoRotate = true;
+        controls.maxDistance = 150;
+        controls.minDistance = 1;
 
         document.body.appendChild(renderer.domElement);
 
@@ -73,7 +83,7 @@
 
         var light = new THREE.AmbientLight(0x222222);
         scene.add(light);
-        
+
         // Knowledge Element Color
         // MAXIMUM of 8 categories :(
         let color_array = [
@@ -93,29 +103,29 @@
         }
 
         // Add datapoints to plot
-        var scatterPlot = new THREE.Object3D();
+        var knowledgeMap = new THREE.Object3D();
         for (var i=0; i<data_points.length; i++) {
-            var geometry = new THREE.SphereBufferGeometry(data_points[i].radius/275, 20, 20);
+            var geometry = new THREE.SphereBufferGeometry((data_points[i].influenceDistance)/275, 20, 20);
             // Scale percentile from [0, 0.70] to prevent super dark colors
-            var thisColor = RGB_Linear_Shade(-data_points[i].pct*0.70, color_array[data_points[i].label]);
-            
+            var thisColor = RGB_Linear_Shade(-data_points[i].pct*0.70, color_array[data_points[i].category]);
             var material = new THREE.MeshLambertMaterial({ color: thisColor });
+
             var sphere = new THREE.Mesh( geometry, material );
             sphere.userData.id = i;
             sphere.position.set(data_points[i].x, data_points[i].y, data_points[i].z);
-            scatterPlot.add(sphere);
+            knowledgeMap.add(sphere);
         }
 
-        scene.add(scatterPlot);
+        scene.add(knowledgeMap);
 
         var render = function() {
             requestAnimationFrame(render);
-        
+
         controls.update();
         renderer.render(scene, camera);
         }
         render();
-        
+
         // Double Touch Detection
         var latestTouch;
         function touch() {
@@ -171,8 +181,8 @@
         function highlightPoint(datum) {
             removeHighlights()
             
-            var geometry = new THREE.SphereBufferGeometry( datum.radius/225, 20, 20);
-            var material = new THREE.MeshLambertMaterial( {color: color_array[datum.label] } );
+            var geometry = new THREE.SphereBufferGeometry( (datum.influenceDistance*radius_scale)/225, 20, 20);
+            var material = new THREE.MeshLambertMaterial( {color: color_array[datum.category] } );
             var sphere = new THREE.Mesh( geometry, material );
             sphere.position.set(datum.x, datum.y, datum.z);
 
@@ -185,6 +195,14 @@
             removeHighlights()
         }
 
+        var radius_slider = document.getElementById("radius_slider");
+        var radius_scale = 1;
+        radius_slider.oninput = function() {
+            for (var i = 0; i < knowledgeMap.children.length; i++) {
+                radius_scale = this.value/100;
+                knowledgeMap.children[i].scale.set(radius_scale, radius_scale, radius_scale);
+            }
+        }
 
         // Initial tooltip state
         let tooltip_state = { display: "none" }
@@ -202,10 +220,11 @@
             $tooltip.style.display = tooltip_state.display;
             $tooltip.style.left = tooltip_state.left + 'px';
             $tooltip.style.top = tooltip_state.top + 'px';
-            $point_tip.innerText = tooltip_state.name;
-            $point_tip.style.background = color_array[tooltip_state.label];
-            $group_tip.innerText = `DataShape ${tooltip_state.description}
-                \nInfluence Distance: ${tooltip_state.radius}
+            // Causes error without if statement (no idea why)
+            if (tooltip_state.index) $point_tip.innerText = "Knowledge Element " + tooltip_state.index.toString();
+            $point_tip.style.background = color_array[tooltip_state.category];
+            $group_tip.innerText = `Category: ${tooltip_state.description}
+                \nInfluence Distance: ${tooltip_state.influenceDistance}
                 \nFrequency: ${Math.round(tooltip_state.pct*100)}`;
         }
         function showTooltip(mouse, datum) {
@@ -215,10 +234,10 @@
             tooltip_state.display = "block";
             tooltip_state.left = mouse[0] + x_offset;
             tooltip_state.top = mouse[1] + y_offset;
-            tooltip_state.name = datum.name;
-            tooltip_state.label = datum.label;
+            tooltip_state.index = datum.index;
+            tooltip_state.category = datum.category;
             tooltip_state.description = datum.description;
-            tooltip_state.radius = datum.radius;
+            tooltip_state.influenceDistance = datum.influenceDistance;
             tooltip_state.pct = datum.pct;
             updateTooltip();
         }

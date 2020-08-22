@@ -11,19 +11,31 @@
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-    <div id="info">Skyscraper Knowledge Map</div>
-    <div id="hideMe">Left click to pan, right click to rotate</div>
+    <div id="text">
+        <div id="title">Skyscraper Knowledge Map</div>
+        <div id="instructions">Left click to pan, right click to rotate</div>
+    </div>
+    <div id="toolbar">
+        <div id="slider_description">Radius</div>
+        <div class="slidecontainer">    
+            <input type="range" min="5" max="200" value="100" class="slider" id="radius_slider">
+        </div>
+        <div id="slider_description">Height</div>
+        <div class="slidecontainer">    
+            <input type="range" min="5" max="200" value="100" class="slider" id="height_slider">
+        </div>
+    </div>    
     <script>
         // Load in data (asynchronously)
-        d3.csv("demo2.csv", function (data) {
+        d3.csv("KB2d.csv", function (data) {
             return {
-                name: data.name,
+                index: +data.index,
+                category: +data.category,
                 description: data.description,
-                label: +data.category,
-                radius: +Math.round(data.influenceDistance),
+                influenceDistance: +Math.round(data.influenceDistance),
                 pct: +data.pct,
-                x: +data.x*3,
-                y: +data.y*1.5,
+                x: +data.x,
+                y: +data.y,
             };
         }).then(function(data_points) {
     
@@ -38,7 +50,7 @@
         var near = 1;
         var far = 200;
         var camera = new THREE.PerspectiveCamera(fov, width/height, near, far);
-        camera.position.set( 0, 55, 35 );
+        camera.position.set(0, 55, 35 );
         camera.up.set( 0, 0, 1 );
 
         // Rendererr
@@ -97,18 +109,19 @@
         ]
 
         // Add datapoints to map
+        const INITIAL_HEIGHT = 15;
         var knowledgeMap = new THREE.Object3D();
         for (var i=0; i<data_points.length; i++) {
-            let geometry = new THREE.CylinderBufferGeometry(data_points[i].radius/225, data_points[i].radius/225, 
-                data_points[i].pct*10, 30, 30);            // Scale percentile from [0, 0.70] to prevent super dark colors
+            let geometry = new THREE.CylinderBufferGeometry((data_points[i].influenceDistance)/225, (data_points[i].influenceDistance)/225, 
+                data_points[i].pct*INITIAL_HEIGHT, 30, 30);            
             geometry.translate( 0, 12.5, 0 );
             geometry.rotateX( Math.PI / 2 );
 
-            var material = new THREE.MeshLambertMaterial( {color: color_array[data_points[i].label] } );
+            var material = new THREE.MeshLambertMaterial( {color: color_array[data_points[i].category] } );
             var cylinder = new THREE.Mesh( geometry, material );
             
             cylinder.userData.id = i;
-            cylinder.position.set(data_points[i].x, data_points[i].y, (data_points[i].pct*10)/2 - 12.5);
+            cylinder.position.set(data_points[i].x, data_points[i].y, (data_points[i].pct*INITIAL_HEIGHT)/2 - 12.5);
             knowledgeMap.add(cylinder);
         }
         scene.add(knowledgeMap);
@@ -157,25 +170,21 @@
             return _.sortBy(intersects, "distanceToRay");
         }
 
-        // var axesHelper = new THREE.AxesHelper(50);
-        // scene.add( axesHelper );    
-
         // Mouse hover interaction
         hoverContainer = new THREE.Object3D();
         scene.add(hoverContainer);
         function highlightPoint(datum) {
             removeHighlights()
-            let geometry = new THREE.CylinderBufferGeometry(datum.radius/175, datum.radius/175, 
-                datum.pct*10+0.01, 30, 30);            
+            let geometry = new THREE.CylinderBufferGeometry((datum.influenceDistance*radius_scale)/175, (datum.influenceDistance*radius_scale)/175, 
+                datum.pct*INITIAL_HEIGHT*height_scale+0.01, 30, 30);            
             geometry.translate( 0, 12.5, 0 );
             geometry.rotateX( Math.PI / 2 );
-            var material = new THREE.MeshLambertMaterial( {color: color_array[datum.label] } );
-           
+            var material = new THREE.MeshLambertMaterial( {color: color_array[datum.category] } );
+            
             var cylinder = new THREE.Mesh( geometry, material );
             cylinder.userData.id = i;
-            cylinder.position.set(datum.x, datum.y, (datum.pct*10)/2 - 12.5);
+            cylinder.position.set(datum.x, datum.y, (datum.pct*INITIAL_HEIGHT*height_scale)/2 - 12.5);
             knowledgeMap.add(cylinder);
-
             hoverContainer.add(cylinder);
         }
         function removeHighlights() {
@@ -185,6 +194,24 @@
             removeHighlights()
         }
 
+        var radius_slider = document.getElementById("radius_slider");
+        var radius_scale = 1;
+        radius_slider.oninput = function() {
+            for (var i = 0; i < knowledgeMap.children.length; i++) {
+                radius_scale = this.value/100;
+                knowledgeMap.children[i].scale.x = radius_scale;                
+                knowledgeMap.children[i].scale.y = radius_scale;
+            }
+        }
+        var height_slider = document.getElementById("height_slider");
+        var height_scale = 1;
+        height_slider.oninput = function() {
+            for (var i = 0; i < knowledgeMap.children.length; i++) {
+                height_scale = this.value/100;
+                knowledgeMap.children[i].scale.z = height_scale;
+                knowledgeMap.children[i].position.set(data_points[i].x, data_points[i].y, (data_points[i].pct*INITIAL_HEIGHT*height_scale)/2 - 12.5*height_scale)
+            }
+        }
 
         // Initial tooltip state
         let tooltip_state = { display: "none" }
@@ -202,10 +229,11 @@
             $tooltip.style.display = tooltip_state.display;
             $tooltip.style.left = tooltip_state.left + 'px';
             $tooltip.style.top = tooltip_state.top + 'px';
-            $point_tip.innerText = tooltip_state.name;
-            $point_tip.style.background = color_array[tooltip_state.label];
-            $group_tip.innerText = `DataShape ${tooltip_state.description}
-                \nInfluence Distance: ${tooltip_state.radius}
+            // Causes error without if statement (no idea why)
+            if (tooltip_state.index) $point_tip.innerText = "Knowledge Element " + tooltip_state.index.toString();
+            $point_tip.style.background = color_array[tooltip_state.category];
+            $group_tip.innerText = `Category: ${tooltip_state.description}
+                \nInfluence Distance: ${tooltip_state.influenceDistance}
                 \nFrequency: ${Math.round(tooltip_state.pct*100)}`;
         }
         function showTooltip(mouse, datum) {
@@ -215,10 +243,10 @@
             tooltip_state.display = "block";
             tooltip_state.left = mouse[0] + x_offset;
             tooltip_state.top = mouse[1] + y_offset;
-            tooltip_state.name = datum.name;
-            tooltip_state.label = datum.label;
+            tooltip_state.index = datum.index;
+            tooltip_state.category = datum.category;
             tooltip_state.description = datum.description;
-            tooltip_state.radius = datum.radius;
+            tooltip_state.influenceDistance = datum.influenceDistance;
             tooltip_state.pct = datum.pct;
             updateTooltip();
         }
@@ -226,7 +254,7 @@
             tooltip_state.display = "none";
             updateTooltip();
         }
-            
+                
         //End d3.csv
         })
     </script>
