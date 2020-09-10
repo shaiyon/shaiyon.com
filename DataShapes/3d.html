@@ -3,13 +3,15 @@
 <!-- https://shaiyon.com  -->
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"S/>
     <script src="js/three.min.js"></script>
     <!-- Camera Controls  -->
     <script src="js/OrbitControls.js"></script>
-    <script src="js/d3.v5.min.js"></script>
     <!-- Tooltip functions -->
     <script src="js/lodash.core.js"></script>
+    <script src="js/d3.v5.min.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <meta property="og:image" content="3d.png">
 </head>
 <body>
     <div id="text">
@@ -21,9 +23,9 @@
         <div class="slidecontainer">    
             <input type="range" min="5" max="200" value="100" class="slider" id="radius_slider">
         </div>
-        <div id="slider_description">Spatial Distance</div>
+        <div id="slider_description">Distance</div>
         <div class="slidecontainer">    
-            <input type="range" min="5" max="200" value="100" class="slider" id="distance_slider">
+            <input type="range" min="50" max="150" value="100" class="slider" id="distance_slider">
         </div>
     </div>    
     <script>
@@ -40,7 +42,7 @@
                 z: +data.z
             };
         }).then(function(data_points) {
-    
+
         // Scene
         var scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
@@ -260,7 +262,9 @@
         }
             
         //End d3.csv
-        })
+        });
+
+
     </script>
 </body>    
 </html>
