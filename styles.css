@@ -11,13 +11,12 @@ html, body {
     background: linear-gradient(to bottom, #b3cbd4 0%, #799ecc 100%) fixed;
 	padding: 0;
 	margin: 0;
-}
-
+}  
 *, *:before, *:after {
-	box-sizing: inherit;
+	box-sizing: border-box;
 }
-
 a {
+	color: #21211f;
 	text-decoration: none;
 }
 
@@ -49,10 +48,11 @@ a {
 }
 
 /***** Styles *****/
-main.container {
-    height: 100%;
+main {
+	margin: auto;
+	height: 100%;
     padding: 0;
-    margin: 0;
+    margin: auto;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -62,7 +62,7 @@ main.container {
     justify-content: center;
 }
 
-main.container section.content h1 {
+main section.content h1 {
 	color: #21211f;
 	font-size: 9rem;
 	padding: 0;
@@ -72,24 +72,24 @@ main.container section.content h1 {
 	font-weight: 600;
 }
 
-main.container section.content p {
+main section.content p {
 	color: #21211f;
 	font-size: 0.95rem;
+	letter-spacing: 0.05rem;
     line-height: 0.5rem;	
-    letter-spacing: 0.135rem;
-	margin: -0.35rem 0 0 0.6rem;
-	font-family: monospace, "Lucida Console", Courier;
+	margin: -0.275rem 0 0 0.6rem;
+	font-family: Courier;
 	font-style: normal;
 	font-weight: 500;
 }
 
-main.container section.content a {
+main section.content a {
     position: relative;
-    top: 0.6rem;
+    top: 0.5rem;
 	text-align: center;
-	margin: 0.3rem;
-	display: inline-block;
-	width: auto;
+	margin: 0.5rem;
+	display: table;
+	width: fit-content;
 	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
 	font-style: normal;
 	font-weight: 300;
@@ -99,29 +99,109 @@ main.container section.content a {
 	font-size: 0.9rem;
 	letter-spacing: 0.25rem;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #DEDEE0;
 	transition: all 0.5s ease;
 }
 
-main.container section.content a:hover {
+main section.content a:hover {
     filter: invert(100%);
 	transition: all 0.5s ease;
 }
 
 
+/***** Portfolio *****/
+
+#back {
+	top: 1vw;
+	left: 1vw;
+	position: fixed;
+	transition: all 0.5s ease;
+}
+
+#back:hover {
+	filter: invert(100%);
+}
+
+
+.row {
+	left:10%;
+	right:35%;
+}  
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.column {
+	text-align: center;
+	align-items: center;
+	float: left;
+	padding: 0 8rem 2.5rem 8rem;
+	width: 50%;
+}
+.column img {
+    width: 20vw;
+	height: 20vh;
+	padding:2px;
+	border:1px solid #21211f;
+}
+.table {
+	padding: 10px;
+}
+h2 {
+	display:static;
+	margin: 1rem;
+	color: #21211f;
+	font-size: 6rem;
+	letter-spacing: -0.1rem;
+	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+	font-style: normal;
+	font-weight: 600;
+	text-align:center;
+}
+
+h3 {
+	color: #21211f;
+	font-size: 2rem;
+	letter-spacing: -0.1rem;
+	margin: 0.5rem;
+	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+	font-style: normal;
+	font-weight: 600;
+	text-align:center;
+	transition: all 0.5s ease;
+}
+
+h3:hover {
+	filter: invert(100%);
+}
+
+main section.table {
+	position:relative;
+	display:inline-block;
+	justify-items: center;
+	align-items: center;	
+	font-size: 1.2rem;
+	font-family: serif;
+	font-style: normal;
+}
+main section.table p {
+	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+	margin: 1rem;
+}
 
 /***** Footer *****/
 footer {
-	position: absolute;
-	bottom: 35px;
+	position: relative;
 	text-align: center;
 	display: block;
-	float: left;
 	width: 100%;
+	bottom: -10vh;
 }
 
 footer a {
-	padding: 0 0.5rem;
+	margin: 0 1.25rem;
 	color: #21211f;
 	font-size: 1.8rem;
 	transition: all 0.5s ease;
@@ -129,60 +209,63 @@ footer a {
 
 footer a:hover {
     filter: invert(100%);
-	transition: all 0.5s ease;
 }
 
 /***** Responsiveness *****/
-@media all and (max-width: 740px) {
+@media all and (max-width: 900px) {
     #content-desktop {display: none;}
 	html, body {
 		font-size: 10px;
 	}
-	main.container section.content a {
-		margin: 40px auto;
+	main section.content a {
+		margin: 1.5rem auto;
 		display: block;
 		padding: 1.35rem 1.5rem;
 		font-size: 1.4rem;
     }
-    main.container section.content p {
+    main section.content p {
         font-weight: 800;
-        font-size: 0.9rem;
+		font-size: 0.9rem;
+		letter-spacing: 0.085rem;
     }
     footer a {
-        font-size: 2.2rem;
-    }
+        font-size: 2.5rem;
+	}
+	.column {
+		width: 50%;
+	}
+	.column img {
+		width: 35vw;
+		height: 14vh;
+		padding:2px;
+		border:1px solid #21211f;
+	}	
 }
 @media all and (max-width: 600px) {
     #content-desktop {display: none;}
 	html, body {
 		font-size: 9px;
 	}
-	main.container section.content a {
-		padding: 1.45rem 1.5rem;
+	main section.content a {
+		padding: 1.5rem 1.5rem;
 		font-size: 1.5rem;
     }
-    main.container section.content p {
+    main section.content p {
         font-weight: 800;
-        font-size: 0.9rem;
+		font-size: 0.9rem;
+		letter-spacing: 0.07rem;
+
     }
 	footer a {
 		font-size: 2.5rem;
 	}
-}
-@media all and (max-width: 480px) {
-    #content-desktop {display: none;}
-	html, body {
-		font-size: 8px;
+	.column {
+		width: 100%;
 	}
-	main.container section.content a {
-		padding: 1.55rem 1.5rem;
-		font-size: 1.6rem;
-    }
-    main.container section.content p {
-        font-weight: 800;
-        font-size: 0.9rem;
-    }
-	footer a {
-		font-size: 2.5rem;
-	}
+	.column img {
+		width: 50vw;
+		height: 14vh;
+		padding:2px;
+		border:1px solid #21211f;
+	}	
 }
