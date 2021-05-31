@@ -74,8 +74,8 @@ main section.content h1 {
 
 main section.content p {
 	color: #21211f;
-	font-size: 0.95rem;
-	letter-spacing: 0.05rem;
+	font-size: 0.925rem;
+	letter-spacing: 0.006rem;
     line-height: 0.5rem;	
 	margin: -0.275rem 0 0 0.6rem;
 	font-family: Courier;
