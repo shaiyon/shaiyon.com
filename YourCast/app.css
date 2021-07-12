@@ -69,11 +69,11 @@ h3 {
     }
 
     .play {
-        background: url(play.png);
+        background: url(assets/Play.png);
     }
 
     .pause{
-        background: url(pause.png);
+        background: url(assets/Pause.png);
         }
 
     #timestamp {
@@ -207,7 +207,7 @@ h4 {
 
 
 .slider::-moz-range-thumb {
-    width: 25px; /* Set a specific slider handle width */
+    width: 10px; /* Set a specific slider handle width */
     height: 25px; /* Slider handle height */
     background: #4CAF50; /* Green background */
     cursor: pointer; /* Cursor on hover */

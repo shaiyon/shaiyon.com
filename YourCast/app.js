@@ -482,6 +482,7 @@ function updateVideoDuration() {
   time = time - hours * 3600;
   // console.log(formatMinutes + ":" + formatSeconds);
   document.getElementById("totalTime").innerHTML= formatMinutes + ":" + formatSeconds;
+  document.getElementById("myRange").max = minutes*4;
 }
 
 
