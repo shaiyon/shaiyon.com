@@ -9,13 +9,14 @@ var piks_list=[];
 var niks_list=[];
 var table=$('#heatmap');
 
+var maxTSZone = $.map(keyword_data, function(n, i) { return i; }).length;
+
 // var map_arr=[6, 3, 10, 6, 10, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
 //         6, 6, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
 //         6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 10, 6, 6, 6, 6, 10,
 //         6, 6, 6, 10, 10, 6, 6, 6, 10, 10, 10, 10, 6, 6, 6, 6, 6, 10, 6, 6, 6, 6, 6,
 //         6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 10
 //         ];
-var map_arr=new Array(100).fill(10);
 
 
 function get_hm_data(keyname){
@@ -44,7 +45,7 @@ function normalize(arr){
 }
 
 function get_heatmap(){
-    sum= new Array(100).fill(0.0);
+    sum= new Array(maxTSZone).fill(0.0);
     // if(piks_list.length>0){
 
         for (var i = piks_list.length - 1; i >= 0; i--) {
@@ -108,6 +109,8 @@ function create_heatmap(map_arr){
     }
     table.append(tr);
 }
+
+var map_arr=new Array(maxTSZone).fill(10);
 
 create_heatmap(map_arr);
 
@@ -314,7 +317,6 @@ var slider=document.getElementById('myRange');
 // Add an event listener to our range slider
 slider.addEventListener('input',function(){
     var value=slider.value;
-    console.log(value)
     add_key_btns(keyword_data[value][current_duration]);
 });
 
@@ -391,6 +393,7 @@ heatmap();
 
 video.addEventListener("timeupdate", updateProgress, false);
 
+
 var play = document.getElementById('playpause');
 play.addEventListener('click', togglePlayPause);
 //
@@ -424,6 +427,7 @@ function updateTimeStamp() {
   var formatSeconds = ("0" + parseInt(seconds)).slice(-2);
   var hours = Math.floor(time / 3600);
   time = time - hours * 3600;
+  
   // console.log(formatMinutes + ":" + formatSeconds);
   document.getElementById("currentTime").innerHTML= formatMinutes + ":" + formatSeconds;
 }
