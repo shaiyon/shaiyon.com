@@ -183,7 +183,7 @@ h4 {
     appearance: none;
     width: 100px; /* Set a specific slider handle width */
     height: 14px; /* Slider handle height */
-    color: #018D7A; /* Blue background */
+    color: #4382b9; /* Blue background */
     cursor: pointer; /* Cursor on hover */
     transition: .2s ease-in-out;
 }
@@ -191,7 +191,7 @@ h4 {
 .slider::-moz-range-thumb {
     width: 10px; /* Set a specific slider handle width */
     height: 14px; /* Slider handle height */
-    background: #018D7A; /* Green background */
+    background: #4382b9; /* Green background */
     cursor: pointer; /* Cursor on hover */
     transition: .2s ease-in-out;
 
