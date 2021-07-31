@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>YourCast</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- <link rel="stylesheet" type="text/css" href="app.css"> -->
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <!-- jquery url -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="data//keywords.js"></script>
+    <script src="data//data.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
+
+	<!-- for slider size change -->
+	<style data="test" type="text/css"></style>
+
+	<link rel="icon" href="assets/favicon.ico">
+</head>
+<body>
+
+	<div id="header">
+		<button type="button" style="height:40px;width:45px" id="icon_button" onclick="window.location.href='https://datashapes.com';">
+			<img src="assets/logo_nobg.png" style="height:40px;width:40px"/>
+		</button>
+		<h3>Keynote - AI in Military Applications - Tim Grayson (awAIre 2021)</h3>
+	</div>
+<div class="wrapper">
+
+		<!-- Left container -->
+		<div class="l_container">
+
+
+			<div class="video_class">
+				<video id="video" controls preload="auto">
+			  		<source src="https://storage.googleapis.com/gistr/video_files/Keynote-AIinMilitaryApplications-TimGrayson(awAIre2021).mp4" type="video/mp4">
+				</video>
+			</div>
+			<div id="controls">
+	   			<button class = "play" id="playpause" title="play"></button>
+					<p id = "timestamp" title="duration"> <span id="currentTime">00:00</span> / <span id= "totalTime"> 00:00 </span> </p>
+					<div class="time_slider">
+						<div id="progressBar"><span id="progress"></span>
+							<div id="relevanceMap">
+								<table id="heatmap" class="colorMe"></table>
+							</div>
+						</div>
+						<div id="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+
+			             <!-- <button class = "btn apply" id="apply">Apply</button> -->
+
+
+
+			</div>
+			<div id="piknikArea">
+			<h4 class="title"> Piks </h4>
+				<div class="piks_list">
+					<input id="addPik" placeholder="Add Pik"/><input id= "pluspik" type="button" value="+" />
+				</div>
+				<h4 class="title"> Niks </h4>
+				<div class="niks_list">
+					<input id="addNik" placeholder="Add Nik"/><input id= "plusnik" type="button" value="-" />
+				</div>
+			</div>
+
+		</div>
+
+
+		<!-- Right Container -->
+		<div class = "r_container">
+				<h4 class="title"> Slider Width</h4>
+				<div class="control">
+					<div class="btn-group" data-toggle="buttons">
+				 		<label class="btn btn-primary" name="1">
+							<input type="radio" id="1min" checked> 1 min
+						</label>
+						<label class="btn btn-primary" name="5">
+							<input type="radio" id="5min"> 5 min
+						</label>
+						<label class="btn btn-primary active" name="10">
+							<input type="radio" id="10min"> 10 min
+						</label>
+						<label class="btn btn-primary" name="15">
+							<input type="radio" id="15min"> 15 min
+						</label>
+					</div>
+				</div>
+				<h4 class="title"> Dynamic Keyword </h4>
+				<div class="keywordlist">
+
+				</div>
+
+			</div>
+
+
+
+	</div>
+	<!-- end of wrapper -->
+
+
+	<footer id="footer">	
+		© 2021 DataShapes, Inc. San Francisco, CA. All Rights Reserved.
+	</footer>
+
+	<script src="app.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
