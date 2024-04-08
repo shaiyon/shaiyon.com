@@ -2,52 +2,22 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
 
 /***** General Styles *****/
-html, body {
-    font-size: 16px;
-	line-height: 1;
-	font-style: normal;
-    font-weight: 400;
-    height: 90%;
-    background: linear-gradient(to bottom, #b3cbd4 0%, #799ecc 100%) fixed;
-	padding: 0;
-	margin: 0;
-}  
-*, *:before, *:after {
-	box-sizing: border-box;
-}
-a {
-	color: #21211f;
-	text-decoration: none;
+
+canvas#warpCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Ensure the canvas doesn't interfere with other interactions */
 }
 
-/***** Clear Fix *****/
-.cf:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
-}
-.cf {
-	display: inline-block;
-}
-* html .cf {
-	height: 1%;
-}
-.cf {
-	display: block;
-}
-
-/***** FOUT Fix *****/
-.wf-loading {
-	visibility: hidden;
-}
-.wf-active {
-	visibility: visible;
-}
 
 /***** Styles *****/
+body {
+    background-color: black;
+}
+
 main {
 	margin: auto;
 	height: 100%;
@@ -62,210 +32,95 @@ main {
     justify-content: center;
 }
 
+main section.content {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    text-align: center; /* Center text for inline or inline-block elements */
+    width: 100%; /* Ensure full width if not already set */
+    height: 100vh; /* Example height, adjust as needed */
+}
+
 main section.content h1 {
-	color: #21211f;
-	font-size: 9rem;
-	padding: 0;
-	letter-spacing: -0.1rem;
-	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-	font-style: normal;
-	font-weight: 600;
+    color: #21211f;
+    font-size: 9rem;
+    padding: 0;
+    letter-spacing: -0.1rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+    font-style: normal;
+    font-weight: 600;
+    /* Simulate a white outline effect */
+    text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff;
 }
 
-main section.content p {
-	color: #21211f;
-	font-size: 0.925rem;
-	letter-spacing: 0.006rem;
-    line-height: 0.5rem;	
-	margin: -0.275rem 0 0 0.6rem;
-	font-family: Courier;
-	font-style: normal;
-	font-weight: 500;
+main section.content h2 {
+    color: #21211f;
+    font-size: 1.5rem;
+    padding: 12px;
+    font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+    font-style: normal;
+    font-weight: 600;
+    align-items: center;
+    /* Simulate a white outline effect */
+    text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff;
 }
 
-main section.content a {
+
+.social-links {
+    display: flex;
+    justify-content: center; /* Centers the links horizontally */
+    align-items: center; /* Centers the links vertically */
+    gap: 25px; /* Adjust the space between the icons */
+}
+
+main section.content .social-links a {
+    text-decoration: none;
+    margin: 10px 0;
+    background: none;
+    border: none;
     position: relative;
-    top: 0.5rem;
-	text-align: center;
-	margin: 0.5rem;
-	display: table;
-	width: fit-content;
-	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-	font-style: normal;
-	font-weight: 300;
-	background: #21211f;
-	border-radius: 50px;
-	padding: 0.7rem 1.5rem;
-	font-size: 0.9rem;
-	letter-spacing: 0.25rem;
-	text-transform: uppercase;
-	color: #DEDEE0;
-	transition: all 0.5s ease;
 }
+
+main section.content .social-links a i {
+    font-size: 2rem; /* Increase the size of the icon */
+    color: #21211f; /* Icon color */
+    position: relative; /* Ensure the pseudo-element is positioned in relation to this */
+    background: white; /* White background */
+    border-radius: 4px; /* Optional: if you want rounded edges */
+    padding: 3px; /* This padding essentially becomes your background */
+    border: 2px solid #000; /* Black border, adjust thickness as needed */
+    box-shadow: 0 0 2px #21211f; /* Subtle shadow around the icon */
+}
+
 
 main section.content a:hover {
     filter: invert(100%);
+	transform: scale(1.3);
 	transition: all 0.5s ease;
 }
 
-
-/***** Portfolio *****/
-
-#back {
-	top: 1vw;
-	left: 1vw;
+#parallaxBackground {
+    display: none; /* dynamically set background after loaded */
 	position: fixed;
-	transition: all 0.5s ease;
+	width: 110%; /* Slightly larger to allow for movement */
+	height: 110%; /* Slightly larger to allow for movement */
+	top: -5%; /* Center the background */
+	left: -5%; /* Center the background */
+	will-change: transform; /* Hint to browsers for GPU acceleration */
+	background-size: cover; /* Or '600px 600px' based on your needs */
+	background-repeat: no-repeat;
+	z-index: -1; /* Ensure it stays behind other content */
+  }
+
+
+.jumpquest-easteregg {
+    text-decoration: none;
+    color: inherit;
 }
 
-#back:hover {
-	filter: invert(100%);
-}
-
-
-.row {
-	left:10%;
-	right:35%;
-}  
-.row:after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-.column {
-	text-align: center;
-	align-items: center;
-	float: left;
-	padding: 0 8rem 2.5rem 8rem;
-	width: 50%;
-}
-.column img {
-    width: 20vw;
-	height: 20vh;
-	padding:2px;
-	border:1px solid #21211f;
-}
-.table {
-	padding: 10px;
-}
-h2 {
-	display:static;
-	margin: 1rem;
-	color: #21211f;
-	font-size: 6rem;
-	letter-spacing: -0.1rem;
-	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-	font-style: normal;
-	font-weight: 600;
-	text-align:center;
-}
-
-h3 {
-	color: #21211f;
-	font-size: 2rem;
-	letter-spacing: -0.1rem;
-	margin: 0.5rem;
-	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-	font-style: normal;
-	font-weight: 600;
-	text-align:center;
-	transition: all 0.5s ease;
-}
-
-h3:hover {
-	filter: invert(100%);
-}
-
-main section.table {
-	position:relative;
-	display:inline-block;
-	justify-items: center;
-	align-items: center;	
-	font-size: 1.2rem;
-	font-family: serif;
-	font-style: normal;
-}
-main section.table p {
-	font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-	margin: 1rem;
-}
-
-/***** Footer *****/
-footer {
-	position: relative;
-	text-align: center;
-	display: block;
-	width: 100%;
-	bottom: -10vh;
-}
-
-footer a {
-	margin: 0 1.25rem;
-	color: #21211f;
-	font-size: 1.8rem;
-	transition: all 0.5s ease;
-}
-
-footer a:hover {
+.jumpquest-easteregg:hover {
     filter: invert(100%);
-}
-
-/***** Responsiveness *****/
-@media all and (max-width: 900px) {
-    #content-desktop {display: none;}
-	html, body {
-		font-size: 10px;
-	}
-	main section.content a {
-		margin: 1.5rem auto;
-		display: block;
-		padding: 1.35rem 1.5rem;
-		font-size: 1.4rem;
-    }
-    main section.content p {
-        font-weight: 800;
-		font-size: 0.9rem;
-		letter-spacing: 0.085rem;
-    }
-    footer a {
-        font-size: 2.5rem;
-	}
-	.column {
-		width: 50%;
-	}
-	.column img {
-		width: 35vw;
-		height: 14vh;
-		padding:2px;
-		border:1px solid #21211f;
-	}	
-}
-@media all and (max-width: 600px) {
-    #content-desktop {display: none;}
-	html, body {
-		font-size: 9px;
-	}
-	main section.content a {
-		padding: 1.5rem 1.5rem;
-		font-size: 1.5rem;
-    }
-    main section.content p {
-        font-weight: 800;
-		font-size: 0.9rem;
-		letter-spacing: 0.07rem;
-
-    }
-	footer a {
-		font-size: 2.5rem;
-	}
-	.column {
-		width: 100%;
-	}
-	.column img {
-		width: 50vw;
-		height: 14vh;
-		padding:2px;
-		border:1px solid #21211f;
-	}	
+    transition: all 0.5s ease;
+    cursor: pointer;
 }

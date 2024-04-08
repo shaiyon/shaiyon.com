@@ -4,23 +4,26 @@
         <title>shaiyon</title>
         <meta charset="utf-8">
         <meta property=”og:type” content=”website”>
-        <meta property="og:description" content="Shaiyon Hariri is a Software Engineer at DataShapes.">
-        <meta name="keywords" content="shaiyon, Shaiyon Hariri, software engineer, data scientist, developer, 
-        data science, data analysis, analytics, bay area, san francisco bay area">
+        <meta property="og:description" content="Shaiyon Hariri's personal website.">
+        <meta name="keywords" content="shaiyon, Shaiyon Hariri, software engineer, developer, 
+        data science, analytics, bay area, san francisco bay area">
         <meta name="author" content="Shaiyon Hariri">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <!-- icons8.com -->
-        <link rel="icon" href="assets/faravahar.svg">
+        <link rel="icon" type="image/x-icon" href="assets/faravahar.svg">
+        <link rel="apple-touch-icon" href="assets/faravahar.ico">
         <link rel="stylesheet" href="styles.css" type="text/css" media="screen">
     </head>
     <body>
+        <canvas id="warpCanvas"></canvas>
+        <div id="parallaxBackground"></div>
         <main>
             <section class="content">
-                <h1>shaiyon</h1>
-                <p id="desc"></p>
+                <h1>sha<a href="/jumpquest" class="jumpquest-easteregg">i</a>yon</h1>
+                <h2 id="desc"></h2>
                 <!---
                 <div id="content-desktop">
                     <a href="/Jump_Quest.html" title="Jump Quest">Jump Quest</a>
@@ -29,27 +32,39 @@
                 <!---
                 <a href="portfolio.html" title="shaiyon's portfolio">Portfolio</a>
                 --->
-                <a href="mailto:hshaiyon@gmail.com" title="email shaiyon">Contact</a>
+                <!-- <a href="mailto:hshaiyon@gmail.com" title="email shaiyon">Contact</a> -->
+                <div class="social-links">
+                    <a class="li" href="https://www.linkedin.com/in/shaiyon/" title="shaiyon on LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a class="gh" href="https://github.com/shaiyon" title="shaiyon on GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
             </section>
         </main>
-        <footer>
-            <a class="li" href="https://www.linkedin.com/in/shaiyon/" title="shaiyon on LinkedIn">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a class="gh" href="https://github.com/shaiyon" title="shaiyon on GitHub">
-                <i class="fab fa-github"></i>
-            </a>
-        </footer>
+        <script src="background.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const jqEasterEgg = document.querySelector('.jumpquest-easteregg');
+                jqEasterEgg.addEventListener('mouseenter', function() {
+                    this.textContent = '?';
+                });
+                jqEasterEgg.addEventListener('mouseleave', function() {
+                    this.textContent = 'i';
+                });
+            });
+        </script>            
+        <script>
+            var showText = function (target, message, index, interval) {
+                if (index < message.length) {
+                    $(target).append(message[index++]);
+                    setTimeout(function () { showText(target, message, index, interval); }, interval);
+                }
+            }
+            $(function () {
+                showText("#desc", "Software Engineer", 0, 100);
+            });
+        </script>    
     </body>
-    <script>
-        var showText = function (target, message, index, interval) {
-	        if (index < message.length) {
-		        $(target).append(message[index++]);
-		        setTimeout(function () { showText(target, message, index, interval); }, interval);
-	        }
-        }
-        $(function () {
-	        showText("#desc", "Software @ DataShapes", 0, 100);
-        });
-    </script>
 </html> 
