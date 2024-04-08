@@ -101,7 +101,7 @@ main section.content a:hover {
 }
 
 #parallaxBackground {
-    display: none; /* dynamically set background after loaded */
+    display: none;
 	position: fixed;
 	width: 110%; /* Slightly larger to allow for movement */
 	height: 110%; /* Slightly larger to allow for movement */
@@ -123,4 +123,67 @@ main section.content a:hover {
     filter: invert(100%);
     transition: all 0.5s ease;
     cursor: pointer;
+}
+
+/**
+ * ==============================================
+ * Dot Spin
+ * ==============================================
+ * https://nzbin.github.io/three-dots/
+ */
+.dot-spin {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    color: transparent;
+    box-shadow: 0 -18px 0 0 #2faafd, 12.727926px -12.727926px 0 0 #2faafd, 18px 0 0 0 #2faafd, 12.727926px 12.727926px 0 0 rgba(152, 128, 255, 0), 0 18px 0 0 rgba(152, 128, 255, 0), -12.727926px 12.727926px 0 0 rgba(152, 128, 255, 0), -18px 0 0 0 rgba(152, 128, 255, 0), -12.727926px -12.727926px 0 0 rgba(152, 128, 255, 0);
+    animation: dot-spin 1.5s infinite linear;
+}
+  
+@keyframes dot-spin {
+    0%, 100% {
+        box-shadow: 0 -18px 0 0 #2faafd, 12.727926px -12.727926px 0 0 #2faafd, 18px 0 0 0 #2faafd, 12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), 0 18px 0 -5px rgba(152, 128, 255, 0), -12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), -18px 0 0 -5px rgba(152, 128, 255, 0), -12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0);
+    }
+    12.5% {
+        box-shadow: 0 -18px 0 -5px rgba(152, 128, 255, 0), 12.727926px -12.727926px 0 0 #2faafd, 18px 0 0 0 #2faafd, 12.727926px 12.727926px 0 0 #2faafd, 0 18px 0 -5px rgba(152, 128, 255, 0), -12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), -18px 0 0 -5px rgba(152, 128, 255, 0), -12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0);
+    }
+    25% {
+        box-shadow: 0 -18px 0 -5px rgba(152, 128, 255, 0), 12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0), 18px 0 0 0 #2faafd, 12.727926px 12.727926px 0 0 #2faafd, 0 18px 0 0 #2faafd, -12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), -18px 0 0 -5px rgba(152, 128, 255, 0), -12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0);
+    }
+    37.5% {
+        box-shadow: 0 -18px 0 -5px rgba(152, 128, 255, 0), 12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0), 18px 0 0 -5px rgba(152, 128, 255, 0), 12.727926px 12.727926px 0 0 #2faafd, 0 18px 0 0 #2faafd, -12.727926px 12.727926px 0 0 #2faafd, -18px 0 0 -5px rgba(152, 128, 255, 0), -12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0);
+    }
+    50% {
+        box-shadow: 0 -18px 0 -5px rgba(152, 128, 255, 0), 12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0), 18px 0 0 -5px rgba(152, 128, 255, 0), 12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), 0 18px 0 0 #2faafd, -12.727926px 12.727926px 0 0 #2faafd, -18px 0 0 0 #2faafd, -12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0);
+    }
+    62.5% {
+        box-shadow: 0 -18px 0 -5px rgba(152, 128, 255, 0), 12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0), 18px 0 0 -5px rgba(152, 128, 255, 0), 12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), 0 18px 0 -5px rgba(152, 128, 255, 0), -12.727926px 12.727926px 0 0 #2faafd, -18px 0 0 0 #2faafd, -12.727926px -12.727926px 0 0 #2faafd;
+    }
+    75% {
+        box-shadow: 0 -18px 0 0 #2faafd, 12.727926px -12.727926px 0 -5px rgba(152, 128, 255, 0), 18px 0 0 -5px rgba(152, 128, 255, 0), 12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), 0 18px 0 -5px rgba(152, 128, 255, 0), -12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), -18px 0 0 0 #2faafd, -12.727926px -12.727926px 0 0 #2faafd;
+    }
+    87.5% {
+        box-shadow: 0 -18px 0 0 #2faafd, 12.727926px -12.727926px 0 0 #2faafd, 18px 0 0 -5px rgba(152, 128, 255, 0), 12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), 0 18px 0 -5px rgba(152, 128, 255, 0), -12.727926px 12.727926px 0 -5px rgba(152, 128, 255, 0), -18px 0 0 -5px rgba(152, 128, 255, 0), -12.727926px -12.727926px 0 0 #2faafd;
+    }
+}
+
+@media (max-width: 768px) { 
+    main section.content h1 {
+        font-size: 5rem;
+        text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
+    }
+
+    main section.content h2 {
+        font-size: 1rem;
+        padding: 5px;
+        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    }
+
+    main section.content .social-links a i {
+        font-size: 1.5rem;
+        padding: 2px;
+        border: 1px solid #000;
+    }
 }
