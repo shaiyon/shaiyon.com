@@ -14,8 +14,8 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <!-- icons8.com -->
-        <link rel="icon" type="image/x-icon" href="assets/faravahar.svg">
-        <link rel="apple-touch-icon" href="assets/faravahar.ico">
+        <link rel="icon" type="image/svg+xml" href="/assets/faravahar.svg">
+        <link rel="apple-touch-icon" href="/assets/faravahar.ico">
         <link rel="stylesheet" href="styles.css" type="text/css" media="screen">
     </head>
     <body>
@@ -24,7 +24,7 @@
         <main>
             <section class="content">
                 <h1>sha<a href="/jumpquest" class="jumpquest-easteregg">i</a>yon</h1>
-                <h2 id="desc"></h2>
+                <h2 id="jobtitle"></h2>
                 <!---
                 <div id="content-desktop">
                     <a href="/Jump_Quest.html" title="Jump Quest">Jump Quest</a>
@@ -42,6 +42,7 @@
                         <i class="fab fa-github"></i>
                     </a>
                 </div>
+                <h3 id="desc"> </h3>
             </section>
         </main>
         <script src="background.js"></script>
@@ -57,10 +58,15 @@
             });
         </script>            
         <script>
-            var showText = function (target, message, index, interval) {
+            var showText = function (target, message, nexttarget, nextmessage, index, interval) {
                 if (index < message.length) {
                     $(target).append(message[index++]);
-                    setTimeout(function () { showText(target, message, index, interval); }, interval);
+                    setTimeout(function () { showText(target, message, nexttarget, nextmessage, index, interval); }, interval);
+                }
+                else if (nexttarget && nextmessage) { // Make sure nexttarget and nextmessage are defined before proceeding
+                    // Reset index for the next message
+                    var newIndex = 0; 
+                    setTimeout(function () { showText(nexttarget, nextmessage, null, null, newIndex, interval); }, interval);
                 }
             }
         </script>    

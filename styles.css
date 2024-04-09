@@ -45,7 +45,6 @@ main section.content {
 main section.content h1 {
     color: #21211f;
     font-size: 9rem;
-    padding: 0;
     letter-spacing: -0.1rem;
     font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
     font-style: normal;
@@ -57,7 +56,19 @@ main section.content h1 {
 main section.content h2 {
     color: #21211f;
     font-size: 1.5rem;
-    padding: 12px;
+    padding: 20px;
+    font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+    font-style: normal;
+    font-weight: 600;
+    align-items: center;
+    /* Simulate a white outline effect */
+    text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff;
+}
+
+main section.content h3 {
+    color: #21211f;
+    font-size: 1.25rem;
+    padding: 15px;
     font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
     font-style: normal;
     font-weight: 600;
@@ -76,7 +87,7 @@ main section.content h2 {
 
 main section.content .social-links a {
     text-decoration: none;
-    margin: 10px 0;
+    margin: 0 0;
     background: none;
     border: none;
     position: relative;
@@ -98,6 +109,11 @@ main section.content a:hover {
     filter: invert(100%);
 	transform: scale(1.3);
 	transition: all 0.5s ease;
+}
+
+#jobtitle, #desc {
+    min-height: 1.25rem;
+    display: block;
 }
 
 #parallaxBackground {
@@ -124,6 +140,7 @@ main section.content a:hover {
     transition: all 0.5s ease;
     cursor: pointer;
 }
+
 
 /**
  * ==============================================
@@ -171,19 +188,23 @@ main section.content a:hover {
 
 @media (max-width: 768px) { 
     main section.content h1 {
-        font-size: 5rem;
+        font-size: 6rem;
         text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
     }
 
     main section.content h2 {
+        font-size: 1.25rem;
+        padding: 12.5px;
+        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    }
+
+    main section.content h3 {
         font-size: 1rem;
-        padding: 5px;
         text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
     }
 
     main section.content .social-links a i {
         font-size: 1.5rem;
-        padding: 2px;
         border: 1px solid #000;
     }
 }

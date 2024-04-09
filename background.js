@@ -55,7 +55,7 @@ function setRandomBackgroundImage(isMobileView) {
         document.body.style.background = 'none'; // Remove black background
         loader = document.getElementById('loader');
         document.body.removeChild(loader);
-        showText("#desc", "Software Engineer", 0, 100);
+        showText("#jobtitle", "software engineer & tech generalist", "#desc", "site still under construction!", 0, 100);
     };
 
     var scalar = isMobileView ? 0.5 : 1;
