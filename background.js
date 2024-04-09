@@ -39,6 +39,7 @@ function set_loader() {
     loader.style.alignItems = 'center';
     loader.style.justifyContent = 'center';
     loader.style.backgroundColor = '#000';
+    loader.style.zIndex = '1000'; // High z-index to cover everything
     loader.innerHTML = '<div class="dot-spin">Loading...</div>';
     document.body.appendChild(loader);    
 }
