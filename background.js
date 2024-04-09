@@ -6,7 +6,7 @@ const images = [
     { path: '/assets/tiles/Abstract_pattern_22.svg', size: 600 },
     // { path: '/assets/tiles/13_06_jxxxj.svg', size: '450px' },
     { path: '/assets/tiles/5_SlVOXzEwLTEz.svg', size: 400 },
-    { path: '/assets/tiles/10_1.svg', size: 400 },
+    { path: '/assets/tiles/10_1.svg', size: 350 },
 ];
 
 let backgroundImageHeight = 0;

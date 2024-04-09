@@ -40,17 +40,20 @@ main section.content {
     text-align: center; /* Center text for inline or inline-block elements */
     width: 100%; /* Ensure full width if not already set */
     height: 100vh; /* Example height, adjust as needed */
+    position: relative;
+    z-index: 2;
+
 }
 
 main section.content h1 {
     color: #21211f;
-    font-size: 9rem;
+    font-size: 8vw;
     letter-spacing: -0.1rem;
     font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
     font-style: normal;
     font-weight: 600;
     /* Simulate a white outline effect */
-    text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff;
+    text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
 }
 
 main section.content h2 {
@@ -62,19 +65,19 @@ main section.content h2 {
     font-weight: 600;
     align-items: center;
     /* Simulate a white outline effect */
-    text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 }
 
 main section.content h3 {
     color: #21211f;
     font-size: 1.25rem;
-    padding: 15px;
+    padding: 17.5px;
     font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
     font-style: normal;
     font-weight: 600;
     align-items: center;
     /* Simulate a white outline effect */
-    text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 }
 
 
@@ -141,6 +144,20 @@ main section.content a:hover {
     cursor: pointer;
 }
 
+#oval-overlay {
+    position: absolute; /* Position relative to section.content */
+    top: 50%;
+    left: 50%;
+    width: 60vw; /* Adjust width based on the viewport width */
+    height: 22.5vw; /* Adjust height based on the viewport width */
+    background: rgba(0, 0, 0, 0.65);
+    z-index: -1; /* Below the text but above the parallax background */
+    pointer-events: none;
+    border-radius: 50% / 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid white;
+}
+
 
 /**
  * ==============================================
@@ -186,7 +203,7 @@ main section.content a:hover {
     }
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 1100px) { 
     main section.content h1 {
         font-size: 6rem;
         text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
@@ -195,16 +212,52 @@ main section.content a:hover {
     main section.content h2 {
         font-size: 1.25rem;
         padding: 12.5px;
-        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+        text-shadow: -0.75px -.75px 0 #fff, 0.75px -0.75px 0 #fff, -0.75px 0.75px 0 #fff, 0.75px 0.75px 0 #fff;
     }
 
     main section.content h3 {
         font-size: 1rem;
-        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+        text-shadow: -0.75px -0.75px 0 #fff, 0.75px -0.75px 0 #fff, -0.75px 0.75px 0 #fff, 0.75px 0.75px 0 #fff;
     }
 
     main section.content .social-links a i {
         font-size: 1.5rem;
         border: 1px solid #000;
+    }
+
+    #oval-overlay {
+        width: 60%; /* Intermediate width */
+        height: 32.5%; /* Intermediate height */
+    }
+}
+
+@media (max-width: 775px) { 
+
+    #oval-overlay {
+        width: 90%; /* Wider for smaller screens */
+        height: 32.5%; /* Less tall for smaller screens */
+    }
+}
+
+@media (max-width: 550px) { 
+
+    main section.content h1 {
+        text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+        font-size: 15vw;
+    }
+    
+    main section.content h2 {
+        text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff, 0.5px 0.5px 0 #fff;
+        font-size: 5vw;
+    }
+
+    main section.content h3 {
+        text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff, 0.5px 0.5px 0 #fff;
+        font-size: 3.5vw;
+    }
+
+    #oval-overlay {
+        width: 95%; /* Wider for smaller screens */
+        height: 30%; /* Less tall for smaller screens */
     }
 }
